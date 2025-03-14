@@ -1,51 +1,35 @@
-using System;
-using System.Net.Http;
-using System.Text.Json;
-using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
-using System.Threading.Tasks;
-using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.FileProviders;
 using System.IO;
 
-
-class Program
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-    static async Task Main()
+    WebRootPath = "../CocktailFrontend/src" // Indica il percorso dei file statici
+});
+
+var app = builder.Build();
+
+app.UseStaticFiles();
+
+// Aggiungi un middleware personalizzato per tracciare le richieste
+app.Use(async (context, next) =>
+{
+    var filePath = Path.Combine(builder.Environment.WebRootPath, "index.html");
+    Console.WriteLine($"Cerco di servire il file: {filePath}");
+
+    // Se il file esiste, stamperò un messaggio
+    if (File.Exists(filePath))
     {
-        while (true)
-        {
-            Console.WriteLine("Hi, what can I make for you?\n(write cocktail name)\n(QUIT to close the program)");
-            string name = Console.ReadLine();
-            
-            if (name.ToUpper() == "QUIT")
-            {
-                Console.WriteLine("Closing program...");
-                Environment.Exit(0);
-            }
-            using var connection = new SqliteConnection($"Data Source=cocktail.db");
-            connection.Open();
-            string findQuery ="SELECT * FROM Cocktail WHERE name = @name";
-            using var command = new SqliteCommand(findQuery, connection);
-            command.Parameters.AddWithValue("@name", name);
-            using var reader = command.ExecuteReader();
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    Console.WriteLine($"ID: {reader["id"]}");
-                    Console.WriteLine($"Name: {reader["name"]}");
-                    Console.WriteLine($"Category: {reader["category"]}");
-                    Console.WriteLine($"Alcoholic: {reader["alcoholic"]}");
-                    Console.WriteLine($"Glass: {reader["glass"]}");
-                    Console.WriteLine($"Instructions: {reader["instructions"]}");
-                    Console.WriteLine($"Image URL: {reader["image_url"]}");
-                    Console.WriteLine();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Cocktail not found.");
-            }
-        }
-    }  
-}
+        Console.WriteLine($"Il file {filePath} è presente!");
+    }
+    else
+    {
+        Console.WriteLine($"Il file {filePath} NON è stato trovato.");
+    }
+
+    // Continua la pipeline di richiesta
+    await next();
+});
+
+app.Run();

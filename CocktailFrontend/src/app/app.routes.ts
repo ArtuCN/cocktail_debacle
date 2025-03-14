@@ -1,9 +1,15 @@
-// src/app/app.routes.ts
-import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';  // Importa il componente Home
+import { CocktailListComponent } from './cocktail-list/cocktail-list.component';  // Importa il componente CocktailList
 
-export const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'cocktails', component: CocktailListComponent }
+const routes: Routes = [
+  { path: '', component: HomeComponent },  // La Home è la pagina di default
+  { path: 'cocktail-list', component: CocktailListComponent }  // La pagina della lista dei cocktail
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
