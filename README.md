@@ -34,4 +34,39 @@ TREE:
 │   ├── cocktail.db
 │   └── cocktail.sql
 ├── Makefile
-└── README.md
+├── README.md
+├── CocktailFrontend/...
+
+
+FRONTEND TREE:
+
+my-angular-app/
+├── e2e/                        # Test end-to-end
+├── node_modules/               # Dipendenze (non versionato in Git)
+├── src/                        # Codice sorgente Angular
+│   ├── app/                    # Contiene i componenti e i moduli dell'app
+│   ├── assets/                 # Risorse statiche (immagini, font, ecc.)
+│   ├── environments/           # Variabili di ambiente (configurazione per sviluppo/produzione)
+│   ├── index.html              # Punto di ingresso HTML per l'app (il file HTML che carica l'app Angular)
+│   ├── styles.css              # Stili globali (opzionale)
+├── angular.json                # Configurazione del progetto Angular
+├── package.json                # Gestione delle dipendenze e degli script
+└── tsconfig.json               # Configurazione TypeScript
+
+DA RENDERE COSI
+src/
+ └── app/
+      ├── home/
+      │    ├── home.component.ts
+      │    ├── home.component.html
+      │    ├── home.component.css
+      ├── cocktail-list/
+      │    ├── cocktail-list.component.ts
+      │    ├── cocktail-list.component.html
+      │    ├── cocktail-list.component.css
+      ├── app.config.ts       // Configurazioni globali
+      ├── app.routes.ts      // Definizione delle rotte
+      ├── app.component.ts   // Componente principale
+      ├── app.component.html
+      ├── app.component.css
+      ├── app.module.ts      // Modulo principale

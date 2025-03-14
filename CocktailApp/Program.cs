@@ -12,34 +12,40 @@ class Program
 {
     static async Task Main()
     {
-        Console.WriteLine("Hi, what can I make for you?\n(write cocktail name)");
-        string name = Console.ReadLine();
-        using var connection = new SqliteConnection($"Data Source=cocktail.db");
-        connection.Open();
-        string findQuery ="SELECT * FROM Cocktail WHERE name = @name";
-        
-        using var command = new SqliteCommand(findQuery, connection);
-        command.Parameters.AddWithValue("@name", name);
-    
-        using var reader = command.ExecuteReader();
-        if (reader.HasRows)
+        while (true)
         {
-            while (reader.Read())
+            Console.WriteLine("Hi, what can I make for you?\n(write cocktail name)\n(QUIT to close the program)");
+            string name = Console.ReadLine();
+            
+            if (name.ToUpper() == "QUIT")
             {
-                // Stampa tutte le colonne
-                Console.WriteLine($"ID: {reader["id"]}");
-                Console.WriteLine($"Name: {reader["name"]}");
-                Console.WriteLine($"Category: {reader["category"]}");
-                Console.WriteLine($"Alcoholic: {reader["alcoholic"]}");
-                Console.WriteLine($"Glass: {reader["glass"]}");
-                Console.WriteLine($"Instructions: {reader["instructions"]}");
-                Console.WriteLine($"Image URL: {reader["image_url"]}");
-                Console.WriteLine();
+                Console.WriteLine("Closing program...");
+                Environment.Exit(0);
             }
-        }
-        else
-        {
-            Console.WriteLine("Cocktail non trovato.");
+            using var connection = new SqliteConnection($"Data Source=cocktail.db");
+            connection.Open();
+            string findQuery ="SELECT * FROM Cocktail WHERE name = @name";
+            using var command = new SqliteCommand(findQuery, connection);
+            command.Parameters.AddWithValue("@name", name);
+            using var reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    Console.WriteLine($"ID: {reader["id"]}");
+                    Console.WriteLine($"Name: {reader["name"]}");
+                    Console.WriteLine($"Category: {reader["category"]}");
+                    Console.WriteLine($"Alcoholic: {reader["alcoholic"]}");
+                    Console.WriteLine($"Glass: {reader["glass"]}");
+                    Console.WriteLine($"Instructions: {reader["instructions"]}");
+                    Console.WriteLine($"Image URL: {reader["image_url"]}");
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Cocktail not found.");
+            }
         }
     }  
 }

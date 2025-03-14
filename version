@@ -1,0 +1,26 @@
+dotnet 9.0.200
+9.0.200 [/usr/share/dotnet/sdk]
+Microsoft.AspNetCore.App 9.0.2 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]
+Microsoft.NETCore.App 9.0.2 [/usr/share/dotnet/shared/Microsoft.NETCore.App]
+
+
+installa sql: dotnet add package Microsoft.Data.Sqlite (in directory CocktailApp)
+
+
+nodejs v23.10.0
+npm 8.5.1
+
+Angular CLI: 19.2.3
+Node: 23.10.0 (Unsupported)
+Package Manager: npm 10.9.2
+OS: linux x64
+
+Angular: 
+... 
+
+Package                      Version
+------------------------------------------------------
+@angular-devkit/architect    0.1902.3 (cli-only)
+@angular-devkit/core         19.2.3 (cli-only)
+@angular-devkit/schematics   19.2.3 (cli-only)
+@schematics/angular          19.2.3 (cli-only)
