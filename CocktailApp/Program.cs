@@ -1,35 +1,27 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    WebRootPath = "../CocktailFrontend/src" // Indica il percorso dei file statici
-});
+var builder = WebApplication.CreateBuilder();
+
+var frontendPath = Path.Combine(Directory.GetCurrentDirectory(), "../CocktailFrontend/src"); 
+
 
 var app = builder.Build();
 
-app.UseStaticFiles();
 
-// Aggiungi un middleware personalizzato per tracciare le richieste
-app.Use(async (context, next) =>
+app.UseStaticFiles(new StaticFileOptions
 {
-    var filePath = Path.Combine(builder.Environment.WebRootPath, "index.html");
-    Console.WriteLine($"Cerco di servire il file: {filePath}");
+    FileProvider = new PhysicalFileProvider(frontendPath),
+    RequestPath = ""
+});
 
-    // Se il file esiste, stamperò un messaggio
-    if (File.Exists(filePath))
-    {
-        Console.WriteLine($"Il file {filePath} è presente!");
-    }
-    else
-    {
-        Console.WriteLine($"Il file {filePath} NON è stato trovato.");
-    }
-
-    // Continua la pipeline di richiesta
-    await next();
+app.MapGet("/", async (context) =>
+{
+    var filePath = Path.Combine(frontendPath, "index.html");
+    context.Response.ContentType = "text/html";
+    await context.Response.SendFileAsync(filePath);
 });
 
 app.Run();
