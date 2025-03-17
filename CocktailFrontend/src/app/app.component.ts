@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Cocktail App';
+  title = 'Cocktail App';  // Assicurati che title sia definito correttamente
+
+  displayMessage() {
+    alert("Welcome to the Cocktail App!");
+  }
 }
