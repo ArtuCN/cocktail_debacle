@@ -1,0 +1,15 @@
+# Fase 1: Installazione delle dipendenze di Node.js
+FROM node:18 AS build
+WORKDIR /app
+COPY CocktailFrontend/package.json CocktailFrontend/package-lock.json ./
+RUN npm install
+
+# Fase 2: Build dell'app Angular
+COPY CocktailFrontend ./
+RUN npm run build --prod
+
+# Fase 3: Serve l'app tramite un server statico
+FROM nginx:alpine
+COPY --from=build /app/dist/CocktailFrontend /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

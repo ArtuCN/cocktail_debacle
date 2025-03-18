@@ -1,0 +1,32 @@
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: dockerfile_backend
+    ports:
+      - "5000:80"
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile_frontend
+    ports:
+      - "4200:80"
+    networks:
+      - app-network
+
+  db:
+    image: mcp/sqlite
+    volumes:
+      - ./cocktail.db:/cocktail.db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

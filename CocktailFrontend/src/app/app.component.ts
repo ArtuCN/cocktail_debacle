@@ -6,8 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Cocktail App';  // Assicurati che title sia definito correttamente
+  title = 'Cocktail App'; 
 
+  ngOnInit() {
+    console.log("AppComponent is loaded!");
+  }
   displayMessage() {
     alert("Welcome to the Cocktail App!");
   }
