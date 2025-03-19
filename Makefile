@@ -18,13 +18,11 @@ frontend:
 	@echo $(GREEN) "Angular app built!\n" $(NONE)
 
 backend:
-	@clear
 	@echo $(CYAN) "Building .NET backend...\n" $(NONE)
 	cd CocktailApp && dotnet build
 	@echo $(GREEN) ".NET backend built!\n" $(NONE)
 
 run:
-	@clear
 	@echo $(CYAN) "Running backend...\n" $(NONE)
 	cd CocktailApp && dotnet run
 	@echo $(GREEN) "Backend is running!\n" $(NONE)

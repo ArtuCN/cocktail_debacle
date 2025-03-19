@@ -1,40 +1,27 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Ext.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Registra i servizi
-builder.Services.ConfigureCors();
-builder.Services.AddControllers();
 builder.Services.AddSpaStaticFiles(configuration =>
 {
-    configuration.RootPath = "ClientApp/dist"; // Dove Angular genera i file
+    configuration.RootPath = Path.Combine(Directory.GetCurrentDirectory(), "../CocktailFrontend/dist/cocktail-frontend/browser");
 });
 
 var app = builder.Build();
 
-// Abilita CORS
-app.UseCors("AllowAngular");
-
-app.UseStaticFiles(); // Serve file statici
-app.UseSpaStaticFiles(); // Serve l'app Angular
-
-
-
-app.MapControllers();
-
-
 app.UseSpa(spa =>
 {
-    spa.Options.SourcePath = "../CocktailFrontend"; // Percorso del codice Angular
+    spa.Options.SourcePath = "../CocktailFrontend/dist/cocktail-frontend/browser"; // Percorso del codice Angular
 
+    // Se siamo in ambiente di sviluppo, usa il proxy verso il server di sviluppo Angular
     if (app.Environment.IsDevelopment())
     {
         spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Proxy per lo sviluppo
     }
 });
 
+// Esegui l'app
 app.Run();
