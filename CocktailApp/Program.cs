@@ -2,26 +2,39 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using Ext.Extensions;
 
-var builder = WebApplication.CreateBuilder();
+var builder = WebApplication.CreateBuilder(args);
 
-var frontendPath = Path.Combine(Directory.GetCurrentDirectory(), "../CocktailFrontend/src"); 
-
+// Registra i servizi
+builder.Services.ConfigureCors();
+builder.Services.AddControllers();
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "ClientApp/dist"; // Dove Angular genera i file
+});
 
 var app = builder.Build();
 
+// Abilita CORS
+app.UseCors("AllowAngular");
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(frontendPath),
-    RequestPath = ""
-});
+app.UseStaticFiles(); // Serve file statici
+app.UseSpaStaticFiles(); // Serve l'app Angular
 
-app.MapGet("/", async (context) =>
+
+
+app.MapControllers();
+
+
+app.UseSpa(spa =>
 {
-    var filePath = Path.Combine(frontendPath, "index.html");
-    context.Response.ContentType = "text/html";
-    await context.Response.SendFileAsync(filePath);
+    spa.Options.SourcePath = "../CocktailFrontend"; // Percorso del codice Angular
+
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Proxy per lo sviluppo
+    }
 });
 
 app.Run();
