@@ -5,8 +5,8 @@ import { CocktailListComponent } from './cocktail-list/cocktail-list.component';
 import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },  // La Home è la pagina di default
-  { path: 'cocktail-list', component: CocktailListComponent },  // La pagina della lista dei cocktail
+  { path: '', component: HomeComponent },  
+  { path: 'cocktail-list', component: CocktailListComponent },
   { path: '**', component: ErrorComponent }
 ];
 

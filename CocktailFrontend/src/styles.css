@@ -9,9 +9,8 @@ body {
     padding: 0;  /* Rimuove il padding di default */
 }
 
-/* Selettore per il titolo principale h1 */
 h1 {
-    color: #333; /* Colore del testo */
+    color: black; /* Colore del testo */
     text-align: center; /* Centra il testo */
     font-size: 2rem; /* Imposta la dimensione del font */
 }
@@ -25,16 +24,16 @@ p {
 
 /* Selettore per un elemento con la classe "button" */
 .button {
-    background-color: #007bff; /* Colore di sfondo */
-    color: white; /* Colore del testo */
-    padding: 10px 20px; /* Distanza tra il testo e il bordo */
-    border-radius: 5px; /* Angoli arrotondati */
+    background-color: #9700ee; 
+    color: white; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
     text-align: center;
     display: inline-block;
-    text-decoration: none; /* Rimuove il sottolineato dai link */
+    text-decoration: none; 
 }
 
 /* Selettore per un elemento con la classe "button" quando passa sopra */
 .button:hover {
-    background-color: #0056b3; /* Cambia il colore di sfondo al passaggio del mouse */
+    background-color: #7100b3; /* Cambia il colore di sfondo al passaggio del mouse */
 }
