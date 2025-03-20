@@ -1,17 +1,10 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';  // Importa il componente Home
-import { CocktailListComponent } from './cocktail-list/cocktail-list.component';  // Importa il componente CocktailList
+import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 
-const routes: Routes = [
-  { path: '', component: HomeComponent },  
-  { path: 'cocktail-list', component: CocktailListComponent },
-  { path: '**', component: ErrorComponent }
+export const routes: Routes = [
+    {path: '', component: HomeComponent},
+    {path: '**', component: ErrorComponent}
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export const appRouter = RouterModule.forRoot(routes);

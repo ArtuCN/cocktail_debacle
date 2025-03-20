@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-error',
+  imports: [],
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+  styleUrl: './error.component.css'
 })
 export class ErrorComponent {
-  errorMessage: string = "Oops! You are gay";
+
 }
