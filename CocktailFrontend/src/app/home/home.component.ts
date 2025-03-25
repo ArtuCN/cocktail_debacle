@@ -13,12 +13,5 @@ export class HomeComponent {
   searchQuery: string = '';
   cocktail: any;
 
-  constructor(private http: HttpClient) {}
-
-  searchCocktail() {
-    if (this.searchQuery.length > 2) {
-      this.http.get(`http://localhost:5001/api/cocktails/${this.searchQuery}`)
-        .subscribe(data => this.cocktail = data);
-    }
-  }
+  
 }
