@@ -33,7 +33,7 @@ clean:
 	@rm -rf CocktailApp/obj
 	@rm -rf CocktailApp/FillingDB/bin
 	@rm -rf CocktailApp/FillingDB/obj
-	@rm -rf CocktailApp/dist
+	@rm -rf CocktailFrontend/dist
 	@clear
 
 fill:

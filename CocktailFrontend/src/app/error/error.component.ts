@@ -12,11 +12,11 @@ import { CommonModule } from '@angular/common';
 export class ErrorComponent implements OnInit {
   errorMessage: string = '';
 
-  constructor(private errorService: ErrorService) {}
+  constructor(private es: ErrorService) {}
 
   ngOnInit(): void {
     // Sottoscrizione al messaggio di errore
-    this.errorService.errorMessage$.subscribe((message) => {
+    this.es.errorMessage$.subscribe((message) => {
       this.errorMessage = message;
     });
   }

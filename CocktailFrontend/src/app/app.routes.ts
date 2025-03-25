@@ -4,8 +4,8 @@ import { ErrorComponent } from './error/error.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
-    {path: 'error', component: ErrorComponent},
-    {path: '**', redirectTo: 'error'}
+    //{path: 'error', component: ErrorComponent},
+    //{path: '**', redirectTo: 'error'}
 ];
 
 export const appRouter = RouterModule.forRoot(routes);

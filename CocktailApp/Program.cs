@@ -4,23 +4,30 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
 
 using System.IO;
-
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers(); // Aggiunge il supporto per API
+
 var spaPath = Path.Combine(Directory.GetCurrentDirectory(), "../CocktailFrontend/dist/cocktail-frontend/browser");
+
 builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = spaPath;
 });
+
 var app = builder.Build();
-// Middleware standard di ASP.NET Core
-// Configura i file statici **fuori da wwwroot**
+
+app.MapControllers(); // Nuovo modo consigliato per registrare le API
+
+
+// Middleware per i file statici di Angular
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(spaPath),
     RequestPath = ""
 });
 app.UseSpaStaticFiles();
-app.UseRouting();
+
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = spaPath;
@@ -31,4 +38,5 @@ app.UseSpa(spa =>
         spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
     }
 });
+
 app.Run();

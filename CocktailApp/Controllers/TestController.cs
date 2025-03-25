@@ -4,7 +4,6 @@ using Microsoft.Data.Sqlite;
 namespace CocktailApp.Controllers
 {
     [ApiController]
-    [Route("api/test")]
     public class TestController : ControllerBase
     {
         [HttpGet]
