@@ -1,1 +1,6 @@
-<p>home works!</p>
+<input type="text" [(ngModel)]="searchQuery" (input)="searchCocktail()" placeholder="Cerca un cocktail..." />
+<div *If="cocktail">
+    <h3>{{ cocktail.name }}</h3>
+    <p>{{ cocktail.description }}</p>
+    <p><strong>Ingredienti:</strong> {{ cocktail.ingredients }}</p>
+</div>

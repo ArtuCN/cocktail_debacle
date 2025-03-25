@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+body{
+    font-family: "Times New Roman", Times, serif;
+    background-color: rgb(29, 29, 29);
+    color: aliceblue;
+}
+h1{
+    font-family: "Times New Roman", Times, serif;
+    background-color: rgb(29, 29, 29);
+    color: #f0f8ff;
+}
+
+button{
+    font-family: "Times New Roman", Times, serif;
+    text-shadow: 1px 1px rgb(255, 255, 255);
+    align-items: center;
+    background-color: darkgray;
+    position: absolute;
+    top: 30%;
+    border: 5 rgb(0, 0, 0);
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 4px rgb(95, 2, 129);
+    min-height: 30px; 
+    min-width: 50px;
+}
