@@ -1,11 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ErrorService } from '../services/error.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-error',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule], // Aggiungi ErrorService nelle imports
   templateUrl: './error.component.html',
-  styleUrl: './error.component.css'
+  styleUrls: ['./error.component.css']
 })
-export class ErrorComponent {
+export class ErrorComponent implements OnInit {
+  errorMessage: string = '';
 
+  constructor(private errorService: ErrorService) {}
+
+  ngOnInit(): void {
+    // Sottoscrizione al messaggio di errore
+    this.errorService.errorMessage$.subscribe((message) => {
+      this.errorMessage = message;
+    });
+  }
 }

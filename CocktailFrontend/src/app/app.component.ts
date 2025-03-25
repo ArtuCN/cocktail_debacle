@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ErrorComponent } from './error/error.component'; // Importa il componente di errore
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: '<router-outlet></router-outlet>',
-  styleUrl: '../styles.css'
+  imports: [RouterOutlet, ErrorComponent, CommonModule], // Aggiungi ErrorComponent nelle imports
+  template: `
+    <router-outlet></router-outlet> <!-- Questo gestisce le rotte dinamiche -->
+    <app-error></app-error> <!-- Mostra il componente di errore -->
+  `,
+  styleUrls: ['../styles.css']  // Assicurati di usare styleUrls (con "s" alla fine)
 })
 export class AppComponent {
   title = 'CocktailFrontend';

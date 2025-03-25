@@ -1,1 +1,5 @@
-<p>error works!</p>
+<!-- Display error only if there is an error message -->
+<div *ngIf="errorMessage" class="error-container">
+  <h2 class="error-title">Oops! Something went wrong.</h2>
+  <p class="error-message">{{ errorMessage }}</p>
+</div>
