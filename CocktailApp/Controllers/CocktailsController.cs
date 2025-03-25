@@ -1,18 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace CocktailApp.Controller
+namespace CocktailApp.Controllers
 {
-    [ApiController]
-    [Route("api/test")]
-    public class TestController : ControllerBase
-    {
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(new { message = "Connection succeded!" });
-        }
-    }
     [ApiController]
     [Route("api/cocktails")]
     public class CocktailController : ControllerBase
@@ -26,12 +18,10 @@ namespace CocktailApp.Controller
             await connection.OpenAsync();
 
             string findQuery = "SELECT * FROM Cocktail WHERE name = @name";
-
             using var command = new SqliteCommand(findQuery, connection);
             command.Parameters.AddWithValue("@name", name);
 
             using var reader = await command.ExecuteReaderAsync();
-
             if (reader.HasRows)
             {
                 var cocktails = new List<object>();
@@ -54,5 +44,4 @@ namespace CocktailApp.Controller
             return NotFound(new { message = "Cocktail non trovato" });
         }
     }
-
 }

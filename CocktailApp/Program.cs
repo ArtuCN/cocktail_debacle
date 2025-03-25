@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.IO;
-using Ext.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Abilita il supporto per file statici SPA
 builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = Path.Combine(Directory.GetCurrentDirectory(), "../CocktailFrontend/dist/cocktail-frontend/browser");
@@ -12,16 +13,28 @@ builder.Services.AddSpaStaticFiles(configuration =>
 
 var app = builder.Build();
 
+// Middleware di ASP.NET Core
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+// Abilita il supporto per file statici
+app.UseStaticFiles();
+app.UseSpaStaticFiles();
+
+// Middleware di routing (necessario se hai API)
+app.UseRouting();
+
 app.UseSpa(spa =>
 {
-    spa.Options.SourcePath = "../CocktailFrontend/dist/cocktail-frontend/browser"; // Percorso del codice Angular
+    spa.Options.SourcePath = "../CocktailFrontend/dist/cocktail-frontend/browser";
 
-    // Se siamo in ambiente di sviluppo, usa il proxy verso il server di sviluppo Angular
     if (app.Environment.IsDevelopment())
     {
-        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Proxy per lo sviluppo
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
     }
 });
 
-// Esegui l'app
 app.Run();
