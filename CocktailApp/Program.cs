@@ -3,12 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using CocktailApp;
+using CocktailApp.hubs;
 //using CocktailApp.Services; collegato a services non usato ora
 
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Environment.EnvironmentName = "Development";
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
@@ -23,22 +22,24 @@ builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = spaPath;
 });
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;  // Opzionale: per ottenere errori più dettagliati in caso di problemi
+});
+
 var app = builder.Build();
 app.UseCors("AllowAll");
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(spaPath),
+    RequestPath = ""
+});
 app.UseSpaStaticFiles();
 app.MapControllers();
-//app.MapHub<CocktailHub>("/cocktailHub");
+app.MapHub<CocktailHub>("/cocktailHub");
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = spaPath;
-    if (app.Environment.IsDevelopment())
-        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-    else
-    {
-        Console.WriteLine("prova");
-        Console.WriteLine($"Current Environment: {app.Environment.EnvironmentName}");
-    }
+    Console.WriteLine($"Current Environment: {app.Environment.EnvironmentName}");
 });
 app.Run();

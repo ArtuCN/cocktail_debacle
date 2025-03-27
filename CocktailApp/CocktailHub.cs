@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 
-namespace CocktailApp {
+namespace CocktailApp.hubs {
     public class CocktailHub : Hub
     {
         public async Task SendMessage(string user, string message)
@@ -11,7 +11,7 @@ namespace CocktailApp {
         }
         public async Task SearchCocktailByName(string name)
         {
-            using var connection = new SqliteConnection();
+            using var connection = new SqliteConnection("Data Source=cocktail.db");
             await connection.OpenAsync();
 
             string findQuery = "SELECT * FROM Cocktail WHERE name = @name";
@@ -37,7 +37,6 @@ namespace CocktailApp {
                 }
                 await Clients.All.SendAsync("ReceiveCocktails", cocktails);
                 Console.WriteLine($"Cocktail found: {name}");
-                Console.WriteLine($"Info: {cocktails}");
                 
             }
             else

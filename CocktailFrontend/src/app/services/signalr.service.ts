@@ -11,7 +11,7 @@ export class SignalrService {
     private hubConnection: signalR.HubConnection;
     constructor() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(url + '/cocktailHub') // URL del backend
+        .withUrl('http://localhost:5001/cocktailHub') // URL del backend
       .build();
 
     this.startConnection();

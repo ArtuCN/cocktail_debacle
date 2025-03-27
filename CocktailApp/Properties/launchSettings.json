@@ -1,15 +1,16 @@
 {
-    "profiles": {
-      "IIS Express": {
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
-      },
-      "CocktailApp": {
-        "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
-        }
+  "profiles": {
+    "IIS Express": {
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "CocktailApp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5001"
     }
   }
-  
+}
