@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ErrorComponent } from './error/error.component'; // Importa il componente di errore
+import * as signalR from '@microsoft/signalr';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,9 @@ import { ErrorComponent } from './error/error.component'; // Importa il componen
   `,
   styleUrls: ['../styles.css']  // Assicurati di usare styleUrls (con "s" alla fine)
 })
+
+
+
 export class AppComponent {
   title = 'CocktailFrontend';
 }

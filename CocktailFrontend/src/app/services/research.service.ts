@@ -9,19 +9,25 @@ export class ResearchService {
   constructor() { }
 
   searchbyname(name: string): void {
-    fetch(url + name, { method: 'GET' })
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'  // Specifica che stai inviando dati in formato JSON
+      },
+      body: JSON.stringify(name)  // Invia il nome come stringa nel corpo della richiesta
+    })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Errore nella risposta del server');
+          throw new Error('Response Error');
         }
         return response.json();
       })
       .then(data => {
-        console.log('Dati ricevuti:', data);  // Gestisci i dati ricevuti
+        console.log('Recived:', data);  // Gestisci i dati ricevuti
         // Passa i dati al componente o servizio
       })
       .catch(error => {
-        console.error('Errore nella richiesta:', error);
+        console.error('Request Error', error);
       });
   }
   
