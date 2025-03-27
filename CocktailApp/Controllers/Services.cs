@@ -1,26 +1,8 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.Sqlite;
-
+/*
 namespace CocktailApp.Services
 {
-    public class CocktailHub : Hub
-    {
-        public async Task SendCocktailData(List<object> cocktails)
-        {
-            await Clients.All.SendAsync("ReceiveCocktails", cocktails);
-        }
-    }
-
-    public class SearchDB
-    {
-        private readonly IHubContext<CocktailHub> _hubContext;
-        private readonly string _connectionString = "../";
-
-        public SearchDB(IHubContext<CocktailHub> hubContext, string connectionString)
-        {
-            _hubContext = hubContext;
-            _connectionString = connectionString;
-        }
 
         public async Task SearchByNameAndSendToFrontend(string data)
         {
@@ -58,3 +40,4 @@ namespace CocktailApp.Services
         }
     }
 }
+*/

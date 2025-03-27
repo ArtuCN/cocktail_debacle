@@ -12,6 +12,7 @@ npm 10.9.2
 Angular CLI: 19.2.3
 
 dotnet add package Microsoft.AspNetCore.SpaServices.Extensions
+dotnet add package Microsoft.Data.Sqlite
 npm install @microsoft/signalr
 dotnet add package Microsoft.AspNetCore.SignalR
-dotnet add package Microsoft.Data.Sqlite
+dotnet add package Microsoft.AspNetCore.SignalR.Client

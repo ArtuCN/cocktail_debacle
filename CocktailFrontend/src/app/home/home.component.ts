@@ -4,7 +4,6 @@ import { ErrorService } from '../services/error.service';
 import { ErrorComponent } from "../error/error.component";  // Importa il servizio di errori
 import { CommonModule } from '@angular/common';
 import { CocktailResearchComponent } from '../cocktail-research/cocktail-research.component';
-import { ResearchService } from '../services/research.service';
 
 
 @Component({

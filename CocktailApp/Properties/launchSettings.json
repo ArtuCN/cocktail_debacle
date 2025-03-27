@@ -1,0 +1,15 @@
+{
+    "profiles": {
+      "IIS Express": {
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      "CocktailApp": {
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      }
+    }
+  }
+  

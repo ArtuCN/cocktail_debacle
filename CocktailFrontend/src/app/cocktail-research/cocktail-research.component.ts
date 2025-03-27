@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ResearchService } from '../services/research.service';
+import { SignalrService } from '../services/signalr.service';
 
 @Component({
   selector: 'app-cocktail-research',
@@ -10,7 +10,7 @@ import { ResearchService } from '../services/research.service';
 })
 export class CocktailResearchComponent {
 
-  constructor(private rs: ResearchService) { }
+  constructor(private rs: SignalrService) { }
 
   searchCocktail(nome: string): void {
     this.rs.searchbyname(nome);
