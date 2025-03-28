@@ -24,7 +24,7 @@ export class CocktailResearchComponent {
 
     // Ascolta eventuali errori
     this.rs.onReceiveError((error) => {
-      console.error('❌ Errore ricevuto:', error);
+      console.error('❌ Errore recived:', error);
     });
   }
   searchCocktail(): void {
