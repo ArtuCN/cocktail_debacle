@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { SignalrService } from '../services/signalr.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
@@ -14,7 +14,26 @@ export class CocktailResearchComponent {
 
   constructor(private rs: SignalrService) { }
   name: string = '';
+  cocktails: any[] = [];
+
+  ngOnInit() {
+    this.rs.onReceiveCocktails((cocktails) => {
+      console.log('🍹 Cocktail recived:', cocktails);
+      this.cocktails = cocktails; // Aggiorna la variabile
+    });
+
+    // Ascolta eventuali errori
+    this.rs.onReceiveError((error) => {
+      console.error('❌ Errore ricevuto:', error);
+    });
+  }
   searchCocktail(): void {
-    this.rs.searchbyname(this.name);
+    if (this.name.trim()) {
+      console.log(`🔍 Searching: ${this.name}`);
+      this.rs.searchbyname(this.name);
+    } else {
+      console.warn('⚠️');
+    }
   }
 }
+

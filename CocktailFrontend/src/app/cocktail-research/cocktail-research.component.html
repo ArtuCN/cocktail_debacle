@@ -1,6 +1,17 @@
-<div class = search>
+<div class="search">
     <h1>Search for a Cocktail</h1>
     <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail...">
     <button (click)="searchCocktail()">Search</button>
+</div>
 
+<!-- Se ci sono cocktail ricevuti, mostriamoli -->
+<div *ngIf="cocktails.length > 0" class="results">
+    <h2>Results:</h2>
+    <div *ngFor="let cocktail of cocktails" class="cocktail-card">
+        <img [src]="cocktail.imageUrl" alt="{{ cocktail.name }}">
+        <h3>{{ cocktail.name }}</h3>
+        <p><strong>Category:</strong> {{ cocktail.category }}</p>
+        <p><strong>Glass:</strong> {{ cocktail.glass }}</p>
+        <p><strong>Instructions:</strong> {{ cocktail.instructions }}</p>
+    </div>
 </div>

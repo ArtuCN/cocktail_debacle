@@ -24,6 +24,7 @@ export class SignalrService {
         }).catch(err => console.log('Error while starting connection: ' + err));
     }
     searchbyname(name: string): void {
+        console.log(`🔍 Sending search request for: ${name}`);
         this.hubConnection
           .invoke('SearchCocktailByName', name)
           .catch((err) => console.error('Errore durante l\'invio del nome del cocktail:', err));
@@ -32,9 +33,9 @@ export class SignalrService {
    onReceiveCocktails(callback: (cocktails: any[]) => void): void {
         this.hubConnection.on('ReceiveCocktails', callback);
     }
- /*
+
     // Metodo per ascoltare errori
     onReceiveError(callback: (error: string) => void): void {
         this.hubConnection.on('ReceiveError', callback);
-    }*/
+    }
 }
