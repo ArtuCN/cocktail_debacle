@@ -14,6 +14,7 @@ build: frontend backend
 frontend:
 	@clear
 	@echo $(CYAN) "Building Angular app...\n" $(NONE)
+	cd CocktailFrontend  && npm install
 	cd CocktailFrontend  && ng build
 	@echo $(GREEN) "Angular app built!\n" $(NONE)
 

@@ -29,10 +29,10 @@ export class SignalrService {
           .catch((err) => console.error('Errore durante l\'invio del nome del cocktail:', err));
     }
     // Metodo per ricevere i cocktail dal backend
-    /*onReceiveCocktails(callback: (cocktails: any[]) => void): void {
+   onReceiveCocktails(callback: (cocktails: any[]) => void): void {
         this.hubConnection.on('ReceiveCocktails', callback);
     }
-
+ /*
     // Metodo per ascoltare errori
     onReceiveError(callback: (error: string) => void): void {
         this.hubConnection.on('ReceiveError', callback);

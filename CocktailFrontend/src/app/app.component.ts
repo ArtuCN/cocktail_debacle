@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 import { ErrorComponent } from './error/error.component'; // Importa il componente di errore
 import * as signalR from '@microsoft/signalr';
 
