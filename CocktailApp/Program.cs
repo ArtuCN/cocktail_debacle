@@ -9,12 +9,14 @@ using CocktailApp.hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder => builder.AllowAnyOrigin()
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://127.0.0.1:5001") // Imposta l'origine corretta
+                          .AllowAnyHeader()
                           .AllowAnyMethod()
-                          .AllowAnyHeader());
+                          .AllowCredentials()); // Permette credenziali
 });
 var spaPath = Path.Combine(Directory.GetCurrentDirectory(), 
     "../CocktailFrontend/dist/cocktail-frontend/browser");
@@ -28,13 +30,14 @@ builder.Services.AddSignalR(options =>
 });
 
 var app = builder.Build();
-app.UseCors("AllowAll");
+app.UseCors("AllowSpecificOrigin");
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(spaPath),
     RequestPath = ""
 });
 app.UseSpaStaticFiles();
+app.UseAuthorization();
 app.MapControllers();
 app.MapHub<CocktailHub>("/cocktailHub");
 app.UseSpa(spa =>
