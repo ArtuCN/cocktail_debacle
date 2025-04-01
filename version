@@ -7,7 +7,7 @@ Microsoft.NETCore.App 9.0.2 [/usr/share/dotnet/shared/Microsoft.NETCore.App]
 installa sql: dotnet add package Microsoft.Data.Sqlite (in directory CocktailApp)
 
 
-nodejs v18.20.7
+node v18.20.7
 npm 10.9.2
 Angular CLI: 19.2.3
 
