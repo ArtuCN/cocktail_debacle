@@ -39,6 +39,6 @@ clean:
 
 fill:
 	@clear
-	@echo $(BLUE) "Filling cocktail.db...\n" $(GREEN)
+	@echo $(BLUE) "Filling database.db...\n" $(GREEN)
 	cd CocktailApp/FillingDB && dotnet run
 	@echo $(NONE)

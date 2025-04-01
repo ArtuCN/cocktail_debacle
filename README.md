@@ -1,7 +1,7 @@
 -   DB popolato
 -   Makefile funzionante
 -   Funziona la ricerca da terminale scrivere con  le maiuscole (es: Martini)
--   Sistemare i percorsi in Program.cs in questo momento è un po'hardcodato perchè cocktail.db si trova come suo pari
+-   Sistemare i percorsi in Program.cs in questo momento è un po'hardcodato perchè database.db si trova come suo pari
 
 -   Make disponibile
 -   Make clean disponibile
@@ -31,7 +31,7 @@ TREE:
 │   │   ├── CocktailApp.csproj
 │   │   └── Fill.cs
 │   ├── Program.cs
-│   ├── cocktail.db
+│   ├── database.db
 │   └── cocktail.sql
 ├── Makefile
 ├── README.md
