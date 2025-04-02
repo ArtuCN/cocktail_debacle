@@ -16,3 +16,12 @@ dotnet add package Microsoft.Data.Sqlite
 npm install @microsoft/signalr
 dotnet add package Microsoft.AspNetCore.SignalR
 dotnet add package Microsoft.AspNetCore.SignalR.Client
+ng add @angular/ssr
+
+
+da capire e forse integrare Express per le richieste di backend
+oppure Fastify x2 piu veloce di Express
+oppure nestjs 
+---Dependency Injection integrata
+---✅ Moduli organizzati (AppModule, AuthModule, etc.)
+---✅ Supporto nativo a GraphQL, WebSocket, Microservizi

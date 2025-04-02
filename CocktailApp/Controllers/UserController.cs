@@ -1,0 +1,58 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace CocktailApp.Controllers
+{
+    public class User
+    {
+        public int Id {get; set;}
+        public required string FirstName {get; set;}
+        public required string LastName {get; set;}
+        public required string Mail {get; set;}
+        public required string Psw {get; set;}
+        public DateTime BirthDate {get; set;}
+    }
+    [ApiController]
+    [Route("api/users")]
+
+    public class UserController : ControllerBase
+    {  
+        private readonly string _connectionString = "Data Source=cocktail.db";
+
+        [HttpPost("create")]
+        public IActionResult CreateUser([FromBody] User user)
+        {
+            Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(_connectionString))
+                {
+                    conn.Open();
+                    string query = "INSERT INTO User (Mail, FirstName, LastName, BirthDate, Psw) VALUES (@Mail, @FirstName, @LastName, @BirthDate, @Psw)";
+                    
+                    using (SqliteCommand cmd = new SqliteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Mail", user.Mail);
+                        cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                        cmd.Parameters.AddWithValue("@BirthDate", user.BirthDate);
+                        cmd.Parameters.AddWithValue("@Psw", user.Psw);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return Ok("User created successfully");
+            }
+            catch (SqliteException ex)
+            {
+                return BadRequest($"Database error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Unexpected error: {ex.Message}");
+            }
+        }
+    }
+}

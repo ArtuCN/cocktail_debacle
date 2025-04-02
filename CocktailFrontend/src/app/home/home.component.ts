@@ -4,25 +4,24 @@ import { ErrorService } from '../services/error.service';
 import { ErrorComponent } from "../error/error.component";  // Importa il servizio di errori
 import { CommonModule } from '@angular/common';
 import { CocktailResearchComponent } from '../cocktail-research/cocktail-research.component';
-
+import { CreateUserComponent } from '../create-user/create-user.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ErrorComponent, CocktailResearchComponent], // Aggiungi ErrorComponent nelle imports
+  imports: [CommonModule, ErrorComponent, CocktailResearchComponent, CreateUserComponent], // Aggiungi ErrorComponent nelle imports
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
 
   name: string = '';
-  constructor(private errorService: ErrorService) {}
-
+  constructor(private errorService: ErrorService) {
+  console.log('HomeComponent initialized');
+  }
   // Funzione per inviare un errore quando il bottone viene cliccato
   sendError(): void {
     this.errorService.setError('Something went wrong on the Home page!');
   }
-  searchCocktail(): void {
-    this.searchCocktail();
-  }
+  
 }

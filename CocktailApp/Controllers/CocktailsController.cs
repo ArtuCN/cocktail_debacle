@@ -9,9 +9,14 @@ namespace CocktailApp.Controllers
     [Route("api/cocktails")]
     public class CocktailController : ControllerBase
     {
+         public CocktailController()
+    {
+        Console.WriteLine("✅ CocktailController istanziato!");
+    }
         private readonly string _connectionString = "Data Source=cocktail.db";
 
         [HttpGet("{name}")]
+        [HttpPost("cocktail")]
         public async Task<IActionResult> GetCocktailByName(string name)
         {
             using var connection = new SqliteConnection(_connectionString);

@@ -2,6 +2,8 @@ import { Component, OnInit  } from '@angular/core';
 import { SignalrService } from '../services/signalr.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
+import { SearchService } from '../services/search.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cocktail-research',
@@ -11,11 +13,26 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './cocktail-research.component.css'
 })
 export class CocktailResearchComponent {
-
-  constructor(private rs: SignalrService) { }
+  
+  constructor(private ss: SearchService) { }
+  //constructor(private rs: SignalrService) { }
   name: string = '';
   cocktails: any[] = [];
+  errorMessage: string = '';
 
+  searchCocktail() {
+    console.log(`🔍 Cercando il cocktail: ${this.name}`);
+    this.ss.getCocktailByName(this.name).subscribe({
+      next: (data) => {
+        console.log('Cocktail trovato:', data);
+        this.cocktails = data;
+      },
+      error: (err) => {
+        console.error('Errore durante la ricerca del cocktail:', err);
+      }
+    });
+  }
+/*
   ngOnInit() {
     this.rs.onReceiveCocktails((cocktails) => {
       console.log('🍹 Cocktail recived:', cocktails);
@@ -34,6 +51,7 @@ export class CocktailResearchComponent {
     } else {
       console.warn('⚠️');
     }
-  }
+  }*/
+
 }
 

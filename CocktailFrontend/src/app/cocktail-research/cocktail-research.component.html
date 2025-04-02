@@ -1,9 +1,10 @@
 <div class="search">
+    <h1>Ricerca Cocktail</h1>
     <h1>Search for a Cocktail</h1>
     <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail...">
     <button (click)="searchCocktail()">Search</button>
 </div>
-
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
 <!-- Se ci sono cocktail ricevuti, mostriamoli -->
 <div *ngIf="cocktails.length > 0" class="results">
     <h2>Results:</h2>
