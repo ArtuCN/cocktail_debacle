@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject, Injectable } from '@angular/core';
 import { SignalrService } from '../services/signalr.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
+import { User } from '../models/models';
+import { CreateUser } from '../services/createuser.serice';
+
 
 @Component({
   selector: 'app-create-user',
@@ -11,21 +14,18 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './create-user.component.css'
 })
 export class CreateUserComponent {
-
-  constructor(private rs: SignalrService) { }
-  user = { mail: '', firstname: '', lastname: '', psw: '', birthdate: new Date() };
+  constructor (private cs: CreateUser) { }
+  us: User = new User();
   message : string = '';
 
   newUser(): void {
-    this.message = `User ${this.user.firstname} ${this.user.lastname} created successfully!`;
-    console.log(`🔍 component CREATE request for: ${this.user.firstname} ${this.user.lastname} ${this.user.mail} ${this.user.birthdate} ${this.user.psw}`);
-    this.rs.createUser(
-      this.user.firstname, 
-      this.user.lastname, 
-      this.user.mail, 
-      this.user.birthdate, // Converte la stringa in Date, se necessario
-      this.user.psw
-    );
-  };
-  
+    this.cs.SendNewUser(this.us).subscribe({
+      next: (response) => {
+        this.message = 'User created successfully!';
+      },
+      error: (error) => {
+        this.message = 'Error creating user';
+      },
+    });
+  }
 }

@@ -20,7 +20,7 @@ frontend:
 
 backend:
 	@echo $(CYAN) "Building .NET backend...\n" $(NONE)
-	cd CocktailApp && dotnet build
+	cd CocktailApp && dotnet build -c Release
 	@echo $(GREEN) ".NET backend built!\n" $(NONE)
 
 run:

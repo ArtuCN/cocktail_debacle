@@ -1,13 +1,14 @@
+
+
 export class User {
     constructor(
-      public firstname: string,
-      public lastname: string,
-      public mail: string,
-      public birthdate: Date,
-      public psw: string  // Attenzione: In produzione, mai gestire password in chiaro!
+      public firstname: string = '',
+      public lastname: string = '',
+      public mail: string = '',
+      public birthdate: Date = new Date(),
+      public psw: string = '' // Attenzione: In produzione, mai gestire password in chiaro!
     ) {}
   
-    // Metodo utile per inviare dati al backend
     toJson(): Record<string, any> {
       return {
         firstname: this.firstname,

@@ -66,8 +66,6 @@ namespace CocktailApp.Controllers
 
             return NotFound(new { message = "Cocktail non trovato" });
         }
-
-        // Metodo POST per aggiungere un nuovo cocktail
         [HttpPost]
         public async Task<IActionResult> AddCocktail([FromBody] Cocktail cocktail)
         {
