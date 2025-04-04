@@ -1,18 +1,23 @@
-<div class="search">
-    <h1>Ricerca Cocktail</h1>
-    <h1>Search for a Cocktail</h1>
-    <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail...">
-    <button (click)="searchCocktail()">Search</button>
-</div>
-<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-<!-- Se ci sono cocktail ricevuti, mostriamoli -->
-<div *ngIf="cocktails.length > 0" class="results">
+<div class="search-container">
+    <h1 class="search-title">Search for a Cocktail</h1>
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
+      <button (click)="searchCocktail()" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+  
+  <!-- Display error message -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  
+  <!-- Display cocktail results -->
+  <div *ngIf="cocktails.length > 0" class="results-container">
     <h2>Results:</h2>
     <div *ngFor="let cocktail of cocktails" class="cocktail-card">
-        <img [src]="cocktail.imageUrl" alt="{{ cocktail.name }}">
-        <h3>{{ cocktail.name }}</h3>
-        <p><strong>Category:</strong> {{ cocktail.category }}</p>
-        <p><strong>Glass:</strong> {{ cocktail.glass }}</p>
-        <p><strong>Instructions:</strong> {{ cocktail.instructions }}</p>
+      <img [src]="cocktail.imageUrl" alt="{{ cocktail.name }}" class="cocktail-img">
+      <h3>{{ cocktail.name }}</h3>
+      <p><strong>Category:</strong> {{ cocktail.category }}</p>
+      <p><strong>Glass:</strong> {{ cocktail.glass }}</p>
+      <p><strong>Instructions:</strong> {{ cocktail.instructions }}</p>
     </div>
-</div>
+  </div>
+  

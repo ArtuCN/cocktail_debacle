@@ -15,7 +15,7 @@ import * as signalR from '@microsoft/signalr';
     <router-outlet></router-outlet> <!-- Questo gestisce le rotte dinamiche -->
     <app-error></app-error> <!-- Mostra il componente di errore -->
   `,
-  styleUrls: ['../styles.css']  // Assicurati di usare styleUrls (con "s" alla fine)
+  //styleUrls: ['../styles.css']  // Assicurati di usare styleUrls (con "s" alla fine)
 })
 
 

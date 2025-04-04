@@ -11,7 +11,7 @@ import { CreateUser } from '../services/createuser.serice';
   standalone: true,
   imports: [ CommonModule, FormsModule ],
   templateUrl: './create-user.component.html',
-  styleUrl: './create-user.component.css'
+  //styleUrl: './create-user.component.css'
 })
 export class CreateUserComponent {
   constructor (private cs: CreateUser) { }

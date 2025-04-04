@@ -8,6 +8,7 @@ import { CreateUserComponent } from '../create-user/create-user.component';
 import { HttpClient } from '@angular/common/http';  // Inietta HttpClient come servizio
 import { AuthService } from '../services/auth.service';
 import { LoginComponent } from "../login/login.component";
+import { FormsModule } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ import { LoginComponent } from "../login/login.component";
   imports: [CommonModule, ErrorComponent, CocktailResearchComponent, CreateUserComponent, LoginComponent], // Aggiungi ErrorComponent nelle imports
   providers: [],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  //styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
 

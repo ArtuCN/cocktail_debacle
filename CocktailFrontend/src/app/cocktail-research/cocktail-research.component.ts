@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './cocktail-research.component.html',
-  styleUrl: './cocktail-research.component.css'
+  //styleUrl: './cocktail-research.component.css'
 })
 export class CocktailResearchComponent {
   

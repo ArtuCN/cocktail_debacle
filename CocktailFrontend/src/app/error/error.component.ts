@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule], // Aggiungi ErrorService nelle imports
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+  //styleUrls: ['./error.component.css']
 })
 export class ErrorComponent implements OnInit {
   errorMessage: string = '';

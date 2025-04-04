@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule], // Aggiungi ErrorComponent nelle imports
   providers: [],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  //styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
 
