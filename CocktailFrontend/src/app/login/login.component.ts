@@ -6,14 +6,16 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+
 @Injectable({
   providedIn: 'root'
 })
+
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule], // Aggiungi ErrorComponent nelle imports
-  providers: [],
+  providers: [AuthService],
   templateUrl: './login.component.html',
   //styleUrls: ['./login.component.css']
 })

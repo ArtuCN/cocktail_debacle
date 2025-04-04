@@ -3,13 +3,18 @@ import { SignalrService } from '../services/signalr.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { User } from '../models/models';
-import { CreateUser } from '../services/createuser.serice';
+import { CreateUser } from '../services/createuser.service';
 
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-create-user',
   standalone: true,
   imports: [ CommonModule, FormsModule ],
+  providers: [CreateUser],
   templateUrl: './create-user.component.html',
   //styleUrl: './create-user.component.css'
 })

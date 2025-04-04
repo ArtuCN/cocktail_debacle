@@ -13,11 +13,12 @@ import { FormsModule } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ErrorComponent, CocktailResearchComponent, CreateUserComponent, LoginComponent], // Aggiungi ErrorComponent nelle imports
-  providers: [],
+  imports: [CommonModule, CocktailResearchComponent, CreateUserComponent, LoginComponent], // Aggiungi ErrorComponent nelle imports
+  providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']
 })
@@ -28,12 +29,10 @@ export class HomeComponent {
   constructor(private errorService: ErrorService, private http: HttpClient) {
   console.log('HomeComponent initialized');
   }
-  //gestione click bottone login
   onLoginClick(event: Event) {
     event.preventDefault();  // Impedisce il comportamento di default del form (refresh della pagina)
     this.onLogin = !this.onLogin;
   }
-  // Funzione per inviare un errore quando il bottone viene cliccato
   sendError(): void {
     this.errorService.setError('Something went wrong on the Home page!');
   }
