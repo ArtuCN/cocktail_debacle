@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace CocktailApp.Controllers
 {
@@ -29,6 +30,8 @@ namespace CocktailApp.Controllers
                 using (SqliteConnection conn = new SqliteConnection(_connectionString))
                 {
                     Console.WriteLine($"Received User: FirstName = {user.FirstName}, LastName = {user.LastName}, Mail = {user.Mail}, BirthDate = {user.BirthDate}, Psw = {user.Psw}");
+                    string hashedPsw = BCrypt.Net.BCrypt.HashPassword(user.Psw);
+                    Console.WriteLine($"Cripted psw {hashedPsw}");
                     string formattedBirthDate = user.BirthDate.ToString("yyyy-MM-dd");
                     conn.Open();
                     string query = "INSERT INTO User (Mail, FirstName, LastName, BirthDate, Psw) VALUES (@Mail, @FirstName, @LastName, @BirthDate, @Psw)";
@@ -39,7 +42,7 @@ namespace CocktailApp.Controllers
                         cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
                         cmd.Parameters.AddWithValue("@LastName", user.LastName);
                         cmd.Parameters.AddWithValue("@BirthDate", formattedBirthDate);
-                        cmd.Parameters.AddWithValue("@Psw", user.Psw);
+                        cmd.Parameters.AddWithValue("@Psw", hashedPsw);
 
                         cmd.ExecuteNonQuery();
                     }
