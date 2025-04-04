@@ -1,0 +1,32 @@
+/* Aggiungi al tuo file home.component.css */
+body {
+    padding-top: 60px; /* Lascia spazio per il navbar fixed */
+  }
+  
+  .navbar {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombra opzionale per distinguerlo meglio */
+  }
+  .container {
+    padding-top: 80px; /* Lascia spazio per il navbar */
+  }
+
+h1{
+    font-family: "Times New Roman", Times, serif;
+    background-color: rgb(29, 29, 29);
+    color: #f0f8ff;
+}
+
+button{
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    padding: 6px 12px;
+    font-size: 15px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
