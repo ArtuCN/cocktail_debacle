@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { CocktailResearchComponent } from '../cocktail-research/cocktail-research.component';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { HttpClient } from '@angular/common/http';  // Inietta HttpClient come servizio
+import { AuthService } from '../services/auth.service';
+import { LoginComponent } from "../login/login.component";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ import { HttpClient } from '@angular/common/http';  // Inietta HttpClient come s
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ErrorComponent, CocktailResearchComponent, CreateUserComponent], // Aggiungi ErrorComponent nelle imports
+  imports: [CommonModule, ErrorComponent, CocktailResearchComponent, CreateUserComponent, LoginComponent], // Aggiungi ErrorComponent nelle imports
   providers: [],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -21,16 +23,17 @@ import { HttpClient } from '@angular/common/http';  // Inietta HttpClient come s
 export class HomeComponent {
 
   name: string = '';
+  onLogin: boolean = false;
   constructor(private errorService: ErrorService, private http: HttpClient) {
   console.log('HomeComponent initialized');
+  }
+  //gestione click bottone login
+  onLoginClick(event: Event) {
+    event.preventDefault();  // Impedisce il comportamento di default del form (refresh della pagina)
+    this.onLogin = !this.onLogin;
   }
   // Funzione per inviare un errore quando il bottone viene cliccato
   sendError(): void {
     this.errorService.setError('Something went wrong on the Home page!');
-  }
-  ngOnInit() {
-    this.http.get('https://api.example.com/cocktail').subscribe(response => {
-      console.log(response);
-    });
   }
 }

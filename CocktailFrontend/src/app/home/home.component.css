@@ -1,8 +1,15 @@
-body{
-    font-family: "Times New Roman", Times, serif;
-    background-color: rgb(29, 29, 29);
-    color: aliceblue;
-}
+/* Aggiungi al tuo file home.component.css */
+body {
+    padding-top: 60px; /* Lascia spazio per il navbar fixed */
+  }
+  
+  .navbar {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombra opzionale per distinguerlo meglio */
+  }
+  .container {
+    padding-top: 80px; /* Lascia spazio per il navbar */
+  }
+
 h1{
     font-family: "Times New Roman", Times, serif;
     background-color: rgb(29, 29, 29);
