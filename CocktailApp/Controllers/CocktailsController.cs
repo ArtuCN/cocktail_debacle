@@ -16,9 +16,6 @@ namespace CocktailApp.Controllers
         public CocktailController(ILogger<CocktailController> logger)
         {
             _logger = logger;
-            _logger.LogInformation("✅ CocktailController istanziato!");
-            _logger.LogInformation("Daje aquila");
-            Console.WriteLine("Daje aquila");
         }
 
         // Modello di Cocktail

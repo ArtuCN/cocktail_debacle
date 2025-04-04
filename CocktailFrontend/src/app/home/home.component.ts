@@ -29,8 +29,5 @@ export class HomeComponent {
     this.errorService.setError('Something went wrong on the Home page!');
   }
   ngOnInit() {
-    this.http.get('https://api.example.com/cocktail').subscribe(response => {
-      console.log(response);
-    });
   }
 }
