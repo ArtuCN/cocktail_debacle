@@ -2,8 +2,8 @@
 <div *ngIf="onLoginSubmit" class="container pt-5 mt-5">
   <form (ngSubmit)="onLoginSubmit($event)">
     <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" id="username" class="form-control" [(ngModel)]="username" name="username" required>
+      <label for="mail" class="form-label">mail</label>
+      <input type="text" id="mail" class="form-control" [(ngModel)]="mail" name="mail" required>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>

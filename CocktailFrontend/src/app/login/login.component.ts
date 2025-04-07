@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
 
-  username: string = '';
+  mail: string = '';
   password: string = '';
   loginError: string = '';
   onLogin: boolean = false;
@@ -35,11 +35,10 @@ export class LoginComponent {
   }
   
   onLoginSubmit(event: Event) {
-    event.preventDefault();  // Impedisce il comportamento di default del form (refresh della pagina)
-    console.log('Login attempted with username:', this.username, 'password:', this.password);
+    event.preventDefault();
+    console.log('Login attempted with mail:', this.mail, 'password:', this.password);
 
-    // Aggiungi qui la logica di login
-    this.authService.login(this.username, this.password).subscribe(
+    this.authService.login(this.mail, this.password).subscribe(
       response => {
         console.log('Login successful', response);
         this.router.navigate(['/home']);  // Naviga alla pagina Home dopo il login

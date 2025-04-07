@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';  // Inietta HttpClient come s
 import { AuthService } from '../services/auth.service';
 import { LoginComponent } from "../login/login.component";
 import { FormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })

@@ -37,7 +37,7 @@ namespace CocktailApp.Controllers
         [HttpGet("{name}")]
         public async Task<IActionResult> GetCocktailByName(string name)
         {
-            using var connection = new SqliteConnection(_connectionString);
+            using var connection = new SqliteConnection(_connectionString); 
             await connection.OpenAsync();
 
             string findQuery = "SELECT * FROM Cocktail WHERE name = @name";
@@ -63,7 +63,6 @@ namespace CocktailApp.Controllers
                 }
                 return Ok(cocktails);
             }
-
             return NotFound(new { message = "Cocktail non trovato" });
         }
         [HttpPost]
