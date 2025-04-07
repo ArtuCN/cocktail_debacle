@@ -25,21 +25,24 @@ export class CreateUserComponent {
   message : string = '';
 
   newUser(): void {
-    this.message = ''
-    if (!this.checkMailInfo(this.us.mail))
-    {
+    this.message = '';
+    if (!this.checkMailInfo(this.us.mail)) {
       this.message = 'Error invalid mail';
       return;
     }
+  
     this.cs.SendNewUser(this.us).subscribe({
       next: (response) => {
+        console.log('User created successfully', response);
         this.message = 'User created successfully!';
       },
       error: (error) => {
-        this.message = 'Error creating user';
+        console.error('Error creating user', error);
+        this.message = error.error.message;
       },
     });
   }
+  
 
   checkMailInfo(Mail: string): boolean
   {

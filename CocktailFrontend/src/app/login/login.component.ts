@@ -41,11 +41,12 @@ export class LoginComponent {
     this.authService.login(this.mail, this.password).subscribe(
       response => {
         console.log('Login successful', response);
+        this.loginError = '';
         this.router.navigate(['/home']);  // Naviga alla pagina Home dopo il login
       },
       error => {
         console.error('Login error', error);
-        this.loginError = 'Invalid username or password';  // Mostra errore in caso di credenziali errate
+        this.loginError = error.message;  // Mostra errore in caso di credenziali errate
       }
     );
   }

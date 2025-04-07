@@ -2,23 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BCrypt.Net;
+using CocktailApp;
 
 namespace CocktailApp.Controllers
 {
-    public class User
-    {
-        public long Id {get; set;}
-        public required string? FirstName {get; set;}
-        public required string? LastName {get; set;}
-        public required string? Mail {get; set;}
-        public required string? Psw {get; set;}
-        public DateTime BirthDate {get; set;}
-    }
-    public class loginData
-    {
-        public required string? Mail {get; set;}
-        public required string? Psw {get; set;}
-    }
     [ApiController]
     [Route("api/user")]
 
@@ -35,6 +23,7 @@ namespace CocktailApp.Controllers
                 {
                     Console.WriteLine($"Received User: FirstName = {user.FirstName}, LastName = {user.LastName}, Mail = {user.Mail}, BirthDate = {user.BirthDate}, Psw = {user.Psw}");
                     string formattedBirthDate = user.BirthDate.ToString("yyyy-MM-dd");
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Psw);
                     Console.WriteLine($"Data formattata {formattedBirthDate}");
                     conn.Open();
                     string query = "INSERT INTO User (Mail, FirstName, LastName, BirthDate, Psw) VALUES (@Mail, @FirstName, @LastName, @BirthDate, @Psw)";
@@ -45,7 +34,7 @@ namespace CocktailApp.Controllers
                         cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
                         cmd.Parameters.AddWithValue("@LastName", user.LastName);
                         cmd.Parameters.AddWithValue("@BirthDate", formattedBirthDate);
-                        cmd.Parameters.AddWithValue("@Psw", user.Psw);
+                        cmd.Parameters.AddWithValue("@Psw", hashedPassword);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -72,19 +61,27 @@ namespace CocktailApp.Controllers
 
                     await conn.OpenAsync();
 
-                    string findQuery = "SELECT * FROM User WHERE Mail = @mail AND Psw = @psw";
+                    string findQuery = "SELECT * FROM User WHERE Mail = @mail";
                     using var command = new SqliteCommand(findQuery, conn);
                     command.Parameters.AddWithValue("@mail", ld.Mail);
-                    command.Parameters.AddWithValue("@psw", ld.Psw);
                     using var reader = await command.ExecuteReaderAsync();
                     if (await reader.ReadAsync())
                     {
-                        Console.WriteLine("User found and password is correct!");
-                        return Ok("Login successful");
+                        string storedHash = reader["Psw"].ToString();
+                        if (BCrypt.Net.BCrypt.Verify(ld.Psw, storedHash))
+                        {
+                            Console.WriteLine("User found and password is correct!");
+                            return Ok("Login successful");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Password is incorrect.");
+                            return BadRequest("Invalid login credentials");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("No matching user found or password is incorrect.");
+                        Console.WriteLine("No matching user found.");
                         return BadRequest("Invalid login credentials");
                     }
                 }
