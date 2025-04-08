@@ -17,7 +17,7 @@
     <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
       <div class="cocktail-card">
         <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img d-block w-100">
-        <h3>{{ cocktail.strDrink }}</h3>
+        <h3 class = nomeCocktailCss>{{ cocktail.strDrink }}</h3>
       </div>
     </div>
   </div>
