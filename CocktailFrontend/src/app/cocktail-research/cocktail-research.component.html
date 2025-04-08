@@ -13,8 +13,8 @@
   <div *ngIf="cocktails.length > 0" class="results-container">
     <h2>Results:</h2>
     <div *ngFor="let cocktail of cocktails" class="cocktail-card">
-      <img [src]="cocktail.StrImageSource" alt="{{ cocktail.StrDrink }}" class="cocktail-img">
-      <h3>{{ cocktail.StrDrink }}</h3>
+      <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img">
+      <h3>{{ cocktail.strDrink }}</h3>
     </div>
   </div>
   

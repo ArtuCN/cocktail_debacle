@@ -32,6 +32,8 @@ export class CocktailResearchComponent {
       next: (data) => {
         console.log('Cocktail trovato:', data);
         this.cocktails = data.drinks as CocktailInterface[];
+        console.log('Cocktail:', this.cocktails[0].strDrink);
+        console.log('Cocktail:', this.cocktails[0].strDrinkThumb);
       },
       error: (err) => {
         console.error('Errore durante la ricerca del cocktail:', err);
