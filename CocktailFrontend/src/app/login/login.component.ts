@@ -25,11 +25,17 @@ export class LoginComponent {
   password: string = '';
   loginError: string = '';
   onLogin: boolean = false;
+  loggedIn: boolean = false;
   
   constructor(private authService: AuthService, private router: Router) {
     console.log('LoginComponent initialized');
   }
  
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    this.loggedIn = !!token;
+  }
+
   onLoginClick() {
     this.onLogin = !this.onLogin;
   }
@@ -37,9 +43,9 @@ export class LoginComponent {
   testLogin(): void {
     this.authService.login(this.mail, this.password).subscribe({
       next: (response) => {
-        if (response && response.token) {
-          console.log('Token ricevuto:', response.token); // Aggiungi il token alla console
-        }
+        localStorage.setItem('token', response.token); // Salva il token nel localStorage
+        this.loggedIn = true; // Imposta loggedIn a true
+        console.log('Login successful', response);
       },
       error: (err) => {
         console.error('Login failed', err);

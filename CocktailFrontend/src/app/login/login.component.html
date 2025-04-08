@@ -1,15 +1,23 @@
 <!-- src/app/login/login.component.html -->
-<div *ngIf="onLoginSubmit" class="container pt-5 mt-5">
-  <form (ngSubmit)="testLogin()">
-    <div class="mb-3">
-      <label for="mail" class="form-label">mail</label>
-      <input type="text" id="mail" class="form-control" [(ngModel)]="mail" name="mail" required>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-    <div *ngIf="loginError" class="text-danger mt-2">{{ loginError }}</div>
-  </form>
+<div class="container pt-5 mt-5">
+  <!-- Se loggato, mostra messaggio -->
+  <div *ngIf="loggedIn; else loginForm">
+    <p class="text-success fs-4">Sei loggato ✅</p>
+  </div>
+
+  <!-- Form di login -->
+  <ng-template #loginForm>
+    <form (ngSubmit)="testLogin()">
+      <div class="mb-3">
+        <label for="mail" class="form-label">Mail</label>
+        <input type="text" id="mail" class="form-control" [(ngModel)]="mail" name="mail" required />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required />
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+      <div *ngIf="loginError" class="text-danger mt-2">{{ loginError }}</div>
+    </form>
+  </ng-template>
 </div>

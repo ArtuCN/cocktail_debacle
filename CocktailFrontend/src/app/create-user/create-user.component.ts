@@ -23,7 +23,11 @@ export class CreateUserComponent {
   constructor (private cs: CreateUser) { }
   us: User = new User();
   message : string = '';
+  loggedIn: boolean = false;
 
+  ngOnInit(): void {
+    this.loggedIn = localStorage.getItem('token') !== null;
+  }
   newUser(): void {
     this.message = '';
     if (!this.checkMailInfo(this.us.mail)) {
