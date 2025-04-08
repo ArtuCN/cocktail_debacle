@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../services/search.service';
 import { HttpClient } from '@angular/common/http';
+import { CocktailInterface } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class CocktailResearchComponent {
   constructor(private ss: SearchService) { }
   //constructor(private rs: SignalrService) { }
   name: string = '';
-  cocktails: any[] = [];
+  cocktails: CocktailInterface[] = [];
   errorMessage: string = '';
 
   searchCocktail() {
@@ -30,7 +31,7 @@ export class CocktailResearchComponent {
     this.ss.getCocktailByName(this.name).subscribe({
       next: (data) => {
         console.log('Cocktail trovato:', data);
-        this.cocktails = data;
+        this.cocktails = data.drinks as CocktailInterface[];
       },
       error: (err) => {
         console.error('Errore durante la ricerca del cocktail:', err);
