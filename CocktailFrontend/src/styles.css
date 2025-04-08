@@ -99,20 +99,41 @@ input, textarea, select, button{
     margin-top: 30px;
   }
   
+  .carousel-container {
+    max-width: 30%;  /* Limita la larghezza del carousel */
+    margin: 0 auto;  /* Centra il carousel nella pagina */
+    padding-top: 20px;
+  }
+  .carousel-item {
+    justify-content: center; /* Allinea gli item al centro */
+    align-items: center;
+    height: 900px; /* Imposta l'altezza delle card */
+  }
+
   .cocktail-card {
-    background-color: #222;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 15px 0;
     text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi una leggera ombra */
+    background-color: #fff;
+    padding: 20px;
+    /*transition: transform 0.3s ease;*/
+  }
+  .cocktail-card:hover {
+    transform: scale(1.05); /* Effetto di ingrandimento al passaggio del mouse */
+  }
+  .carousel-ccontrols {
+    background-color: #4f0707;
+    align-items: center;
+    border-radius: 50%;
+    padding: 10px;
+    color: #fff;
+
   }
   
   .cocktail-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+    width: 100%;
+    height: auto;
     border-radius: 8px;
-    margin-bottom: 15px;
   }
   
   .cocktail-card h3 {

@@ -1,20 +1,34 @@
+
 <div class="search-container">
-    <h1 class="search-title">Search for a Cocktail</h1>
-    <div class="search-bar">
-      <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
-      <button (click)="searchCocktail()" class="btn btn-primary">Search</button>
+  <h1 class="search-title">Search for a Cocktail</h1>
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
+    <button (click)="searchCocktail()" class="btn btn-primary">Search</button>
+  </div>
+</div>
+
+<!-- Display error message -->
+<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+<!-- Display cocktail results in a carousel -->
+<div *ngIf="cocktails.length > 0" class="carousel-container">
+<div id="cocktailCarousel" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
+      <div class="cocktail-card">
+        <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img d-block w-100">
+        <h3>{{ cocktail.strDrink }}</h3>
+      </div>
     </div>
   </div>
-  
-  <!-- Display error message -->
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-  
-  <!-- Display cocktail results -->
-  <div *ngIf="cocktails.length > 0" class="results-container">
-    <h2>Results:</h2>
-    <div *ngFor="let cocktail of cocktails" class="cocktail-card">
-      <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img">
-      <h3>{{ cocktail.strDrink }}</h3>
-    </div>
-  </div>
-  
+  <!-- Controls for carousel -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</div>
