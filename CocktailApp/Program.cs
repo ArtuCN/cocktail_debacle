@@ -11,9 +11,17 @@ using System.Linq;
 using CocktailApp.hubs;
 using CocktailApp;
 using static CocktailApp.SignalRConfig;
+using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using CocktailApp.Class;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 builder = CocktailApp.BuilderConfig.ConfigureBuilder(builder);
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettings);
 
 var app = builder.Build();
 
@@ -26,13 +34,8 @@ app.UseSpaStaticFiles();
 
 app.Use(async (context, next) =>
 {
-    // Ottieni l'intestazione Accept
     var acceptHeader = context.Request.Headers["Accept"].ToString();
-
-    // Stampa il tipo di contenuto richiesto
     Console.WriteLine($"➡️ Tipo di contenuto richiesto: {acceptHeader}");
-
-    // Passa la richiesta al prossimo middleware (controller o altro)
     await next();
 });
 

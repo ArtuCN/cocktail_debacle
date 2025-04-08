@@ -1,6 +1,6 @@
 <!-- src/app/login/login.component.html -->
 <div *ngIf="onLoginSubmit" class="container pt-5 mt-5">
-  <form (ngSubmit)="onLoginSubmit($event)">
+  <form (ngSubmit)="testLogin()">
     <div class="mb-3">
       <label for="mail" class="form-label">mail</label>
       <input type="text" id="mail" class="form-control" [(ngModel)]="mail" name="mail" required>

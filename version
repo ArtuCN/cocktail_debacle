@@ -25,3 +25,6 @@ oppure nestjs
 ---Dependency Injection integrata
 ---✅ Moduli organizzati (AppModule, AuthModule, etc.)
 ---✅ Supporto nativo a GraphQL, WebSocket, Microservizi
+
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package Microsoft.IdentityModel.Tokens

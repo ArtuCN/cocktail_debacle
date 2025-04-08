@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BCrypt.Net;
 using CocktailApp;
+using System;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CocktailApp.Controllers
 {
@@ -14,6 +19,25 @@ namespace CocktailApp.Controllers
     {  
         private readonly string _connectionString = "Data Source=cocktail.db";
 
+        private string GenerateJwtToken(string mail)
+        {
+            var secretKey = "y0uR$up3r$ecret!Key_Wh1ch_1s_Long#Enough!";
+            var key = Encoding.ASCII.GetBytes(secretKey);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, mail)
+            };
+
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                expires: DateTime.Now.AddHours(1),
+                claims: claims,
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] User user)
         {
@@ -71,7 +95,9 @@ namespace CocktailApp.Controllers
                         if (BCrypt.Net.BCrypt.Verify(ld.Psw, storedHash))
                         {
                             Console.WriteLine("User found and password is correct!");
-                            return Ok("Login successful");
+                            var t = new { token = GenerateJwtToken(ld.Mail) };
+                            Console.WriteLine("Token generato: " + t.token);
+                            return Ok(t);
                         }
                         else
                         {
@@ -97,6 +123,5 @@ namespace CocktailApp.Controllers
             
 
         }
-
     }
 }

@@ -34,6 +34,20 @@ export class LoginComponent {
     this.onLogin = !this.onLogin;
   }
   
+  testLogin(): void {
+    this.authService.login(this.mail, this.password).subscribe({
+      next: (response) => {
+        if (response && response.token) {
+          console.log('Token ricevuto:', response.token); // Aggiungi il token alla console
+        }
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+        this.loginError = 'Invalid login credentials';
+      }
+    });
+  }
+
   onLoginSubmit(event: Event) {
     event.preventDefault();
     console.log('Login attempted with mail:', this.mail, 'password:', this.password);
