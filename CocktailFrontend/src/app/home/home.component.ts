@@ -10,6 +10,8 @@ import { AuthService } from '../services/auth.service';
 import { LoginComponent } from "../login/login.component";
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CocktailService } from '../services/testdb.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,9 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class HomeComponent {
 
+  cocktail: any = null;
   name: string = '';
   onLogin: boolean = false;
-  constructor(private errorService: ErrorService, private http: HttpClient) {
+  constructor(private errorService: ErrorService, private http: HttpClient, private cs: CocktailService) {
   console.log('HomeComponent initialized');
   }
   onLoginClick(event: Event) {
@@ -36,4 +39,12 @@ export class HomeComponent {
   sendError(): void {
     this.errorService.setError('Something went wrong on the Home page!');
   }
+
+  testdb(): void {
+    this.cs.searchCocktailByName('margarita').subscribe((res) => {
+      this.cocktail = res.drinks?.[0];
+      console.log('Cocktail:', this.cocktail);
+    });
+  }
+
 }

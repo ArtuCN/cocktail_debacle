@@ -13,7 +13,8 @@ public static class BuilderConfig
     public static WebApplicationBuilder ConfigureBuilder(WebApplicationBuilder builder)
     {
         builder.Services.AddControllers();
-        
+        builder.Services.AddHttpClient();
+
         ConfigureCors(builder.Services);
         ConfigureSpa(builder.Services);
         SignalRConfig.ConfigureSignalR(builder.Services);

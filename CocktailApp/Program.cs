@@ -39,6 +39,7 @@ app.Use(async (context, next) =>
 app.Use(async (context, next) =>
 {
     Console.WriteLine($"➡️ Richiesta ricevuta: {context.Request.Method} {context.Request.Path}");
+    Console.WriteLine($"🌐 URL richiesta completa: {context.Request.Method} {context.Request.Path + context.Request.QueryString}");
 
     if (context.Request.Path.StartsWithSegments("/api"))
     {

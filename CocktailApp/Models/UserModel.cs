@@ -14,5 +14,7 @@ namespace CocktailApp
         public required string? Mail {get; set;}
         public required string? Psw {get; set;}
     }
+
+    
 }
 

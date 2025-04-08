@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SearchService {
 
-  private apiUrl = 'http://localhost:5001/api/cocktail';
+  private apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByName';
   constructor(private http: HttpClient) { }
 
   getCocktailByName(name: string): Observable<any> {
