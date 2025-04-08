@@ -11,7 +11,8 @@
         <a class="navbar-brand ms-auto login-link" 
            href="javascript:void(0)" 
             (click)="onLoginClick($event)">
-            Login
+            <p *ngIf="!onLogin" class="login-text">Login</p>
+            <p *ngIf="loggedIn" class="login-text">name</p>
          </a>
        </div>
      </nav>
@@ -19,6 +20,7 @@
 
 
     <app-login *ngIf="onLogin"></app-login>
+    
 
     <div class = cock>
       <app-cocktail-research></app-cocktail-research>

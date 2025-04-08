@@ -53,7 +53,12 @@ export class LoginComponent {
       }
     });
   }
-
+  logout(): void {
+    this.authService.logout(); // Chiama il metodo di logout del servizio
+    this.loggedIn = false; // Imposta loggedIn a false
+    this.router.navigate(['/home']); // Naviga alla pagina Home dopo il logout
+  }
+  
   onLoginSubmit(event: Event) {
     event.preventDefault();
     console.log('Login attempted with mail:', this.mail, 'password:', this.password);

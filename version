@@ -28,3 +28,4 @@ oppure nestjs
 
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 dotnet add package Microsoft.IdentityModel.Tokens
+npm install jwt-decode

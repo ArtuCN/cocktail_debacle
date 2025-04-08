@@ -3,6 +3,7 @@
   <!-- Se loggato, mostra messaggio -->
   <div *ngIf="loggedIn; else loginForm">
     <p class="text-success fs-4">Sei loggato ✅</p>
+    <button *ngIf="loggedIn" (click)="logout()" class="btn btn-danger">Logout</button>
   </div>
 
   <!-- Form di login -->

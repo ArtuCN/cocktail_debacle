@@ -14,4 +14,7 @@ export class AuthService {
     const loginData = { Mail, Psw };
     return this.http.post(this.apiUrl, loginData);
   }
+  logout(): void {
+    localStorage.removeItem('token'); // Rimuove il token dal localStorage
+  }
 }
