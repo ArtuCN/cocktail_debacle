@@ -25,20 +25,37 @@ export class CocktailResearchComponent {
   name: string = '';
   cocktails: CocktailInterface[] = [];
   errorMessage: string = '';
+  selectedType: string = 'name';
 
   searchCocktail() {
-    console.log(`🔍 Cercando il cocktail: ${this.name}`);
-    this.ss.getCocktailByName(this.name).subscribe({
-      next: (data) => {
-        console.log('Cocktail trovato:', data);
-        this.cocktails = data.drinks as CocktailInterface[];
-        console.log('Cocktail:', this.cocktails[0].strDrink);
-        console.log('Cocktail:', this.cocktails[0].strDrinkThumb);
-      },
-      error: (err) => {
-        console.error('Errore durante la ricerca del cocktail:', err);
-      }
-    });
+    switch(this.selectedType)
+    {
+      case 'name':
+        {
+          this.ss.getCocktailByName(this.name).subscribe({
+            next: (data) => {
+              this.cocktails = data.drinks as CocktailInterface[];
+            },
+            error: (err) => {
+              console.error('Errore durante la ricerca del cocktail:', err);
+            }
+          });
+          break;
+        }
+        case 'ingredient':
+        {
+          this.ss.getCocktailByIngredient(this.name).subscribe({
+            next: (data) => {
+              this.cocktails = data.drinks as CocktailInterface[];
+            },
+            error: (err) => {
+              console.error('Errore durante la ricerca del cocktail:', err);
+            }
+          });
+          break;
+        }
+    }
   }
+  
 }
 

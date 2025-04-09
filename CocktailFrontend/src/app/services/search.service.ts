@@ -8,10 +8,15 @@ import { CocktailInterface } from '../models/models';
 })
 export class SearchService {
 
-  private apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByName';
+  private apiUrl = "";
   constructor(private http: HttpClient) { }
 
   getCocktailByName(name: string): Observable<{drinks: CocktailInterface[]}> {
+    this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByName';
+    return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+  }
+  getCocktailByIngredient(name: string): Observable<{drinks: CocktailInterface[]}> {
+    this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByIngridient';
     return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
   }
 }
