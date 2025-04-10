@@ -8,17 +8,28 @@
 <body>
     <nav class="navbar custom-navbar fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand ms-auto login-link" 
-           href="javascript:void(0)" 
+        <div class = "title">
+          <p class="title-text">Cocktail Debacle</p>
+        </div>
+          <a class="navbar-brand ms-auto login-link" 
+            href="javascript:void(0)" 
             (click)="onLoginClick($event)">
-            <p *ngIf="!onLogin" class="login-text">Login</p>
-            <p *ngIf="loggedIn" class="login-text">name</p>
-         </a>
-       </div>
-     </nav>
+            <div *ngIf="!loggedIn">
+              <p *ngIf="!onLogin" class="login-text">Login</p>
+              <p *ngIf="onLogin" class="login-text">Login</p>
+            </div>
+            <div *ngIf="loggedIn">
+              <p *ngIf="!onLogin" class="login-text">name</p>
+              <p *ngIf="onLogin" class="login-text">name</p>
+            </div>
+          </a>
+      </div>
+    </nav>
+      <!--<p *ngIf="loggedIn" class="login-text">name</p>-->
 
 
 
+     <app-create-user *ngIf="onLogin"></app-create-user>
     <app-login *ngIf="onLogin"></app-login>
     
 
@@ -27,7 +38,6 @@
     </div>
     <div class = tail>
       <div class="back">
-        <app-create-user></app-create-user>
       </div>
     </div>
     <!-- Bootstrap Bundle JS (serve per modale e navbar) -->

@@ -15,12 +15,36 @@ input, textarea, select, button{
     border: 1px solid #564a4a47 !important;
 }
 
-.custom-navbar{
-    background-color: #a21984 !important;
+.logging {
+    background-color: #0d6dfd17;
+    margin-top: 90px;
+
 }
+
+.custom-navbar{
+    background-color: #ae3f94 !important;
+    height: 50px;
+
+}
+
+.title-text {
+    background-color: #4102ffd6 !important;
+    border-radius: 20px;
+    padding: 10px;
+    padding-block: 2%;
+    align-self: left !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 20px;
+}
+
 .login-link {
     color: rgb(255, 255, 255) !important;
+    font-size: 20px;
     font-weight: bold;
+
+
 }
 
 .search-title {

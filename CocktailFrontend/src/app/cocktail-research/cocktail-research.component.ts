@@ -54,8 +54,32 @@ export class CocktailResearchComponent {
           });
           break;
         }
+        case 'category':
+          {
+            this.ss.getCocktailByCategory(this.name).subscribe({
+              next: (data) => {
+                this.cocktails = data.drinks as CocktailInterface[];
+             },
+              error: (err) => {
+                console.error('Errore durante la ricerca del cocktail:', err);
+              }
+            });
+            break;
+          }
+        case 'glass':
+          {
+            this.ss.getCocktailByGlass(this.name).subscribe({
+              next: (data) => {
+                this.cocktails = data.drinks as CocktailInterface[];
+              },
+              error: (err) => {
+                console.error('Errore durante la ricerca del cocktail:', err);
+              }
+            });
+            break;
+          }
+      }
     }
-  }
   
 }
 

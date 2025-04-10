@@ -19,4 +19,12 @@ export class SearchService {
     this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByIngridient';
     return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
   }
+  getCocktailByCategory(name: string): Observable<{drinks: CocktailInterface[]}> {
+    this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByCategory';
+    return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+  }
+  getCocktailByGlass(name: string): Observable<{drinks: CocktailInterface[]}> {
+    this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByGlass';
+    return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+  }
 }

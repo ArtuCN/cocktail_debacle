@@ -45,5 +45,33 @@ namespace CocktailApp.Controllers
             var content = await response.Content.ReadAsStringAsync();
             return Content(content, "application/json");
         }
+        [HttpGet("searchCocktailByCategory{name}")]
+        public async Task<IActionResult> GetCocktailByCategory(string name)
+        {
+
+            var apiUrl = $"https://www.thecocktaildb.com/api/json/v1/1/filter.php?c={name}";
+            var response = await _httpClient.GetAsync(apiUrl);
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode, "Errore nella richiesta all’API di TheCocktailDB");
+            }
+            var content = await response.Content.ReadAsStringAsync();
+
+            return Content(content, "application/json");
+        }
+        [HttpGet("searchCocktailByGlass{name}")]
+        public async Task<IActionResult> GetCocktailByGlass(string name)
+        {
+
+            var apiUrl = $"https://www.thecocktaildb.com/api/json/v1/1/filter.php?g={name}";
+            var response = await _httpClient.GetAsync(apiUrl);
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode, "Errore nella richiesta all’API di TheCocktailDB");
+            }
+            var content = await response.Content.ReadAsStringAsync();
+
+            return Content(content, "application/json");
+        }
     }
 }

@@ -39,6 +39,7 @@ export class CreateUserComponent {
       next: (response) => {
         console.log('User created successfully', response);
         this.message = 'User created successfully!';
+        //window.location.reload();
       },
       error: (error) => {
         console.error('Error creating user', error);

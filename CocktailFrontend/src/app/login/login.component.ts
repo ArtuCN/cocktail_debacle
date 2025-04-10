@@ -39,6 +39,7 @@ export class LoginComponent {
   onLoginClick() {
     this.onLogin = !this.onLogin;
   }
+
   
   testLogin(): void {
     this.authService.login(this.mail, this.password).subscribe({
