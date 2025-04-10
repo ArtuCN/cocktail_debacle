@@ -19,8 +19,8 @@
               <p *ngIf="onLogin" class="login-text">Login</p>
             </div>
             <div *ngIf="loggedIn">
-              <p *ngIf="!onLogin" class="login-text">name</p>
-              <p *ngIf="onLogin" class="login-text">name</p>
+              <p *ngIf="!onLogin" class="login-text">{{mail}}</p>
+              <p *ngIf="onLogin" class="login-text">{{mail}}</p>
             </div>
           </a>
       </div>

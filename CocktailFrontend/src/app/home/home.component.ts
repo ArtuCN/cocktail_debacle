@@ -32,6 +32,7 @@ export class HomeComponent {
   name: string = '';
   onLogin: boolean = false;
   loggedIn: boolean = false;
+  mail: string = '';
   
   token: string | null = localStorage.getItem('token');
   constructor(private errorService: ErrorService, private http: HttpClient, private cs: CocktailService) {
@@ -41,6 +42,15 @@ export class HomeComponent {
   ngOnInit(): void {
     // Verifica se l'utente è loggato (se esiste un token nel localStorage)
     const token = localStorage.getItem('token');
+    if (token) {
+      this.mail = localStorage.getItem('mail') as string;
+      console.log('Token:', token);
+      console.log('Mail:', this.mail);
+      
+      if (!this.mail) {
+        this.mail = 'CAZZO CULO';
+      }
+    }
     this.loggedIn = token !== null;
 
     if (this.loggedIn) {
@@ -65,4 +75,7 @@ export class HomeComponent {
     });
   }
 
+  getName (): string {
+    return this.name;
+  }
 }

@@ -39,6 +39,7 @@ export class CreateUserComponent {
       next: (response) => {
         console.log('User created successfully', response);
         this.message = 'User created successfully!';
+        localStorage.setItem('mail', this.us.mail);
         //window.location.reload();
       },
       error: (error) => {

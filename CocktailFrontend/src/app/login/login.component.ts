@@ -45,6 +45,7 @@ export class LoginComponent {
     this.authService.login(this.mail, this.password).subscribe({
       next: (response) => {
         localStorage.setItem('token', response.token); // Salva il token nel localStorage
+        localStorage.setItem('mail', this.mail);
         this.loggedIn = true; // Imposta loggedIn a true
         console.log('Login successful', response);
       },
