@@ -30,18 +30,21 @@ export class HomeComponent {
 
   cocktail: any = null;
   name: string = '';
-  onLogin: boolean = false;
-  loggedIn: boolean = false;
+  onLogin: boolean = false;//tasto login in alto a destra
+  loggedIn: boolean = false;//loggato o no
   mail: string = '';
+  isLoginMode: boolean = true; // Modalità di login o registrazione
+
   
   token: string | null = localStorage.getItem('token');
-  constructor(private errorService: ErrorService, private http: HttpClient, private cs: CocktailService) {
+  constructor(private errorService: ErrorService, private http: HttpClient, private cs: CocktailService, private authService: AuthService) {
   console.log('HomeComponent initialized');
   }
 
   ngOnInit(): void {
     // Verifica se l'utente è loggato (se esiste un token nel localStorage)
     const token = localStorage.getItem('token');
+
     if (token) {
       this.mail = localStorage.getItem('mail') as string;
       console.log('Token:', token);
@@ -61,10 +64,29 @@ export class HomeComponent {
     }
   }
 
-  onLoginClick(event: Event) {
+  switchToLogin(): void {
+    this.isLoginMode = true;
+  }
+
+  switchToCreateUser(): void {
+    this.isLoginMode = false;
+  }
+
+  onLoginClick(event: Event): void {
     event.preventDefault();  // Impedisce il comportamento di default del form (refresh della pagina)
     this.onLogin = !this.onLogin;
   }
+
+  logout(): void {
+    this.authService.logout(); // Chiama il metodo di logout del servizio AuthService
+    localStorage.removeItem('mail'); // Rimuove l'email dal localStorage
+    this.loggedIn = false; // Imposta loggedIn a false
+    this.mail = ''; // Resetta l'email nella variabile
+    this.name = ''; // Resetta il nome nella variabile
+    this.onLogin = false; // Chiude il menu di login
+  }
+
+
   sendError(): void {
     this.errorService.setError('Something went wrong on the Home page!');
   }
