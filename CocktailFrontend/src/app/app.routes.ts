@@ -12,6 +12,7 @@ export const routes: Routes = [
     {path: 'create-user', component: CreateUserComponent},
     {path: 'cocktail-research', component: CocktailResearchComponent},
     {path: 'login', component: LoginComponent},
+    {path: 'favorites', component: CocktailResearchComponent},
     {path: 'error', component: ErrorComponent},
     {path: '**', redirectTo: 'home'},
 ];

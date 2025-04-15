@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CocktailService } from '../services/testdb.service';
 import { jwtDecode } from 'jwt-decode';
+import { RouterModule } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ import { jwtDecode } from 'jwt-decode';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, CocktailResearchComponent,
-    CreateUserComponent, LoginComponent], // Aggiungi ErrorComponent nelle imports
+    CreateUserComponent, LoginComponent, RouterModule], // Aggiungi ErrorComponent nelle imports
   providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']
