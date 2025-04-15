@@ -1,68 +1,62 @@
 <!-- home.component.html -->
- <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
+
 <body>
-    <nav class="navbar custom-navbar fixed-top">
-      <div class="container-fluid">
-        <div class = "title">
-          <p class="title-text">Cocktail Debacle</p>
-        </div>
-          <a class="navbar-brand ms-auto login-link" 
-            href="javascript:void(0)"
-            (click)="onLoginClick($event)">
-            <div *ngIf="!loggedIn">
-              <p *ngIf="!onLogin" class="login-text">Login</p>
-              <p *ngIf="onLogin" class="login-text">Login</p>
-            </div>
-            <div *ngIf="loggedIn">
-              <p *ngIf="!onLogin" class="login-text">{{name}}</p>
-              <p *ngIf="onLogin" class="login-text">{{name}}</p>
-            </div>
-          </a>
+  <nav class="navbar custom-navbar fixed-top">
+    <div class="container-fluid">
+      <div class="title">
+        <p class="title-text">Cocktail Debacle</p>
       </div>
-    </nav>
-      <!--<p *ngIf="loggedIn" class="login-text">name</p>-->
+      <a class="navbar-brand ms-auto login-link" 
+         href="javascript:void(0)" 
+         (click)="onLoginClick($event)">
+        <p class="login-text">{{ loggedIn ? name : 'Login' }}</p>
+      </a>
+    </div>
+  </nav>
 
-      <div *ngIf="onLogin" class="login-menu text-center">
-        <ng-container *ngIf="!loggedIn">
-          <app-create-user *ngIf="!isLoginMode"></app-create-user>
-          <app-login *ngIf="isLoginMode"></app-login>
-        </ng-container>
-      
-        <ng-container *ngIf="loggedIn">
-          <p class="text-light mb-2">Bentornato, {{ name }}!</p>
-          <a class="bi bi-heart-fill me-2" [routerLink]="'/favorites'">
-            <i class="bi bi-heart-fill me-2"></i> Preferiti
-          </a>
-          <button class="btn btn-outline-danger logout-button" (click)="logout()">
-            <i class="bi bi-box-arrow-right"></i> Logout
-          </button>
-        </ng-container>
-      </div>
-      
+  <!-- MENU che appare sotto la navbar quando clicchi -->
+  <div *ngIf="onLogin" class="login-menu text-center mt-5 pt-4">
+    <ng-container *ngIf="!loggedIn">
+      <app-create-user *ngIf="!isLoginMode"></app-create-user>
+      <app-login *ngIf="isLoginMode"></app-login>
+    </ng-container>
 
-    <div class="botton-login-menu" *ngIf="onLogin && !loggedIn">
-      <button class="custom-auth-btn btn btn-outline-light mt-2"
-        (click)="isLoginMode ? switchToCreateUser() : switchToLogin()">
-        {{ isLoginMode ? 'DHN mi devo registrare!' : 'Oh botta ho gia un acccount!' }}
+    <ng-container *ngIf="loggedIn" class="cazzo">
+      <p class="text-light mb-2">Bentornato, {{ name }}!</p>
+      <a class="text-light d-block mb-2" [routerLink]="'/favorites'" (click)="onLogin = false">
+        <i class="bi bi-heart-fill me-2"></i> Preferiti
+      </a>
+      <button class="btn btn-outline-danger logout-button" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Logout
       </button>
-    </div>
+    </ng-container>
+  </div>
 
-    
+  <!-- Bottone per switch login/registrazione -->
+  <div class="botton-login-menu text-center mt-2" *ngIf="onLogin && !loggedIn">
+    <button class="custom-auth-btn btn btn-outline-light mt-2"
+      (click)="isLoginMode ? switchToCreateUser() : switchToLogin()">
+      {{ isLoginMode ? 'DHN mi devo registrare!' : 'Oh botta ho gia un acccount!' }}
+    </button>
+  </div>
 
-    <div class = cock>
-      <app-cocktail-research></app-cocktail-research>
-    </div>
-    <div class = tail>
-      <div class="back">
-      </div>
-    </div>
-    <!-- Bootstrap Bundle JS (serve per modale e navbar) -->
+  <!-- Componente di ricerca cocktail -->
+  <div class="cock" *ngIf="!isFavoritesPage">
+    <app-cocktail-research></app-cocktail-research>
+  </div>
+
+  <!-- Componente preferiti -->
+  <div *ngIf="isFavoritesPage">
+    <app-favorites></app-favorites>
+  </div>
+
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

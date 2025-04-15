@@ -1,5 +1,5 @@
 // src/app/home/home.component.ts
-import { Component, Injectable, importProvidersFrom  } from '@angular/core';
+import { Component, Injectable, OnInit, importProvidersFrom  } from '@angular/core';
 import { ErrorService } from '../services/error.service';
 import { ErrorComponent } from "../error/error.component";  // Importa il servizio di errori
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CocktailService } from '../services/testdb.service';
 import { jwtDecode } from 'jwt-decode';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
+import { FavoritesService } from '../services/favorites.service';
+import { FavoritesComponent } from '../favorites/favorites.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +24,12 @@ import { RouterModule } from '@angular/router';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, CocktailResearchComponent,
-    CreateUserComponent, LoginComponent, RouterModule], // Aggiungi ErrorComponent nelle imports
+    CreateUserComponent, LoginComponent, RouterModule, FormsModule, FavoritesComponent], // Aggiungi ErrorComponent nelle imports
   providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
   cocktail: any = null;
   name: string = '';
@@ -35,10 +37,20 @@ export class HomeComponent {
   loggedIn: boolean = false;//loggato o no
   mail: string = '';
   isLoginMode: boolean = true; // Modalità di login o registrazione
+  
+  isFavoritesPage: boolean = false; // Modalità di visualizzazione dei preferiti
+  favorites: any[] = []; // Array per memorizzare i cocktail preferiti
 
   
   token: string | null = localStorage.getItem('token');
-  constructor(private errorService: ErrorService, private http: HttpClient, private cs: CocktailService, private authService: AuthService) {
+  constructor(
+    private favoritesService: FavoritesService,
+    private router: Router,
+    private errorService: ErrorService,
+    private http: HttpClient,
+    private cs: CocktailService,
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute) {
   console.log('HomeComponent initialized');
   }
 
@@ -63,6 +75,10 @@ export class HomeComponent {
       this.name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];  // Estrarre il nome
       console.log('Nome:', this.name);
     }
+
+    this.router.events.subscribe(() => {
+      this.isFavoritesPage = this.router.url.includes('/favorites');
+    });
   }
 
   switchToLogin(): void {
@@ -85,6 +101,16 @@ export class HomeComponent {
     this.mail = ''; // Resetta l'email nella variabile
     this.name = ''; // Resetta il nome nella variabile
     this.onLogin = false; // Chiude il menu di login
+  }
+
+
+  loadFavorites(): void {
+    this.favorites = this.favoritesService.getFavorites(); // Ottiene i cocktail preferiti dal servizio
+  }
+
+  removeFromFavorites(id: string): void {
+    this.favoritesService.removeFavorite(id); // Rimuove il cocktail dai preferiti
+    this.loadFavorites(); // Ricarica i preferiti dopo la rimozione
   }
 
 

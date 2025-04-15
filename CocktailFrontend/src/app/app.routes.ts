@@ -5,6 +5,7 @@ import { CocktailResearchComponent } from './cocktail-research/cocktail-research
 import { CreateUserComponent } from './create-user/create-user.component';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -12,7 +13,7 @@ export const routes: Routes = [
     {path: 'create-user', component: CreateUserComponent},
     {path: 'cocktail-research', component: CocktailResearchComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'favorites', component: CocktailResearchComponent},
+    {path: 'favorites', component: FavoritesComponent},
     {path: 'error', component: ErrorComponent},
     {path: '**', redirectTo: 'home'},
 ];
