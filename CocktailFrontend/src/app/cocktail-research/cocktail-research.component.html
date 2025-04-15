@@ -27,9 +27,13 @@
 <div id="cocktailCarousel" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
-      <div class="cocktail-card">
+      <div class="cocktail-card text-center">
         <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img d-block w-100">
         <h3 class = nomeCocktailCss>{{ cocktail.strDrink }}</h3>
+        <button (click)="toggleFavorite(cocktail)" class="btn btn-outline-light mt-2">
+          <i class="bi" [ngClass]="isFavorite(cocktail.idDrink) ? 'bi-heart-fill text-danger' : 'bi-heart'"></i>
+          {{ isFavorite(cocktail.idDrink) ? 'Rimuovi dai prefe bro' : 'Aggiungi ai preferiti fra' }}
+        </button>
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchService } from '../services/search.service';
 import { HttpClient } from '@angular/common/http';
 import { CocktailInterface } from '../models/models';
+import { FavoritesService } from '../services/favorites.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +21,27 @@ import { CocktailInterface } from '../models/models';
 })
 export class CocktailResearchComponent {
   
-  constructor(private ss: SearchService) { }
+  constructor(private ss: SearchService, private favoritesService: FavoritesService) { }
   //constructor(private rs: SignalrService) { }
   name: string = '';
   cocktails: CocktailInterface[] = [];
   errorMessage: string = '';
   selectedType: string = 'name';
+
+
+  isFavorite(id: string): boolean {
+    return this.favoritesService.isFavorite(id);
+  }
+
+  toggleFavorite(cocktail: CocktailInterface): void {
+    if (this.isFavorite(cocktail.idDrink)) {
+      this.favoritesService.removeFavorite(cocktail.idDrink);
+    }
+    else {
+      this.favoritesService.addFavorite(cocktail);
+    }
+  }
+
 
   searchCocktail() {
     switch(this.selectedType)
