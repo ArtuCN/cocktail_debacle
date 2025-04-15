@@ -11,8 +11,10 @@
     </select>
   </div>
   <div class="search-bar">
-    <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
-    <button (click)="searchCocktail()" class="btn btn-primary">Search</button>
+    <form (ngSubmit)="searchCocktail()" class="d-flex w-100">
+      <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
+      <button (click)="searchCocktail()" class="btn btn-primary ms-2">Search</button>
+    </form>
   </div>
 
 </div>
