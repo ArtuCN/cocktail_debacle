@@ -19,14 +19,16 @@ namespace CocktailApp.Controllers
     {  
         private readonly string _connectionString = "Data Source=cocktail.db";
 
-        private string GenerateJwtToken(string mail)
+        private string GenerateJwtToken(string mail, string name)
         {
             var secretKey = "y0uR$up3r$ecret!Key_Wh1ch_1s_Long#Enough!";
             var key = Encoding.ASCII.GetBytes(secretKey);
 
+            Console.WriteLine($"generando token per email: {mail} e nome: {name}");
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, mail)
+                new Claim(ClaimTypes.Email, mail),
+                new Claim(ClaimTypes.Name, name)
             };
 
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
@@ -82,7 +84,7 @@ namespace CocktailApp.Controllers
                 using (SqliteConnection conn = new SqliteConnection(_connectionString))
                 {
                     Console.WriteLine($"Searching if {ld.Mail} exists and {ld.Psw} is correct");
-
+                    
                     await conn.OpenAsync();
 
                     string findQuery = "SELECT * FROM User WHERE Mail = @mail";
@@ -95,7 +97,9 @@ namespace CocktailApp.Controllers
                         if (BCrypt.Net.BCrypt.Verify(ld.Psw, storedHash))
                         {
                             Console.WriteLine("User found and password is correct!");
-                            var t = new { token = GenerateJwtToken(ld.Mail) };
+                            
+                            string firstName = reader["FirstName"].ToString();
+                            var t = new { token = GenerateJwtToken(ld.Mail, firstName) };
                             Console.WriteLine("Token generato: " + t.token);
                             return Ok(t);
                         }

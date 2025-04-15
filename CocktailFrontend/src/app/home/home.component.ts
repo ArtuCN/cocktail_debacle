@@ -56,7 +56,8 @@ export class HomeComponent {
     if (this.loggedIn) {
       // Decodifica il token per ottenere il nome dell'utente
       const decodedToken: any = jwtDecode(token as string); // decodifica il token
-      this.name = decodedToken.name;  // Estrarre il nome
+      this.name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];  // Estrarre il nome
+      console.log('Nome:', this.name);
     }
   }
 
