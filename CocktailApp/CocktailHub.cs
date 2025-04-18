@@ -5,44 +5,27 @@ using System.Threading.Tasks;
 namespace CocktailApp.hubs {
     public class CocktailHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        private static int _connectedClients = 0;
+        public async Task NotLoggedMessage(string user, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            Console.WriteLine($"Inviato da {user}: {message}");
+            message = "remember to login or to create an account!";
+            await Clients.All.SendAsync("ReminderToLogin", user, message);
         }
-        public async Task SearchCocktailByName(string name)
+
+        public override async Task OnConnectedAsync()
         {
-            using var connection = new SqliteConnection("Data Source=cocktail.db");
-            await connection.OpenAsync();
-
-            string findQuery = "SELECT * FROM Cocktail WHERE name = @name";
-            using var command = new SqliteCommand(findQuery, connection);
-            command.Parameters.AddWithValue("@name", name);
-
-            using var reader = await command.ExecuteReaderAsync();
-            if (reader.HasRows)
-            {
-                var cocktails = new List<object>();
-                while (await reader.ReadAsync())
-                {
-                    cocktails.Add(new
-                    {
-                        Id = reader["id"],
-                        Name = reader["name"],
-                        Category = reader["category"],
-                        Alcoholic = reader["alcoholic"],
-                        Glass = reader["glass"],
-                        Instructions = reader["instructions"],
-                        ImageUrl = reader["image_url"]
-                    });
-                }
-                await Clients.All.SendAsync("ReceiveCocktails", cocktails);
-                Console.WriteLine($"Cocktail found: {name}");
-                
-            }
-            else
-            {
-                await Clients.All.SendAsync("ReceiveError", "Cocktail not found");
-            }
+            _connectedClients++;
+            await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
+            await base.OnConnectedAsync();
         }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            _connectedClients = Math.Max(0, _connectedClients - 1);
+            await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
+            await base.OnDisconnectedAsync(exception);
+        }
+
     }
 }

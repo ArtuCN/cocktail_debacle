@@ -15,7 +15,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { FavoritesService } from '../services/favorites.service';
 import { FavoritesComponent } from '../favorites/favorites.component';
-
+import { SignalrService } from '../services/signalr.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +31,8 @@ import { FavoritesComponent } from '../favorites/favorites.component';
 })
 export class HomeComponent implements OnInit{
 
+  connectedClients: number = 0;
+  ssr: SignalrService;
   cocktail: any = null;
   name: string = '';
   onLogin: boolean = false;//tasto login in alto a destra
@@ -50,8 +52,10 @@ export class HomeComponent implements OnInit{
     private http: HttpClient,
     private cs: CocktailService,
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute) {
-  console.log('HomeComponent initialized');
+    private activatedRoute: ActivatedRoute,
+    private ssrService: SignalrService) {
+      this.ssr = ssrService;
+      console.log('HomeComponent initialized');
   }
 
   ngOnInit(): void {
@@ -79,7 +83,11 @@ export class HomeComponent implements OnInit{
     this.router.events.subscribe(() => {
       this.isFavoritesPage = this.router.url.includes('/favorites');
     });
+    this.ssr.onClientCountUpdate = (count: number) => {
+      this.connectedClients = count;
+    };
   }
+
 
   switchToLogin(): void {
     this.isLoginMode = true;
@@ -101,6 +109,7 @@ export class HomeComponent implements OnInit{
     this.mail = ''; // Resetta l'email nella variabile
     this.name = ''; // Resetta il nome nella variabile
     this.onLogin = false; // Chiude il menu di login
+
   }
 
 

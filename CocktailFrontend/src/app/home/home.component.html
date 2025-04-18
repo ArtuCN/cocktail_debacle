@@ -46,6 +46,9 @@
       {{ isLoginMode ? 'DHN mi devo registrare!' : 'Oh botta ho gia un acccount!' }}
     </button>
   </div>
+  <div class="usersCount">
+    <h3>Live Users: {{ connectedClients }}</h3>
+  </div>
 
   <!-- Componente di ricerca cocktail -->
   <div class="cock" *ngIf="!isFavoritesPage">

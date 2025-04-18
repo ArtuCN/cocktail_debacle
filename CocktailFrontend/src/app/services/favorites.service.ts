@@ -17,7 +17,7 @@ export class FavoritesService {
 
   addFavorite(cocktail: any): void {
     const current = this.getFavorites();
-    localStorage.setItem(this.key, JSON.stringify([...current, cocktail])); // Aggiunge un cocktail ai preferiti
+    localStorage.setItem(this.key, JSON.stringify([...current, cocktail]));
   }
 
   removeFavorite(id: string): void {

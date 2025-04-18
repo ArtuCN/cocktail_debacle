@@ -9,20 +9,25 @@ import { User } from "../models/models";
 
 export class SignalrService {
 
-    private hubConnection: signalR.HubConnection;
-    constructor() {
+  connectedClients : number = 0;
+  public onClientCountUpdate: ((count: number) => void) | null = null;
+
+  private hubConnection: signalR.HubConnection;
+
+  constructor() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl('http://localhost:5001/cocktailHub') // URL del backend
-      .build();
+    .withUrl('http://localhost:5001/cocktailHub') // URL del backend
+    .build();
+    
+   this.hubConnection.start().then(() => {
+      console.log("SignalR connection started.");
+    }).catch(err => console.error("SignalR error:", err));
 
-    this.startConnection();
-    }
-
-    private startConnection(){
-
-        this.hubConnection.start().then(() => {
-            console.log('Connection started');
-        }).catch(err => console.log('Error while starting connection: ' + err));
-    }
+    this.hubConnection.on("UpdateConnectedClients", (count: number) => {
+      this.connectedClients = count;
+      console.log("Utenti connessi:", count);
+      if (this.onClientCountUpdate) this.onClientCountUpdate(count);
+    });
+  }
     //per la chat
 }
