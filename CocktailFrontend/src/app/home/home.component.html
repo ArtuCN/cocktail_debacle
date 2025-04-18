@@ -50,6 +50,10 @@
     <h3>Live Users: {{ connectedClients }}</h3>
   </div>
 
+  <div *ngIf="welcomeMessage" class="announcement-banner">
+    <p>{{ welcomeMessage }}</p>
+  </div>
+
   <!-- Componente di ricerca cocktail -->
   <div class="cock" *ngIf="!isFavoritesPage">
     <app-cocktail-research></app-cocktail-research>

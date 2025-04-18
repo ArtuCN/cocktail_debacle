@@ -32,6 +32,7 @@ import { SignalrService } from '../services/signalr.service';
 export class HomeComponent implements OnInit{
 
   connectedClients: number = 0;
+  welcomeMessage: string = '';
   ssr: SignalrService;
   cocktail: any = null;
   name: string = '';
@@ -136,5 +137,9 @@ export class HomeComponent implements OnInit{
 
   getName (): string {
     return this.name;
+  }
+
+  get announcement(): string {
+    return this.ssr.announcementMessage;
   }
 }

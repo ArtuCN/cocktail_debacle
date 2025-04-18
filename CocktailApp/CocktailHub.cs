@@ -26,6 +26,11 @@ namespace CocktailApp.hubs {
             await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
             await base.OnDisconnectedAsync(exception);
         }
+        public async Task AnnounceUser(string username)
+        {
+            Console.WriteLine($"{username} Joined in our community!");
+            await Clients.All.SendAsync("UserJoined", $"{username} Joined in our comunity!");
+        }
 
     }
 }
