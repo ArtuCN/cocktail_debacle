@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as signalR from "@microsoft/signalr";
 import { first } from "rxjs";
 import { User } from "../models/models";
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,10 @@ export class SignalrService {
 
   connectedClients : number = 0;
   public announcementMessage: string = '';
+  private dailyIdSubject = new Subject<string>();
+
+  dailyId$ = this.dailyIdSubject.asObservable();
+
 
   public onClientCountUpdate: ((count: number) => void) | null = null;
 
@@ -41,6 +46,7 @@ export class SignalrService {
   
     this.hubConnection.on('ReceiveDailyCocktail', (cocktailId: string) => {
       console.log("🍹 Cocktail del giorno ricevuto:", cocktailId);
+      this.dailyIdSubject.next(cocktailId); // 👈 aggiorna il campo `daily`
       if (this.onDailyCocktailReceived) {
         this.onDailyCocktailReceived(cocktailId);
       }
@@ -57,6 +63,7 @@ export class SignalrService {
       .catch(err => console.error("Errore:", err));
   }
   public onDailyCocktailReceived: ((cocktailId: string) => void) | null = null;
+  
   
     //per la chat
 }

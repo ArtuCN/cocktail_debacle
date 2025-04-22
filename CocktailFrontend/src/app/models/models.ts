@@ -87,8 +87,8 @@ export class User {
 
 export function printCocktailDetails(cocktail: CocktailInterface): void {
   console.log("=== Cocktail Details ===");
-  //for (const [key, value] of Object.entries(cocktail)) {
-    //  console.log(`${key}: ${value}`);
-  //}
+  for (const [key, value] of Object.entries(cocktail)) {
+      console.log(`${key}: ${value}`);
+  }
   console.log(cocktail.idDrink);
 }

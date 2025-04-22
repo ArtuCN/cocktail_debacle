@@ -24,6 +24,8 @@ namespace CocktailApp.hubs {
         {
             _connectedClients++;
             await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
+            
+            
             var today = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
             using var conn = new SqliteConnection(_connectionString);
             await conn.OpenAsync();
@@ -66,6 +68,8 @@ namespace CocktailApp.hubs {
 
             await base.OnConnectedAsync();
         }
+
+        
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {

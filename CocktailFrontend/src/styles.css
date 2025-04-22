@@ -229,3 +229,16 @@ input, textarea, select, button{
     color : white;
     min-width: 400px;
   }
+
+  .tail2 {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;       /* o meno, come preferisci */
+    padding: 10px;
+    background-color: white; /* opzionale */
+    border-radius: 10px;     /* opzionale */
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* opzionale */
+    z-index: 1000;           /* assicura che sia sopra */
+  }
+  
