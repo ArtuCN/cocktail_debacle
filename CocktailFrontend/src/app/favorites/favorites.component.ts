@@ -24,6 +24,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   removeFromFavorites(id: string) {
+    
     this.favoritesService.removeFavorite(id);
     this.loadFavorites(); // Ricarica i preferiti dopo la rimozione
   }

@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS User;
-DROP TABLE IF EXISTS UserPreferences;
 
 CREATE TABLE User (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -10,10 +9,3 @@ CREATE TABLE User (
     Psw NVARCHAR(255) NOT NULL
 );
 
-CREATE TABLE UserPreferences (
-    UserID INTEGER,
-    IdCocktail NVARCHAR(255) NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES User(Id),
-    FOREIGN KEY (IdCocktail) REFERENCES Cocktail(id),
-    PRIMARY KEY (UserID)
-);
