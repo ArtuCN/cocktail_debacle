@@ -38,6 +38,13 @@ export class SignalrService {
       console.log("📨 Ricevuto da Hub:", message);
       this.announcementMessage = message;
     });
+  
+    this.hubConnection.on('ReceiveDailyCocktail', (cocktailId: string) => {
+      console.log("🍹 Cocktail del giorno ricevuto:", cocktailId);
+      if (this.onDailyCocktailReceived) {
+        this.onDailyCocktailReceived(cocktailId);
+      }
+    });
   }
   private registerOnServerEvents(): void {
     this.hubConnection.on('UserJoined', (userName: string) => {
@@ -49,5 +56,7 @@ export class SignalrService {
     this.hubConnection.invoke("AnnounceUser", username)
       .catch(err => console.error("Errore:", err));
   }
+  public onDailyCocktailReceived: ((cocktailId: string) => void) | null = null;
+  
     //per la chat
 }

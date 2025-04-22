@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CocktailInterface } from '../models/models';
-
+import { CocktailInterface, printCocktailDetails } from '../models/models';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +12,13 @@ export class SearchService {
 
   getCocktailByName(name: string): Observable<{drinks: CocktailInterface[]}> {
     this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByName';
-    return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    const response = this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    response.subscribe(data => {
+      data.drinks.forEach(drink => {
+      printCocktailDetails(drink); // Print each cocktail's details
+      });
+    });
+    return response;
   }
   getCocktailByIngredient(name: string): Observable<{drinks: CocktailInterface[]}> {
     this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByIngridient';
