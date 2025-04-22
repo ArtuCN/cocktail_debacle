@@ -69,5 +69,79 @@ namespace CocktailApp.Controllers
             }
             return Ok("Favorite added");
         }
+
+        [HttpDelete("{mail}/removefavorites/{id}")]
+        public async Task<IActionResult> RemoveFavorite(string mail, long id)
+        {
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(_connectionString))
+                {
+                    Console.WriteLine($"Removing favorite cocktail with ID {id} for user {mail}");
+                    await conn.OpenAsync();
+                    string removeQuery = "DELETE FROM UserPreferences WHERE Mail = @Mail AND CocktailIDs = @IdCocktail";
+                    using var command = new SqliteCommand(removeQuery, conn);
+                    command.Parameters.AddWithValue("@Mail", mail);
+                    command.Parameters.AddWithValue("@IdCocktail", id);
+
+                    var rowsAffected = await command.ExecuteNonQueryAsync();
+
+                    if (rowsAffected > 0)
+                    {
+                        return Ok("Favorite removed successfully.");
+                    }
+                    else
+                    {
+                        return NotFound("Favorite not found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal error: {ex.Message}");
+            }
+        }
+        [HttpGet("{mail}/showfavorites")]
+        public async Task<IActionResult> ShowFavorites(string mail)
+        {
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(_connectionString))
+                {
+                    await conn.OpenAsync();
+
+                    // Query per ottenere tutti gli ID dei cocktail preferiti per l'utente
+                    string selectQuery = "SELECT CocktailIDs FROM UserPreferences WHERE Mail = @Mail";
+
+                    using var command = new SqliteCommand(selectQuery, conn);
+                    command.Parameters.AddWithValue("@Mail", mail);
+
+                    using var reader = await command.ExecuteReaderAsync();
+                    var favoriteCocktails = new List<string>(); // Lista per memorizzare gli ID dei cocktail
+
+                    // Legge ogni riga e aggiunge l'ID del cocktail alla lista
+                    while (await reader.ReadAsync())
+                    {
+                        var cocktailId = reader.GetString(0); // Supponiamo che la colonna sia CocktailIDs
+                        favoriteCocktails.Add(cocktailId);
+                    }
+
+                    if (favoriteCocktails.Count > 0)
+                    {
+                        return Ok(favoriteCocktails); // Restituisce gli ID dei cocktail preferiti come una lista
+                    }
+                    else
+                    {
+                        return NotFound("No favorites found for this user.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal error: {ex.Message}");
+            }
+        }
+
+
     }
 }
