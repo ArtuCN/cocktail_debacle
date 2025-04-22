@@ -32,13 +32,8 @@ export class User {
   };
 
   export interface CocktailInterface {
-    dateModified: string | null;
     idDrink: string;
-    strAlcoholic: string | null;
-    strCategory: string | null;
-    strCreativeCommonsConfirmed: string | null;
     strDrink: string;
-    strDrinkAlternate: string | null;
     strDrinkThumb: string | null;
     strGlass: string | null;
     strIBA: string | null;

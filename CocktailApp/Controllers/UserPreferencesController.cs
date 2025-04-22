@@ -101,6 +101,7 @@ namespace CocktailApp.Controllers
                 return StatusCode(500, $"Internal error: {ex.Message}");
             }
         }
+
         [HttpGet("{mail}/showfavorites")]
         public async Task<IActionResult> ShowFavorites(string mail)
         {
@@ -110,30 +111,49 @@ namespace CocktailApp.Controllers
                 {
                     await conn.OpenAsync();
 
-                    // Query per ottenere tutti gli ID dei cocktail preferiti per l'utente
                     string selectQuery = "SELECT CocktailIDs FROM UserPreferences WHERE Mail = @Mail";
-
                     using var command = new SqliteCommand(selectQuery, conn);
                     command.Parameters.AddWithValue("@Mail", mail);
 
                     using var reader = await command.ExecuteReaderAsync();
-                    var favoriteCocktails = new List<string>(); // Lista per memorizzare gli ID dei cocktail
+                    var favoriteCocktailIds = new List<string>();
 
-                    // Legge ogni riga e aggiunge l'ID del cocktail alla lista
                     while (await reader.ReadAsync())
                     {
-                        var cocktailId = reader.GetString(0); // Supponiamo che la colonna sia CocktailIDs
-                        favoriteCocktails.Add(cocktailId);
+                        var cocktailId = reader.GetString(0);
+                        favoriteCocktailIds.Add(cocktailId);
                     }
 
-                    if (favoriteCocktails.Count > 0)
+                    if (favoriteCocktailIds.Count == 0)
                     {
-                        return Ok(favoriteCocktails); // Restituisce gli ID dei cocktail preferiti come una lista
+                        return NotFound("nessun favorito per te.");
                     }
-                    else
+
+                    // Ora scarichiamo i dettagli da TheCocktailDB per ogni ID
+                    var cocktailDetails = new List<object>();  // Cambia il tipo per mappare solo le proprietà che ti servono
+
+                    foreach (var id in favoriteCocktailIds)
                     {
-                        return NotFound("No favorites found for this user.");
+                        var apiUrl = $"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={id}";
+                        var response = await _httpClient.GetAsync(apiUrl);
+                        var content = await response.Content.ReadAsStringAsync();
+                        var json = JsonDocument.Parse(content);
+
+                        if (json.RootElement.TryGetProperty("drinks", out var drinks) && drinks.GetArrayLength() > 0)
+                        {
+                            var drink = drinks[0];
+                            var cocktailSummary = new
+                            {
+                                idDrink = drink.GetProperty("idDrink").GetString(),
+                                strDrink = drink.GetProperty("strDrink").GetString(),
+                                strDrinkThumb = drink.GetProperty("strDrinkThumb").GetString(),
+                            };
+
+                            cocktailDetails.Add(cocktailSummary);  // Aggiungi solo le proprietà necessarie
+                        }
                     }
+
+                    return Ok(cocktailDetails); // Ritorna la lista di cocktail parziali
                 }
             }
             catch (Exception ex)
@@ -141,6 +161,7 @@ namespace CocktailApp.Controllers
                 return StatusCode(500, $"Internal error: {ex.Message}");
             }
         }
+
 
 
     }

@@ -20,13 +20,12 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 builder = CocktailApp.BuilderConfig.ConfigureBuilder(builder);
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-builder.Services.Configure<JwtSettings>(jwtSettings);
 
 var app = builder.Build();
 
 app.UseCors("AllowSpecificOrigin");
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 CocktailApp.SignalRConfig.MapSignalRHubs(app);

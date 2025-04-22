@@ -12,7 +12,7 @@ import { CocktailInterface } from '../models/models';
 })
 export class FavoritesComponent implements OnInit {
   favorites: CocktailInterface[] = [];
-
+  errorMessage: string | null = null;
   constructor(private favoritesService: FavoritesService) { }
 
   ngOnInit(): void {
@@ -20,13 +20,35 @@ export class FavoritesComponent implements OnInit {
   }
 
   loadFavorites(): void {
-    this.favorites = this.favoritesService.getFavorites();
+    this.favoritesService.getFavorites().subscribe({
+      next: (data) => {
+        this.favorites = data;
+      },
+      error: (err) => {
+        this.errorMessage = err; // Gestisci l'errore se necessario
+      }
+    });
   }
 
-  removeFromFavorites(id: string) {
-    
-    this.favoritesService.removeFavorite(id);
-    this.loadFavorites(); // Ricarica i preferiti dopo la rimozione
+  addToFavorites(id: string): void {
+    this.favoritesService.addFavorite(id).subscribe({
+      next: () => {
+        this.loadFavorites(); // Ricarica i preferiti dopo aver aggiunto
+      },
+      error: (err) => {
+        this.errorMessage = err; // Gestisci l'errore se necessario
+      }
+    });
   }
 
+  removeFromFavorites(id: string): void {
+    this.favoritesService.removeFavorite(id).subscribe({
+      next: () => {
+        this.loadFavorites(); // Ricarica i preferiti dopo aver rimosso
+      },
+      error: (err) => {
+        this.errorMessage = err; // Gestisci l'errore se necessario
+      }
+    });
+  }
 }

@@ -38,7 +38,7 @@ export class CocktailResearchComponent {
       this.favoritesService.removeFavorite(cocktail.idDrink);
     }
     else {
-      this.favoritesService.addFavorite(cocktail);
+      this.favoritesService.addFavorite(cocktail.idDrink);
     }
   }
 
