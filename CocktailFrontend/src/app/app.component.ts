@@ -20,5 +20,5 @@ import * as signalR from '@microsoft/signalr';
 
 
 export class AppComponent {
-  title = 'CocktailFrontend';
+  title = 'CocktailDebacle';
 }

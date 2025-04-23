@@ -1,0 +1,21 @@
+<p>chat works!</p>
+<h1>
+    <button (click)="goBack()">Go back to menu</button>
+</h1>
+<h2>
+    <div class="chat">
+        <div class="messages">
+          <div *ngFor="let m of messages" 
+               class="message" 
+               [ngClass]="m.sender === this.m.sender ? 'sent' : 'received'">
+            <div><strong>{{m.sender}}</strong></div>
+                <div>
+                    {{m.text}}
+                </div>
+            <div style="font-size: 0.75rem; text-align: right;">{{m.timestamp}}</div>
+          </div>
+        </div>
+        <input [(ngModel)]="m.text" placeholder="Scrivi un messaggio..." />
+        <button (click)="sendMessage()">Invia</button>
+    </div>      
+</h2>

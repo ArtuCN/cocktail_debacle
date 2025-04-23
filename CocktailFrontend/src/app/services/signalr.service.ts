@@ -3,7 +3,7 @@ import * as signalR from "@microsoft/signalr";
 import { first } from "rxjs";
 import { User } from "../models/models";
 import { Subject } from 'rxjs';
-
+import { Message } from "../models/models";
 @Injectable({
   providedIn: 'root'
 })
@@ -63,6 +63,23 @@ export class SignalrService {
       .catch(err => console.error("Errore:", err));
   }
   public onDailyCocktailReceived: ((cocktailId: string) => void) | null = null;
+  
+  sendMessage(mail: string, message: string)
+  {
+    this.hubConnection.invoke("sendMessage", mail, message)
+      .catch(err => console.error("Errore:", err));
+  }
+
+  receiveMessage(callback: (message: Message) => void) {
+    this.hubConnection.on("ReceiveMessage", (sender: string, msg: any) => {
+      const message: Message = {
+        sender: sender,
+        text: msg.message,
+        timestamp: msg.timestamp
+      };
+      callback(message);
+    });
+  }
   
   
     //per la chat

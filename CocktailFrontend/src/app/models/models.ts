@@ -85,6 +85,12 @@ export class User {
     strVideo: string | null;
 }
 
+export interface Message {
+  sender: string;
+  text: string;
+  timestamp: string;
+}
+
 export function printCocktailDetails(cocktail: CocktailInterface): void {
   console.log("=== Cocktail Details ===");
   for (const [key, value] of Object.entries(cocktail)) {

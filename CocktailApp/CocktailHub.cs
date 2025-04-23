@@ -82,5 +82,13 @@ namespace CocktailApp.hubs {
             Console.WriteLine($"{username} Joined in our community!");
             await Clients.All.SendAsync("UserJoined", $"{username} Joined in our comunity!");
         }
+
+
+        public async Task SendMessage(string user, string message)
+        {
+            Console.WriteLine($"{user} ha scritto: {message}");
+            var msg = new { user, message, timestamp = DateTime.Now.ToString("HH:mm") };
+            await Clients.All.SendAsync("ReceiveMessage", user, msg);
+        }
     }
 }

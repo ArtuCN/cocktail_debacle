@@ -17,6 +17,7 @@ import { FavoritesService } from '../services/favorites.service';
 import { FavoritesComponent } from '../favorites/favorites.component';
 import { SignalrService } from '../services/signalr.service';
 import { DailyCocktailComponent } from '../daily-cocktail/daily-cocktail.component';
+import { ChatComponent } from '../chat/chat.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +26,7 @@ import { DailyCocktailComponent } from '../daily-cocktail/daily-cocktail.compone
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, CocktailResearchComponent,
-    CreateUserComponent, LoginComponent, RouterModule, FormsModule, FavoritesComponent, DailyCocktailComponent], // Aggiungi ErrorComponent nelle imports
+    CreateUserComponent, LoginComponent, RouterModule, FormsModule, FavoritesComponent, DailyCocktailComponent, ChatComponent], // Aggiungi ErrorComponent nelle imports
   providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']
