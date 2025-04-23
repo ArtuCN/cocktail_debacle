@@ -1,10 +1,10 @@
 <div *ngIf="dailyCocktail; else loading">
-    <h2>Daily Cocktail: {{ dailyCocktail?.strDrink }}</h2>
+    <h2>Daily Cocktail: {{ dailyCocktail.strDrink }}</h2>
     <img [src]="dailyCocktail.strDrinkThumb" alt="{{ dailyCocktail.strDrink }}" width="300" />
   
-    <h3>Category: {{ dailyCocktail?.strCategory }}</h3>
-    <h4>Alchool: {{ dailyCocktail?.strAlcoholic }}</h4>
-    <p><strong>Glass:</strong> {{ dailyCocktail?.strGlass }}</p>
+    <h3>Category: {{ dailyCocktail.strCategory }}</h3>
+    <h4>Alchool: {{ dailyCocktail.strAlcoholic }}</h4>
+    <p><strong>Glass:</strong> {{ dailyCocktail.strGlass }}</p>
   
     
   </div>

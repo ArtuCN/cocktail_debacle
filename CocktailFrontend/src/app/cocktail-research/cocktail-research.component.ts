@@ -29,9 +29,15 @@ export class CocktailResearchComponent {
   selectedType: string = 'name';
 
 
-  isFavorite(id: string): boolean {
-    return this.favoritesService.isFavorite(id);
+  isFavorite(id: string): void {
+    this.favoritesService.isFavorite(id).subscribe({
+      next: (isFav) => {
+        this.isFav = isFav; // Assicurati di aggiornare il valore booleano
+      },
+      error: (err) => console.error('Errore durante la verifica del preferito', err)
+    });
   }
+  
 
   toggleFavorite(cocktail: CocktailInterface): void {
     if (this.isFavorite(cocktail.idDrink)) {

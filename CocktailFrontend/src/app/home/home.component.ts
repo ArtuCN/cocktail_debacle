@@ -116,7 +116,10 @@ export class HomeComponent implements OnInit{
 
 
   loadFavorites(): void {
-    this.favorites = this.favoritesService.getFavorites(); // Ottiene i cocktail preferiti dal servizio
+      this.favoritesService.getFavorites().subscribe({
+      next: (favorites) => this.favorites = favorites,
+      error: (err) => console.error(err)
+    });
   }
 
   removeFromFavorites(id: string): void {

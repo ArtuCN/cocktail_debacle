@@ -23,6 +23,33 @@ namespace CocktailApp.Controllers
         {
             _httpClient = httpClient;
         }
+
+        [HttpGet("{mail}/favorites/contains/{id}")]
+        public async Task<IActionResult> IsFavorite(string mail, long id)
+        {
+            try
+            {
+                using (var conn = new SqliteConnection(_connectionString))
+                {
+                    await conn.OpenAsync();
+                    var query = "SELECT 1 FROM UserPreferences WHERE Mail = @Mail AND INSTR(CocktailIDs, @Id) > 0";
+
+                    using var cmd = new SqliteCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Mail", mail);
+                    cmd.Parameters.AddWithValue("@Id", id.ToString());
+
+                    var result = await cmd.ExecuteScalarAsync();
+                    bool found = result != null;
+                    return Ok(found);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Errore interno: {ex.Message}");
+            }
+        }
+
+
         [HttpPost("{mail}/favorites/{id}")]
         public async Task<IActionResult> AddFavorite(string mail, long id)
         {
@@ -59,7 +86,6 @@ namespace CocktailApp.Controllers
                     using var insertCommand = new SqliteCommand(insertQuery, conn);
                     insertCommand.Parameters.AddWithValue("@Mail", mail);
                     insertCommand.Parameters.AddWithValue("@CocktailIDs", idDrink);
-
                     await insertCommand.ExecuteNonQueryAsync();
                 }
             }
@@ -67,7 +93,7 @@ namespace CocktailApp.Controllers
             {
                 return StatusCode(500, $"Internal error: {ex.Message}");
             }
-            return Ok("Favorite added");
+            return Ok(new { message = "Favorite added" });
         }
 
         [HttpDelete("{mail}/removefavorites/{id}")]
@@ -88,7 +114,7 @@ namespace CocktailApp.Controllers
 
                     if (rowsAffected > 0)
                     {
-                        return Ok("Favorite removed successfully.");
+                        return Ok(message = "Favorite removed successfully.");
                     }
                     else
                     {
@@ -128,7 +154,7 @@ namespace CocktailApp.Controllers
 
                     if (favoriteCocktails.Count > 0)
                     {
-                        return Ok(favoriteCocktails); // Restituisce gli ID dei cocktail preferiti come una lista
+                        return Ok(favorites = favoriteCocktails); // Restituisce gli ID dei cocktail preferiti come una lista
                     }
                     else
                     {

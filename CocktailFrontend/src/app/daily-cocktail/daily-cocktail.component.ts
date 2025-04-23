@@ -9,7 +9,7 @@ import { Console } from 'console';
   selector: 'app-daily-cocktail',
   imports: [CommonModule],
   templateUrl: './daily-cocktail.component.html',
-  styleUrl: './daily-cocktail.component.css'
+  //styleUrl: './daily-cocktail.component.css'
 })
 export class DailyCocktailComponent implements OnInit {
   dailyCocktail: CocktailInterface | null = null;
