@@ -1,15 +1,14 @@
-<div *ngIf="dailyCocktail; else loading">
-    <h2>Daily Cocktail: {{ dailyCocktail?.strDrink }}</h2>
-    <img [src]="dailyCocktail.strDrinkThumb" alt="{{ dailyCocktail.strDrink }}" width="300" />
-  
-    <h3>Category: {{ dailyCocktail?.strCategory }}</h3>
-    <h4>Alchool: {{ dailyCocktail?.strAlcoholic }}</h4>
-    <p><strong>Glass:</strong> {{ dailyCocktail?.strGlass }}</p>
-  
-    
-  </div>
-  
-  <ng-template #loading>
-    <p>Loading Daily Cocktail...</p>
-  </ng-template>
-  
+<div *ngIf="dailyCocktail.length > 0; else loading">
+  <h2>{{ dailyCocktail[currentIndex]?.strDrink }}</h2>
+  <img [src]="dailyCocktail[currentIndex]?.strDrinkThumb" 
+       alt="{{ dailyCocktail[currentIndex]?.strDrink }}" 
+       width="300" />
+
+  <h3>Category: {{ dailyCocktail[currentIndex]?.strCategory }}</h3>
+  <h4>Alcohol: {{ dailyCocktail[currentIndex]?.strAlcoholic }}</h4>
+  <p><strong>Glass:</strong> {{ dailyCocktail[currentIndex]?.strGlass }}</p>
+</div>
+
+<ng-template #loading>
+  <p>Caricamento cocktail...</p>
+</ng-template>

@@ -12,7 +12,10 @@ import { Console } from 'console';
   styleUrl: './daily-cocktail.component.css'
 })
 export class DailyCocktailComponent implements OnInit {
-  dailyCocktail: CocktailInterface | null = null;
+  dailyCocktail: any[] = [];
+  currentIndex: number = 0;
+  intervalId: any;
+  currentCocktailIndex: number = 0;
 
   constructor(private http: HttpClient, private srs: SignalrService) {}
 
@@ -23,12 +26,33 @@ export class DailyCocktailComponent implements OnInit {
     });
   }
 
-  setDaily(id: string) {
-    const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
-    this.http.get(url).subscribe((response: any) => {
-      this.dailyCocktail = response.drinks ? response.drinks[0] : null;
-      console.log("Fetched cocktail:", this.dailyCocktail);
+  
+  setDaily(ids: string[]) {
+    this.dailyCocktail = [];
+
+    ids.forEach((element) => {
+      const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${element}`;
+      this.http.get(url).subscribe((response: any) => {
+        if (response.drinks && response.drinks[0]) {
+          this.dailyCocktail.push(response.drinks[0]);
+
+          // Se abbiamo caricato tutti, avviamo lo slideshow
+          if (this.dailyCocktail.length === ids.length) {
+            this.startRotation();
+          }
+        }
+      });
     });
+  }
+
+  startRotation() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    this.intervalId = setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.dailyCocktail.length;
+    }, 5000); // cambia cocktail ogni 5 secondi
   }
 
   getIngredients(cocktail: any): string[] {
@@ -42,5 +66,23 @@ export class DailyCocktailComponent implements OnInit {
     }
     return ingredients;
   }
+
+  prevCocktail() {
+    if (this.currentCocktailIndex > 0) {
+      this.currentCocktailIndex--;
+    } else {
+      this.currentCocktailIndex = this.dailyCocktail.length - 1; // Riparti dall'ultimo
+    }
+  }
+
+  // Funzione per la navigazione al cocktail successivo
+  nextCocktail() {
+    if (this.currentCocktailIndex < this.dailyCocktail.length - 1) {
+      this.currentCocktailIndex++;
+    } else {
+      this.currentCocktailIndex = 0; // Riparti dal primo
+    }
+  }
 }
+
 

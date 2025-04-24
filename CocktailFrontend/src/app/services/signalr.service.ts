@@ -4,6 +4,8 @@ import { first } from "rxjs";
 import { User } from "../models/models";
 import { Subject } from 'rxjs';
 import { Message } from "../models/models";
+import { BehaviorSubject } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +14,8 @@ export class SignalrService {
 
   connectedClients : number = 0;
   public announcementMessage: string = '';
-  private dailyIdSubject = new Subject<string>();
+  public dailyIdSubject = new BehaviorSubject<string[]>([]); // accetta un array di stringhe
+
 
   dailyId$ = this.dailyIdSubject.asObservable();
 
@@ -44,7 +47,7 @@ export class SignalrService {
       this.announcementMessage = message;
     });
   
-    this.hubConnection.on('ReceiveDailyCocktail', (cocktailId: string) => {
+    this.hubConnection.on('ReceiveDailyCocktail', (cocktailId: string[]) => {
       console.log("🍹 Cocktail del giorno ricevuto:", cocktailId);
       this.dailyIdSubject.next(cocktailId); // 👈 aggiorna il campo `daily`
       if (this.onDailyCocktailReceived) {
@@ -62,7 +65,7 @@ export class SignalrService {
     this.hubConnection.invoke("AnnounceUser", username)
       .catch(err => console.error("Errore:", err));
   }
-  public onDailyCocktailReceived: ((cocktailId: string) => void) | null = null;
+  public onDailyCocktailReceived: ((cocktailId: string[]) => void) | null = null;
   
   sendMessage(mail: string, message: string)
   {

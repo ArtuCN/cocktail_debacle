@@ -25,50 +25,67 @@ namespace CocktailApp.hubs {
         {
             _connectedClients++;
             await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
-            
-            
+
             var today = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
             using var conn = new SqliteConnection(_connectionString);
             await conn.OpenAsync();
 
-            var checkQuery = "SELECT * FROM DailyCocktail WHERE creation = @date";
-            using var checkCmd = new SqliteCommand(checkQuery, conn);
-            checkCmd.Parameters.AddWithValue("@date", today);
-            using var reader = await checkCmd.ExecuteReaderAsync();
-
-            string? cocktailId = null;
-
-            if (await reader.ReadAsync())
+            // Controllo se i cocktail per oggi sono già presenti
+            var existingIds = new List<string>();
+            var checkQuery = "SELECT cocktailId FROM DailyCocktail WHERE creation = @date";
+            using (var checkCmd = new SqliteCommand(checkQuery, conn))
             {
-                cocktailId = reader["cocktailId"].ToString();
-            }
-            else
-            {
-                var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
-                var response = await _httpClient.GetAsync(apiUrl);
-
-                if (response.IsSuccessStatusCode)
+                checkCmd.Parameters.AddWithValue("@date", today);
+                using var reader = await checkCmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var json = JsonDocument.Parse(content);
-                    var drink = json.RootElement.GetProperty("drinks")[0];
-                    cocktailId = drink.GetProperty("idDrink").GetString();
-
-                    var insertQuery = "INSERT INTO DailyCocktail (creation, cocktailId) VALUES (@date, @id)";
-                    using var insertCmd = new SqliteCommand(insertQuery, conn);
-                    insertCmd.Parameters.AddWithValue("@date", today);
-                    insertCmd.Parameters.AddWithValue("@id", cocktailId);
-                    await insertCmd.ExecuteNonQueryAsync();
+                    existingIds.Add(reader["cocktailId"].ToString()!);
                 }
             }
 
-            if (cocktailId != null)
+            if (existingIds.Count == 0)
             {
-                await Clients.All.SendAsync("ReceiveDailyCocktail", cocktailId);
+                // Nessun cocktail salvato per oggi, ne recupero 5 diversi
+                var fetchedCocktails = new HashSet<string>();
+                int attempts = 0;
+
+                while (fetchedCocktails.Count < 5 && attempts < 15)
+                {
+                    var apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/random.php";
+                    var response = await _httpClient.GetAsync(apiUrl);
+                    attempts++;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        var json = JsonDocument.Parse(content);
+                        var drink = json.RootElement.GetProperty("drinks")[0];
+                        var cocktailId = drink.GetProperty("idDrink").GetString();
+
+                        if (!string.IsNullOrEmpty(cocktailId) && !fetchedCocktails.Contains(cocktailId))
+                        {
+                            fetchedCocktails.Add(cocktailId);
+
+                            var insertQuery = "INSERT INTO DailyCocktail (creation, cocktailId) VALUES (@date, @id)";
+                            using var insertCmd = new SqliteCommand(insertQuery, conn);
+                            insertCmd.Parameters.AddWithValue("@date", today);
+                            insertCmd.Parameters.AddWithValue("@id", cocktailId);
+                            await insertCmd.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+
+                existingIds.AddRange(fetchedCocktails);
+            }
+
+            if (existingIds.Count > 0)
+            {
+                await Clients.All.SendAsync("ReceiveDailyCocktail", existingIds);
             }
 
             await base.OnConnectedAsync();
         }
+
+
 
         
 
