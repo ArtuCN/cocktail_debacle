@@ -24,9 +24,6 @@ export class ChatComponent {
     this.m.sender = localStorage.getItem('mail') || '';
     if (this.m.sender == '')
       this.goBack();
-    this.srs.receiveMessage((msg: Message) => {
-      this.messages.push(msg);
-    });
   }
   goBack(): void {
     this.location.back();

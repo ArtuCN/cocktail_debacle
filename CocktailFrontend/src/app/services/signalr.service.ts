@@ -71,13 +71,8 @@ export class SignalrService {
   }
 
   receiveMessage(callback: (message: Message) => void) {
-    this.hubConnection.on("ReceiveMessage", (sender: string, msg: any) => {
-      const message: Message = {
-        sender: sender,
-        text: msg.message,
-        timestamp: msg.timestamp
-      };
-      callback(message);
+    this.hubConnection.on("ReceiveMessage", (msg: Message) => {
+      callback(msg);
     });
   }
   

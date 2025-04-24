@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.Sqlite;
 using System.Threading.Tasks;
 using System.Text.Json;
+using CocktailApp;
 
 namespace CocktailApp.hubs {
     public class CocktailHub : Hub
@@ -84,11 +85,16 @@ namespace CocktailApp.hubs {
         }
 
 
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string user, string text)
         {
-            Console.WriteLine($"{user} ha scritto: {message}");
-            var msg = new { user, message, timestamp = DateTime.Now.ToString("HH:mm") };
-            await Clients.All.SendAsync("ReceiveMessage", user, msg);
+            Console.WriteLine($"{user} ha scritto: {text}");
+            var message = new Message {
+                Sender = user,
+                Text = text,
+                Timestamp = DateTime.Now.ToString("HH:mm")
+            };
+            await Clients.All.SendAsync("ReceiveMessage", message);
         }
+
     }
 }
