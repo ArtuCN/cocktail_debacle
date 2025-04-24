@@ -1,16 +1,18 @@
 <div class="favorites-container text-center text-light">
-    <h2 class="mb-4">I tuoi cocktail preferiti</h2>
+  <h2 class="mb-4">I tuoi cocktail preferiti</h2>
   
-    <div *ngIf="favorites.length === 0">
-      <p>Non hai ancora aggiunto cocktail ai preferiti!</p>
-    </div>
-  
-    <div *ngFor="let cocktail of favorites" class="mb-4">
-      <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" width="150" class="rounded">
-      <h4>{{ cocktail.strDrink }}</h4>
-      <button class="btn btn-danger btn-sm" (click)="removeFromFavorites(cocktail.idDrink)">
-        Rimuovi
-      </button>
-    </div>
+  <p>Numero di preferiti: {{ favorites.length }}</p>
+
+  <div *ngIf="favorites.length === 0">
+    <p>Non hai ancora aggiunto cocktail ai preferiti!</p>
   </div>
-  
+
+  <div *ngFor="let cocktail of favorites" class="mb-4">
+    
+    <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" width="150" class="rounded">
+    <h4>{{ cocktail.strDrink }}</h4>
+    <button class="btn btn-danger btn-sm" (click)="removeFromFavorites(cocktail.idDrink)">
+      Rimuovi
+    </button>
+  </div>
+</div>
