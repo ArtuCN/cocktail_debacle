@@ -7,6 +7,7 @@ import { CocktailInterface } from '../models/models';
   selector: 'app-favorites',
   standalone: true,
   imports: [CommonModule],
+  providers: [FavoritesService],
   templateUrl: './favorites.component.html',
   //styleUrl: './favorites.component.css'
 })
@@ -16,17 +17,28 @@ export class FavoritesComponent implements OnInit {
   constructor(private favoritesService: FavoritesService) { }
 
   ngOnInit(): void {
+    console.log("mail in localstorage:", localStorage.getItem('mail'));
     this.loadFavorites();
   }
 
   loadFavorites(): void {
-    this.favorites = this.favoritesService.getFavorites();
+    console.log("caricamento preferiti...");
+    this.favoritesService.getFavorites().subscribe({
+      next: (cocktails) => {
+        console.log("Preferiti ricevuti:", cocktails);
+        this.favorites = cocktails;
+      },
+      error: (err) => console.error("❌ Errore nel recupero dei preferiti:", err)
+    });
   }
 
   removeFromFavorites(id: string) {
-    
-    this.favoritesService.removeFavorite(id);
-    this.loadFavorites(); // Ricarica i preferiti dopo la rimozione
+    this.favoritesService.removeFavorite(id).subscribe({
+      next: () => {
+        this.loadFavorites(); // Ricarica i preferiti dopo la rimozione
+      },
+      error: (err) => console.error("❌ Errore nella rimozione del preferito:", err)
+    });
   }
 
 }

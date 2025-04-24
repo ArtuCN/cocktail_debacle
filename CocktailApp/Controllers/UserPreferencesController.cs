@@ -114,7 +114,7 @@ namespace CocktailApp.Controllers
 
                     if (rowsAffected > 0)
                     {
-                        return Ok(message = "Favorite removed successfully.");
+                        return Ok(new { message = "Favorite removed successfully."});
                     }
                     else
                     {
@@ -154,7 +154,7 @@ namespace CocktailApp.Controllers
 
                     if (favoriteCocktails.Count > 0)
                     {
-                        return Ok(favorites = favoriteCocktails); // Restituisce gli ID dei cocktail preferiti come una lista
+                        return Ok(favoriteCocktails); // Restituisce gli ID dei cocktail preferiti come una lista
                     }
                     else
                     {

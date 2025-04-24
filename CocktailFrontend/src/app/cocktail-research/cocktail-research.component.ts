@@ -15,7 +15,7 @@ import { FavoritesService } from '../services/favorites.service';
   selector: 'app-cocktail-research',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  providers: [SearchService],
+  providers: [SearchService, FavoritesService],
   templateUrl: './cocktail-research.component.html',
   //styleUrl: './cocktail-research.component.css'
 })
@@ -27,25 +27,55 @@ export class CocktailResearchComponent {
   cocktails: CocktailInterface[] = [];
   errorMessage: string = '';
   selectedType: string = 'name';
+  favoritesMap: Map<string, boolean> = new Map<string, boolean>();
 
-
-  isFavorite(id: string): void {
+   // Modifica questo metodo per memorizzare lo stato nella mappa
+   checkFavoriteStatus(id: string): void {
     this.favoritesService.isFavorite(id).subscribe({
       next: (isFav) => {
-        this.isFav = isFav; // Assicurati di aggiornare il valore booleano
+        this.favoritesMap.set(id, isFav);
       },
       error: (err) => console.error('Errore durante la verifica del preferito', err)
     });
   }
+
+  isFavorite(id: string): boolean {
+    return this.favoritesMap.get(id) || false;
+  }
   
 
+  // Aggiorna questo metodo per aggiornare anche la mappa
   toggleFavorite(cocktail: CocktailInterface): void {
-    if (this.isFavorite(cocktail.idDrink)) {
-      this.favoritesService.removeFavorite(cocktail.idDrink);
-    }
-    else {
-      this.favoritesService.addFavorite(cocktail);
-    }
+    const id = cocktail.idDrink;
+    this.favoritesService.isFavorite(id).subscribe({
+      next: (isFav) => {
+        if (isFav) {
+          this.favoritesService.removeFavorite(id).subscribe({
+            next: () => {
+              this.favoritesMap.set(id, false); // Aggiorna lo stato nella mappa
+              console.log("Rimosso dai preferiti");
+            },
+            error: (err) => console.error("Errore nella rimozione", err)
+          });
+        } else {
+          this.favoritesService.addFavorite(cocktail).subscribe({
+            next: () => {
+              this.favoritesMap.set(id, true); // Aggiorna lo stato nella mappa
+              console.log("Aggiunto ai preferiti");
+            },
+            error: (err) => console.error("Errore nell'aggiunta", err)
+          });
+        }
+      },
+      error: (err) => console.error("Errore nella verifica del preferito", err)
+    });
+  }
+
+  // Aggiorna tutti gli stati dei preferiti dopo ogni ricerca
+  updateFavoritesStatus(): void {
+    this.cocktails.forEach(cocktail => {
+      this.checkFavoriteStatus(cocktail.idDrink);
+    });
   }
 
 
@@ -57,6 +87,7 @@ export class CocktailResearchComponent {
           this.ss.getCocktailByName(this.name).subscribe({
             next: (data) => {
               this.cocktails = data.drinks as CocktailInterface[];
+              this.updateFavoritesStatus();
             },
             error: (err) => {
               console.error('Errore durante la ricerca del cocktail:', err);
@@ -69,6 +100,7 @@ export class CocktailResearchComponent {
           this.ss.getCocktailByIngredient(this.name).subscribe({
             next: (data) => {
               this.cocktails = data.drinks as CocktailInterface[];
+              this.updateFavoritesStatus();
             },
             error: (err) => {
               console.error('Errore durante la ricerca del cocktail:', err);
@@ -81,6 +113,7 @@ export class CocktailResearchComponent {
             this.ss.getCocktailByCategory(this.name).subscribe({
               next: (data) => {
                 this.cocktails = data.drinks as CocktailInterface[];
+                this.updateFavoritesStatus();
              },
               error: (err) => {
                 console.error('Errore durante la ricerca del cocktail:', err);
@@ -93,6 +126,7 @@ export class CocktailResearchComponent {
             this.ss.getCocktailByGlass(this.name).subscribe({
               next: (data) => {
                 this.cocktails = data.drinks as CocktailInterface[];
+                this.updateFavoritesStatus();
               },
               error: (err) => {
                 console.error('Errore durante la ricerca del cocktail:', err);
