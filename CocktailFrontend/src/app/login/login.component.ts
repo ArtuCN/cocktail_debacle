@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
 
+
   mail: string = '';
   password: string = '';
   loginError: string = '';
@@ -40,9 +41,17 @@ export class LoginComponent {
     this.onLogin = !this.onLogin;
   }
 
+
   
   testLogin(): void {
+    const isAdmin = this.mail === 'admin@admin.com';
+    if (isAdmin == true)
+    {
+      this.password == "psw";
+      this.router.navigate(['/admin']);
+    }
     this.authService.login(this.mail, this.password).subscribe({
+
       next: (response) => {
         localStorage.setItem('token', response.token); // Salva il token nel localStorage
         localStorage.setItem('mail', this.mail);

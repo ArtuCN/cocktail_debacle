@@ -18,6 +18,8 @@ import { FavoritesComponent } from '../favorites/favorites.component';
 import { SignalrService } from '../services/signalr.service';
 import { DailyCocktailComponent } from '../daily-cocktail/daily-cocktail.component';
 import { ChatComponent } from '../chat/chat.component';
+import { IngredientGalleryComponent } from '../ingredient-gallery/ingredient-gallery.component';
+import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +28,9 @@ import { ChatComponent } from '../chat/chat.component';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, CocktailResearchComponent,
-    CreateUserComponent, LoginComponent, RouterModule, FormsModule, FavoritesComponent, DailyCocktailComponent, ChatComponent], // Aggiungi ErrorComponent nelle imports
+    CreateUserComponent, LoginComponent, RouterModule,
+    FormsModule, FavoritesComponent, DailyCocktailComponent,
+    ChatComponent, IngredientGalleryComponent, ADMINPAGEComponent], // Aggiungi ErrorComponent nelle imports
   providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']

@@ -1,0 +1,12 @@
+<div class="ingredient-gallery">
+    <input type="text" placeholder="Cerca ingrediente..." [(ngModel)]="searchTerm" (input)="filterIngredients()" class="search-bar"/>
+    
+    <div class="ingredient-list">
+      <div *ngFor="let ingredient of filteredIngredients" class="ingredient-card">
+        <img [src]="getImageUrl(ingredient.strIngredient)" alt="{{ ingredient.strIngredient }} image" />
+        <h3>{{ ingredient.strIngredient }}</h3>
+        <p>{{ ingredient.strDescription || 'No description available' }}</p>
+      </div>
+    </div>
+  </div>
+  

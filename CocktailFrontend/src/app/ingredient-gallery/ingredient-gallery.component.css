@@ -1,0 +1,30 @@
+.search-bar {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    width: 80%;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .ingredient-card {
+    text-align: center;
+    width: 120px;
+  }
+  
+  .ingredient-img {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  

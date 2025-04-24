@@ -7,6 +7,8 @@ import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { ChatComponent } from './chat/chat.component';
+import { IngredientGalleryComponent } from './ingredient-gallery/ingredient-gallery.component';
+import { ADMINPAGEComponent } from './admin-page/admin-page.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,6 +19,8 @@ export const routes: Routes = [
     {path: 'favorites', component: FavoritesComponent},
     {path: 'chat', component: ChatComponent},
     {path: 'error', component: ErrorComponent},
+    {path: 'ingredientgallery', component: IngredientGalleryComponent},
+    {path: 'admin', component: ADMINPAGEComponent},
     {path: '**', redirectTo: 'home'},
 ];
 
