@@ -15,7 +15,7 @@ export class CreateUser {
     return this.http.post(`${this.apiUrl}`, us).pipe(
       tap(() => {
         // Dopo la creazione, annuncia l’utente
-        this.ssr.announceUser(us.firstname); // o us.email o qualsiasi campo
+        this.ssr.announceUser(us.username); // o us.email o qualsiasi campo
       })
     );
   }

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using System.Collections.Generic;
@@ -19,16 +20,16 @@ namespace CocktailApp.Controllers
     {  
         private readonly string _connectionString = "Data Source=cocktail.db";
 
-        private string GenerateJwtToken(string mail, string name)
+        private string GenerateJwtToken(string mail, string UserName)
         {
             var secretKey = "y0uR$up3r$ecret!Key_Wh1ch_1s_Long#Enough!";
             var key = Encoding.ASCII.GetBytes(secretKey);
 
-            Console.WriteLine($"generando token per email: {mail} e nome: {name}");
+            Console.WriteLine($"generando token per email: {mail} e nome: {UserName}");
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, mail),
-                new Claim(ClaimTypes.Name, name)
+                new Claim(ClaimTypes.Name, UserName)
             };
 
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
@@ -40,42 +41,54 @@ namespace CocktailApp.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
         [HttpPost("create")]
-        public IActionResult CreateUser([FromBody] User user)
+        public async Task<IActionResult> CreateUser([FromBody] JsonElement data)
         {
+            Console.WriteLine("➡️ Entrato nel metodo create");
+
             try
             {
-                using (SqliteConnection conn = new SqliteConnection(_connectionString))
+                var user = new User
                 {
-                    Console.WriteLine($"Received User: FirstName = {user.FirstName}, LastName = {user.LastName}, Mail = {user.Mail}, BirthDate = {user.BirthDate}, Psw = {user.Psw}");
-                    string formattedBirthDate = user.BirthDate.ToString("yyyy-MM-dd");
-                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Psw);
-                    Console.WriteLine($"Data formattata {formattedBirthDate}");
+                    UserName = data.GetProperty("username").GetString() ?? "",
+                    Mail = data.GetProperty("mail").GetString() ?? "",
+                    Psw = data.GetProperty("psw").GetString() ?? "",
+                    BirthDate = data.GetProperty("birthdate").GetDateTime(),
+                    AcceptedTerms = data.GetProperty("acceptterms").GetBoolean()
+                };
+
+
+                Console.WriteLine($"✅ Parsed: username = {user.UserName}, mail = {user.Mail}, psw = {user.Psw}, birthdate = {user.BirthDate}, acceptedTerms = {user.AcceptedTerms}");
+
+                string formattedBirthDate = user.BirthDate.ToString("yyyy-MM-dd");
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Psw);
+
+                using (var conn = new SqliteConnection(_connectionString))
+                {
                     conn.Open();
-                    string query = "INSERT INTO User (Mail, FirstName, LastName, BirthDate, Psw) VALUES (@Mail, @FirstName, @LastName, @BirthDate, @Psw)";
-                    
-                    using (SqliteCommand cmd = new SqliteCommand(query, conn))
+                    string query = "INSERT INTO User (Mail, UserName, BirthDate, Psw, AcceptedTerms) VALUES (@Mail, @UserName, @BirthDate, @Psw, @AcceptedTerms)";
+
+                    using (var cmd = new SqliteCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Mail", user.Mail);
-                        cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
-                        cmd.Parameters.AddWithValue("@LastName", user.LastName);
+                        cmd.Parameters.AddWithValue("@UserName", user.UserName);
                         cmd.Parameters.AddWithValue("@BirthDate", formattedBirthDate);
                         cmd.Parameters.AddWithValue("@Psw", hashedPassword);
-
+                        cmd.Parameters.AddWithValue("@AcceptedTerms", user.AcceptedTerms);
                         cmd.ExecuteNonQuery();
                     }
                 }
-                return Ok("User created successfully");
-            }
-            catch (SqliteException ex)
-            {
-                return BadRequest($"Database error: {ex.Message}");
+
+                return Ok(new { message = "User created successfully"});
             }
             catch (Exception ex)
             {
-                return BadRequest($"Unexpected error: {ex.Message}");
+                Console.WriteLine("❌ Errore: " + ex.Message);
+                return BadRequest(new { message = "Errore: " + ex.Message });
             }
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> loginUser([FromBody] loginData ld)
         {
@@ -98,8 +111,8 @@ namespace CocktailApp.Controllers
                         {
                             Console.WriteLine("User found and password is correct!");
                             
-                            string firstName = reader["FirstName"].ToString();
-                            var t = new { token = GenerateJwtToken(ld.Mail, firstName) };
+                            string UserName = reader["UserName"].ToString();
+                            var t = new { token = GenerateJwtToken(ld.Mail, UserName) };
                             Console.WriteLine("Token generato: " + t.token);
                             return Ok(t);
                         }

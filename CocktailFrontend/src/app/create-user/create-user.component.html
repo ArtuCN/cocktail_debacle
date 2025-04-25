@@ -3,12 +3,8 @@
   <h1>Create User:</h1>
   <form (ngSubmit)="newUser()">
     <div>
-      <label for="firstname">First Name:</label>
-      <input type="text" id="firstname" [(ngModel)]="us.firstname" name="firstname" required>
-    </div>
-    <div>
-      <label for="lastname">Last Name:</label>
-      <input type="text" id="lastname" [(ngModel)]="us.lastname" name="lastname" required>
+      <label for="username">Username:</label>
+      <input type="text" id="username" [(ngModel)]="us.username" name="username" required>
     </div>
     <div>
       <label for="mail">Email:</label>
@@ -21,6 +17,10 @@
     <div>
       <label for="psw">Password:</label>
       <input type="password" id="psw" [(ngModel)]="us.psw" name="psw" required>
+    </div>
+    <div>
+      <label for="acceptterms">Accept Terms:</label>
+      <input type="checkbox" id="acceptterms" [(ngModel)]="us.acceptterms" name="acceptterms" required>
     </div>
     <button type="submit">Create User</button>
   </form>

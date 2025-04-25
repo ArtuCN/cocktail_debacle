@@ -30,6 +30,7 @@ export class CreateUserComponent {
   }
   newUser(): void {
     this.message = '';
+    console.log("QUACISONO");
     if (!this.checkMailInfo(this.us.mail)) {
       this.message = 'Error invalid mail';
       return;
@@ -43,6 +44,7 @@ export class CreateUserComponent {
         //window.location.reload();
       },
       error: (error) => {
+        console.log("username ", this.us.username, " mail ", this.us.mail, " psw ", this.us.psw, this.us.birthdate, " accepted terms ", this.us.acceptterms);
         console.error('Error creating user', error);
         this.message = error.error.message;
       },
