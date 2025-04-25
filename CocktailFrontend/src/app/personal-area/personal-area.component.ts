@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { jwtDecode } from 'jwt-decode';
+import { AuthService } from '../services/auth.service';
 
 interface UserData {
   username: string;
   mail: string;
   birthdate: string;
+}
+
+interface JwtPayload {
+  name: string;
 }
 
 @Component({
@@ -31,11 +36,13 @@ export class PersonalAreaComponent implements OnInit {
   termsAccepted = false; // Accettazione dei termini
 
   constructor(private http: HttpClient,
-    public router: Router
+    public router: Router,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
     if (this.isDevelopmentMode) {
+      console.log('💻 Modalità sviluppo attiva');
       // Dati fittizi per lo sviluppo
       this.userData = {
         username: 'Utente Test',
@@ -44,13 +51,34 @@ export class PersonalAreaComponent implements OnInit {
       };
       return; // Salta il controllo di autenticazione
     }
+    const token = localStorage.getItem('token');
     const mail = localStorage.getItem('mail');
+
+    console.log('🔑 Token:', token);
+    console.log('📧 Mail:', mail);
+
     if (!mail) {
+
       this.router.navigate(['/home']);
       return;
     }
 
     this.userData.mail = mail;
+    
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+        const username = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        if (username) {
+          this.userData.username = username;
+          console.log('✅ Nome utente decodificato:', this.userData.username);
+        }
+      } catch (error) {
+        console.error('❌ Errore nella decodifica del token:', error);
+      }
+    }
+    
+    // Carica i dati completi dal server
     this.loadUserData();
   }
 
@@ -64,9 +92,9 @@ export class PersonalAreaComponent implements OnInit {
     this.http.get<any>(apiUrl).subscribe({
       next: (data) => {
         this.userData = {
-          username: data.username || '',
-          mail: data.mail || '',
-          birthdate: data.birthdate || ''
+          username: data.username || this.userData.username || '',
+          mail: data.mail || this.userData.mail || '',
+          birthdate: data.birthdate || this.userData.birthdate || ''
         };
       },
       error: (err) => {
@@ -87,5 +115,11 @@ export class PersonalAreaComponent implements OnInit {
         console.error('❌ Errore durante l\'aggiornamento dei dati utente:', err);
       }
     });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    localStorage.removeItem('mail');
+    this.router.navigate(['/home']);
   }
 }
