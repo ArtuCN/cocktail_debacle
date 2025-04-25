@@ -1,0 +1,36 @@
+component.html -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card bg-dark text-white">
+        <div class="card-header">
+          <h2 class="text-center">Area Personale</h2>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">Username:</label>
+            <input type="text" class="form-control" [(ngModel)]="userData.username" [disabled]="!isEditing">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email:</label>
+            <input type="email" class="form-control" [(ngModel)]="userData.mail" [disabled]="true">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Data di Nascita:</label>
+            <input type="date" class="form-control" [(ngModel)]="userData.birthdate" [disabled]="!isEditing">
+          </div>
+          
+          <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-primary me-2" (click)="isEditing = !isEditing">
+              {{ isEditing ? 'Annulla' : 'Modifica' }}
+            </button>
+            <button *ngIf="isEditing" class="btn btn-success" (click)="saveUserData()">Salva</button>
+          </div>
+        </div>
+        <div class="card-footer text-center">
+          <button class="btn btn-secondary" (click)="router.navigate(['/home'])">Torna alla Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
