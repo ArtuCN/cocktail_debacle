@@ -27,12 +27,23 @@ export class PersonalAreaComponent implements OnInit {
   };
 
   isEditing = false;
+  isDevelopmentMode = false; // Modalità di sviluppo
+  termsAccepted = false; // Accettazione dei termini
 
   constructor(private http: HttpClient,
     public router: Router
   ) { }
 
   ngOnInit(): void {
+    if (this.isDevelopmentMode) {
+      // Dati fittizi per lo sviluppo
+      this.userData = {
+        username: 'Utente Test',
+        mail: 'test@example.com',
+        birthdate: '1990-01-01'
+      };
+      return; // Salta il controllo di autenticazione
+    }
     const mail = localStorage.getItem('mail');
     if (!mail) {
       this.router.navigate(['/home']);
@@ -41,6 +52,10 @@ export class PersonalAreaComponent implements OnInit {
 
     this.userData.mail = mail;
     this.loadUserData();
+  }
+
+  toggleTermsAccepted(): void {
+    this.termsAccepted = !this.termsAccepted;
   }
 
   loadUserData(): void {

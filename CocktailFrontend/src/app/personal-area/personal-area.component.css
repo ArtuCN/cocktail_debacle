@@ -1,0 +1,137 @@
+
+.container {
+    display: flex;
+    margin: 50px 10px;
+}
+
+.profile {
+    flex: 1;
+    margin-right: 50px;
+    background-color: rgb(58, 58, 58);
+    box-shadow: rgb(255, 255, 255);
+    border-radius: 10px;
+    height: max-content;
+}
+
+.profile-header {
+    display: flex;
+    margin-left: 15px;
+}
+
+.profile-text-container {
+    line-height: 0.5;
+}
+
+.profile-title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 40px;
+}
+
+.profile-mail {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 22px;
+    margin-right: 10px;
+    margin-top: 10px;
+    color: #fdfdfd;
+}
+
+.menu {
+    margin: 0 30px;
+}
+
+.menu-link {
+    display: block;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    background-color: #333333;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.menu-icon {
+    margin-right: 10px;
+}
+
+.menu-link:hover {
+    background-color: #515151;
+    color: #ffffff;
+}
+
+.menu-link-first-child:hover {
+    background-color: #444;
+    color: rgb(0, 0, 228);
+}
+
+.account {
+    flex: 2;
+    margin-left: 10px;
+    background-color: rgb(158, 69, 60);
+    box-shadow: rgba(0, 0, 0, 0.16);
+    border-radius: 5px;
+    height: max-content;
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.account-title {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  color: #0069d9;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.btn-container {
+  margin-right: 5px;
+}
+
+.btn-cancel {
+  width: 8em;
+  height: 3em;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 2em;
+  color: blueviolet;
+  font-weight: bold;
+  margin-right: 5px;
+  background-color: beige;
+  transition-duration: 0.3s;
+  box-shadow: #000000;
+}
+
+.btn-cancel:hover {
+  background-color: #ccc;
+}
+
+.btn-save {
+  width: 8em;
+  height: 3em;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 2em;
+  color: blueviolet;
+  font-weight: bold;
+  background-color: beige;
+  transition-duration: 0.3s;
+  box-shadow: #000000;
+}
+
+.btn-save:hover {
+  background-color: #0b4c77;
+}
+
+.account-edit {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+

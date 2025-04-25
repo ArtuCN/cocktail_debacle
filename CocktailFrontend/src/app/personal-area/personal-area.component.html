@@ -1,36 +1,66 @@
-component.html -->
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card bg-dark text-white">
-        <div class="card-header">
-          <h2 class="text-center">Area Personale</h2>
+<!DOCTYPE html>
+<html lang="en">
+
+    <body>
+        <div class="container">
+            <div class="profile">
+                <div class="profile-header">
+                    <div class="profile-text-container">
+                        <h1 class="profile-title">NOME HELLYEAH</h1>"
+                    </div>
+                    <p class="profile-mail">stronzohotmail.com</p>
+                </div>
+                
+                <div class="menu">
+                    <a href="#" class="menu-link"><i class="fa-solid
+                        fa-circle-user menu-icon"></i>back to home</a>
+                        <a href="#" class="menu-link"><i class="fa-solid
+                            fa-right-fronm-bracket menu-icon"></i>logout</a>
+                            <a href="javascript:void(0)" class="menu-link-cookies"
+                            [ngClass]="{'terms-accepted' : termsAccepted, 'terms-rejected': !termsAccepted}"
+                            (click)="toggleTermsAccepted()">
+                            <i class="fa-solid fa-circle-user menu-icon"></i>accepted terms</a>
+                        </div>   
+                    </div>
+                    
+            <form class="account">
+                <div class="account-header">
+                    <h1 class="account-title">Account setting</h1>
+                    <div class="btn-container">
+                        <button class="btn-cancel">Cancel</button>
+                        <button class="btn-save">Save</button>
+                    </div>
+                </div>
+                
+                <div class="account-edit">
+                    <div class="input-container">
+                        <label>First name</label>
+                        <input type="text" placeholder="First name">
+                    </div>
+                    <div class="input-container">
+                        <label>Last name</label>
+                        <input type="text" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="account-edit">
+                    <div class="input-container">
+                        <label>Username</label>
+                        <input type="text" placeholder="Username">
+                    </div>
+                    <div class="input-container">
+                        <label>Password</label>
+                        <input type="text" placeholder="Password">
+                    </div>
+                </div>
+                
+                <div class="account-edit">
+                    <div class="input-container">
+                        <label>mail</label>
+                        <input type="mail" placeholder="mail">
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="card-body">
-          <div class="mb-3">
-            <label class="form-label">Username:</label>
-            <input type="text" class="form-control" [(ngModel)]="userData.username" [disabled]="!isEditing">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Email:</label>
-            <input type="email" class="form-control" [(ngModel)]="userData.mail" [disabled]="true">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Data di Nascita:</label>
-            <input type="date" class="form-control" [(ngModel)]="userData.birthdate" [disabled]="!isEditing">
-          </div>
-          
-          <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-primary me-2" (click)="isEditing = !isEditing">
-              {{ isEditing ? 'Annulla' : 'Modifica' }}
-            </button>
-            <button *ngIf="isEditing" class="btn btn-success" (click)="saveUserData()">Salva</button>
-          </div>
-        </div>
-        <div class="card-footer text-center">
-          <button class="btn btn-secondary" (click)="router.navigate(['/home'])">Torna alla Home</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    </body>
+</html>
