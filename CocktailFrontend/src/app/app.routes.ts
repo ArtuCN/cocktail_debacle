@@ -10,6 +10,7 @@ import { ChatComponent } from './chat/chat.component';
 import { IngredientGalleryComponent } from './ingredient-gallery/ingredient-gallery.component';
 import { ADMINPAGEComponent } from './admin-page/admin-page.component';
 import { PersonalAreaComponent } from './personal-area/personal-area.component';
+import { SuggestionComponent } from './suggestion/suggestion.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const routes: Routes = [
     {path: 'error', component: ErrorComponent},
     {path: 'ingredientgallery', component: IngredientGalleryComponent},
     {path: 'admin', component: ADMINPAGEComponent},
+    {path: 'suggestions', component: SuggestionComponent},
     {path: '**', redirectTo: 'home'},
 ];
 

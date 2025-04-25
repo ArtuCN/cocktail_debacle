@@ -7,6 +7,7 @@ using System;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using CocktailApp.Utils;
 
 
 namespace CocktailApp.Controllers
@@ -135,8 +136,6 @@ namespace CocktailApp.Controllers
                 using (SqliteConnection conn = new SqliteConnection(_connectionString))
                 {
                     await conn.OpenAsync();
-
-                    // Query per ottenere tutti gli ID dei cocktail preferiti per l'utente
                     string selectQuery = "SELECT CocktailIDs FROM UserPreferences WHERE Mail = @Mail";
 
                     using var command = new SqliteCommand(selectQuery, conn);
@@ -168,6 +167,63 @@ namespace CocktailApp.Controllers
             }
         }
 
+        [HttpGet("{mail}/terms")]
+        public async Task<IActionResult> terms(string mail)
+        {
+            try
+            {
+                using (SqliteConnection conn = new SqliteConnection(_connectionString))
+                {
+                    await conn.OpenAsync();
+                    string selectQuery = "SELECT AcceptedTerms FROM User WHERE Mail = @Mail";
+                    using var command = new SqliteCommand(selectQuery, conn);
+                    command.Parameters.AddWithValue("@Mail", mail);
+                    using var reader = await command.ExecuteReaderAsync();
+                    if (await reader.ReadAsync())
+                    {
+                        bool response = reader.GetBoolean(0);
+                        if (response)
+                        {
+                            return Ok(true);
+                        }
+                        else
+                        {
+                            return Ok(false);
+                        }
+                    }
+                    else
+                    {
+                        return NotFound("User not found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal error: {ex.Message}");
+            }
+        }
 
+        [HttpGet("{mail}/suggestions")]
+        public async Task<IActionResult> showSuggestions(string mail)
+        {
+            try
+            {
+                if (UserUtils.IsMinor(mail))
+                {
+                    List<string> favoriteIds =  UserUtils.GetFavoriteCocktailIds(mail);
+                    List<string> suggestions = await UserUtils.Get3NonAlcoholicIdsAsync(favoriteIds);
+                    return Ok(suggestions);
+                }
+                else
+                {
+                    Console.WriteLine("dafare");
+                    return StatusCode(500, $"Internal error");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal error: {ex.Message}");
+            }
+        }
     }
 }

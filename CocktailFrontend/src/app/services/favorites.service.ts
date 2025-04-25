@@ -7,7 +7,6 @@ import { NullLogger } from '@microsoft/signalr';
 import { CocktailInterface } from '../models/models';
 import { CocktailService } from './testdb.service';
 import { response } from 'express';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -82,4 +81,10 @@ export class FavoritesService {
     return this.http.delete(apiUrl);
   }
 
+
+  suggestion(email: string): Observable<any> {
+    const apiurl = `http://localhost:5001/api/user/${email}/suggestions/`;
+    return this.http.get<any>(apiurl); // Risposta generica
+  }
+  
 }
