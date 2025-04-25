@@ -242,3 +242,189 @@ input, textarea, select, button{
     z-index: 1000;           /* assicura che sia sopra */
   }
   
+
+
+
+
+
+
+
+  .container {
+    display: flex;
+    margin: 50px 10px;
+}
+
+.profile {
+    flex: 1;
+    margin-right: 50px;
+    background-color: rgb(58, 58, 58);
+    box-shadow: rgb(255, 255, 255);
+    border-radius: 10px;
+    height: max-content;
+}
+
+.profile-header {
+    display: flex;
+    margin-left: 15px;
+}
+
+.profile-text-container {
+    line-height: 0.5;
+}
+
+.profile-title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 40px;
+}
+
+.profile-mail {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 22px;
+    margin-right: 10px;
+    margin-top: 10px;
+    color: #fdfdfd;
+}
+
+.menu {
+    margin: 0 30px;
+}
+
+.menu-link {
+    display: block;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    background-color: #333333;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.menu-link-cookies {
+  display: block;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    background-color: #fb0404c7;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: background-color 0.2s ease 0.35s;
+}
+
+.terms-accepted {
+  background-color: #3fb627;
+}
+
+.terms-rejected {
+  background-color: #fb0404c7;
+}
+
+.menu-link-cookies:not(.terms-accepted):hover {
+  background-color: #29b627;
+  color: #ffffff;
+}
+
+.terms-accepted:hover {
+  background-color: #fb0404c7;
+  color: #ffffff;
+}
+
+.menu-icon {
+    margin-right: 10px;
+}
+
+.menu-link:hover {
+    background-color: #515151;
+    color: #ffffff;
+}
+
+.menu-link-first-child:hover {
+    background-color: #444;
+    color: rgb(0, 0, 228);
+}
+
+.account {
+    flex: 2;
+    margin-left: 10px;
+    background-color: rgb(58, 58, 58);
+    box-shadow: rgba(0, 0, 0, 0.16);
+    border-radius: 10px;
+    height: max-content;
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.account-title {
+  font-family: 'Courier New', Courier, monospace;
+  font-size:30px;
+  color: #ffffff;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.btn-container {
+  margin-right: 5px;
+}
+
+.btn-cancel {
+  width: 8em;
+  height: 3em;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 2em;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  margin-right: 5px;
+  background-color: beige;
+  transition-duration: 0.3s;
+  box-shadow: #000000;
+}
+
+.btn-cancel:hover {
+  background-color: #ccc;
+}
+
+.btn-save {
+  width: 8em;
+  height: 3em;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 2em;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  background-color: rgb(255, 255, 255);
+  transition-duration: 0.3s;
+  box-shadow: #000000;
+}
+
+.btn-save:hover {
+  background-color: #0b4c77;
+}
+
+.account-edit {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0;
+}
+
+.input-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+}
+
+.input-container label {
+  font-family: 'Courier New', Courier, monospace;
+  color: #ffffff;
+  font-size: 20px;
+}

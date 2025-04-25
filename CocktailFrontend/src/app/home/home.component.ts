@@ -144,6 +144,15 @@ export class HomeComponent implements OnInit{
     });
   }
 
+  navigateToPersonalArea(): void {
+    this.router.navigate(['/personal-area']);
+    this.onLogin = false; // Chiude il menu di login
+  }
+
+
+
+
+
   getName (): string {
     return this.name;
   }

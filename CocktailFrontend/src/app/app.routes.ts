@@ -9,10 +9,12 @@ import { FavoritesComponent } from './favorites/favorites.component';
 import { ChatComponent } from './chat/chat.component';
 import { IngredientGalleryComponent } from './ingredient-gallery/ingredient-gallery.component';
 import { ADMINPAGEComponent } from './admin-page/admin-page.component';
+import { PersonalAreaComponent } from './personal-area/personal-area.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' },
     {path: 'home', component: HomeComponent},
+    {path: 'personal-area', component: PersonalAreaComponent},
     {path: 'create-user', component: CreateUserComponent},
     {path: 'cocktail-research', component: CocktailResearchComponent},
     {path: 'login', component: LoginComponent},
