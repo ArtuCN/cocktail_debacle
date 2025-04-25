@@ -281,7 +281,8 @@ input, textarea, select, button{
     font-family: 'Courier New', Courier, monospace;
     font-size: 22px;
     margin-right: 10px;
-    margin-top: 10px;
+    justify-content: left;
+    margin-top: 50px;
     color: #fdfdfd;
 }
 

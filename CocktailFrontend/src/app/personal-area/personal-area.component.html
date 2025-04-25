@@ -1,66 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
 
-    <body>
-        <div class="container">
-            <div class="profile">
-                <div class="profile-header">
-                    <div class="profile-text-container">
-                        <h1 class="profile-title">NOME HELLYEAH</h1>"
-                    </div>
-                    <p class="profile-mail">stronzohotmail.com</p>
-                </div>
-                
-                <div class="menu">
-                    <a href="#" class="menu-link"><i class="fa-solid
-                        fa-circle-user menu-icon"></i>back to home</a>
-                        <a href="#" class="menu-link"><i class="fa-solid
-                            fa-right-fronm-bracket menu-icon"></i>logout</a>
-                            <a href="javascript:void(0)" class="menu-link-cookies"
-                            [ngClass]="{'terms-accepted' : termsAccepted, 'terms-rejected': !termsAccepted}"
-                            (click)="toggleTermsAccepted()">
-                            <i class="fa-solid fa-circle-user menu-icon"></i>accepted terms</a>
-                        </div>   
-                    </div>
-                    
-            <form class="account">
-                <div class="account-header">
-                    <h1 class="account-title">Account setting</h1>
-                    <div class="btn-container">
-                        <button class="btn-cancel">Cancel</button>
-                        <button class="btn-save">Save</button>
-                    </div>
-                </div>
-                
-                <div class="account-edit">
-                    <div class="input-container">
-                        <label>First name</label>
-                        <input type="text" placeholder="First name">
-                    </div>
-                    <div class="input-container">
-                        <label>Last name</label>
-                        <input type="text" placeholder="Last name">
-                    </div>
-                </div>
+<div class="container">
+	<div class="profile">
+		<div class="profile-header">
+			<div class="profile-text-container">
+				<h1 class="profile-title">{{ userData.username }}</h1>
+			</div>
+			<p class="profile-mail">{{ userData.mail }}</p>
+		</div>
+		
+		<div class="menu">
+			<a (click)="router.navigate(['/home'])" class="menu-link"><i class="fa-solid
+				fa-circle-user menu-icon"></i>back to home</a>
+				<a href="#" class="menu-link"><i class="fa-solid
+					fa-right-from-bracket menu-icon"></i>logout</a>
+					<a href="javascript:void(0)" class="menu-link-cookies"
+					[ngClass]="{'terms-accepted' : termsAccepted, 'terms-rejected': !termsAccepted}"
+					(click)="toggleTermsAccepted()">
+					<i class="fa-solid fa-circle-user menu-icon"></i>accepted terms</a>
+				</div>   
+			</div>
+			
+	<form class="account">
+		<div class="account-header">
+			<h1 class="account-title">Account setting</h1>
+			<div class="btn-container">
+				<button class="btn-cancel">Cancel</button>
+				<button class="btn-save">Save</button>
+			</div>
+		</div>
 
-                <div class="account-edit">
-                    <div class="input-container">
-                        <label>Username</label>
-                        <input type="text" placeholder="Username">
-                    </div>
-                    <div class="input-container">
-                        <label>Password</label>
-                        <input type="text" placeholder="Password">
-                    </div>
-                </div>
-                
-                <div class="account-edit">
-                    <div class="input-container">
-                        <label>mail</label>
-                        <input type="mail" placeholder="mail">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </body>
-</html>
+		<div class="account-edit">
+			<div class="input-container">
+				<label>Username</label>
+				<input type="text" placeholder="Username" [(ngModel)]="userData.username" name="username" [disabled]="!isEditing">
+			</div>
+			<div class="input-container">
+				<label>Password</label>
+				<input type="text" placeholder="Password">
+			</div>
+		</div>
+
+		<div class="account-edit">
+			<div class="input-container">
+				<label>Data di nascita</label>
+				<input type="date" [(ngModel)]="userData.birthdate" name="birthdate" [disabled]="!isEditing">
+			</div>
+		</div>
+				
+		<div class="account-edit">
+			<div class="input-container">
+				<label>mail</label>
+				<input type="mail" placeholder="mettolamiamail.com" [(ngModel)]="userData.mail" disabled>
+			</div>
+		</div>
+	</form>
+</div>
