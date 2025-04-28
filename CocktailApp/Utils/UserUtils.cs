@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Data.Sqlite;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+
+
 
 namespace CocktailApp.Utils
 {
@@ -94,18 +97,59 @@ namespace CocktailApp.Utils
 
         public static async Task<List<string>> Get3AlcoholicIdsAsync(List<string> favoriteCocktailIds)
         {
-            Console.WriteLine($"puppa {favoriteCocktailIds[0]}");
+            Dictionary<string, int> ing = new Dictionary<string, int>();
             foreach (var element in favoriteCocktailIds)
             {
-                Console.WriteLine("sciamn");
-                var url = $"https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={element}";
-                Console.WriteLine("Stoke");
+                var url = $"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={element}";
                 var httpClient = new HttpClient();
-                Console.WriteLine("Azzo");
                 var response = await httpClient.GetStringAsync(url);
                 Console.WriteLine($"response {response}");
+                var matches = Regex.Matches(response, "\"strIngredient[0-9]+\":\"(.*?)\"");
+
+                foreach (Match match in matches)
+                {
+                    var ingredient = match.Groups[1].Value;
+                    if (!string.IsNullOrEmpty(ingredient))
+                    {
+                        if (ing.ContainsKey(ingredient))
+                            ing[ingredient] += 1;
+                        else
+                            ing[ingredient] = 1;
+                    }
+                }
             }
-            return favoriteCocktailIds;
+            foreach (var ingr in ing)
+            {
+                Console.WriteLine($"{ingr.Key} = {ingr.Value}");
+            }
+            var top3 = ing
+                .OrderByDescending(kv => kv.Value)
+                .Take(3)
+                .Select(kv => kv.Key)
+                .ToList();
+            var ret = new List<string>();
+            using (var httpClient = new HttpClient())
+            {
+                foreach (var i in top3)
+                {
+                    var url2 = $"https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={i}";
+                    var response = await httpClient.GetStringAsync(url2);
+                    var matches = Regex.Matches(response, "\"idDrink\":\"(.*?)\"");
+                    if (matches.Count > 0)
+                    {
+                        foreach (Match match in matches)
+                        {
+                            var cocktailId = match.Groups[1].Value;
+                            Console.WriteLine($"ID del cocktail: {cocktailId}");
+                            ret.Add(cocktailId);
+                            if (ret.Count >= 3)
+                                return ret;
+                        }
+                    }
+                    Console.WriteLine($"ingredient {i}");
+                }
+            }
+            return ret;
             
         }
     }

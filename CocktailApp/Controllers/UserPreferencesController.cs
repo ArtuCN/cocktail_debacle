@@ -216,9 +216,8 @@ namespace CocktailApp.Controllers
                 }
                 else
                 {
-                    Console.WriteLine("AIAI");
                     List<string> suggestions = await UserUtils.Get3AlcoholicIdsAsync(favoriteIds);
-                    return StatusCode(500, $"Internal error");
+                    return Ok(suggestions);
                 }
             }
             catch (Exception ex)
