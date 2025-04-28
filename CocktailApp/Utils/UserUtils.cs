@@ -23,7 +23,7 @@ namespace CocktailApp.Utils
             public string strDrinkThumb { get; set; }
             public string idDrink { get; set; }
         }
-        private static string _connectionString = "Data Source=your_database_path.db";
+        private static string _connectionString = "Data Source=cocktail.db";
         public static bool IsMinor(string email)
         {
             var age = GetUserAge(email);
@@ -36,7 +36,6 @@ namespace CocktailApp.Utils
             string query = "SELECT BirthDate FROM User WHERE Mail = @mail";
             using var command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@mail", email);
-
             using var reader = command.ExecuteReader();
             if (reader.Read())
             {
@@ -54,12 +53,16 @@ namespace CocktailApp.Utils
             var favoriteIds = new List<string>();
             using var conn = new SqliteConnection(_connectionString);
             conn.Open();
-            string query = "SELECT CocktailID FROM UserPreferences WHERE Mail = @mail";
+            string query = "SELECT CocktailIDs FROM UserPreferences WHERE Mail = @mail";
             using var command = new SqliteCommand(query, conn);
+            Console.WriteLine("6");
             command.Parameters.AddWithValue("@mail", email);
             using var reader = command.ExecuteReader();
             while (reader.Read())
-                favoriteIds.Add(reader.GetInt32(0).ToString()); // Converti l'int in string
+            {
+                Console.WriteLine($"reader {reader.GetInt32(0).ToString()}");
+                favoriteIds.Add(reader.GetInt32(0).ToString());
+            }
             return favoriteIds;
         }
 
