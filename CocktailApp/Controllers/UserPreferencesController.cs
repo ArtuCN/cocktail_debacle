@@ -208,15 +208,16 @@ namespace CocktailApp.Controllers
         {
             try
             {
+                List<string> favoriteIds =  UserUtils.GetFavoriteCocktailIds(mail);
                 if (UserUtils.IsMinor(mail))
                 {
-                    List<string> favoriteIds =  UserUtils.GetFavoriteCocktailIds(mail);
                     List<string> suggestions = await UserUtils.Get3NonAlcoholicIdsAsync(favoriteIds);
                     return Ok(suggestions);
                 }
                 else
                 {
-                    Console.WriteLine("dafare");
+                    Console.WriteLine("AIAI");
+                    List<string> suggestions = await UserUtils.Get3AlcoholicIdsAsync(favoriteIds);
                     return StatusCode(500, $"Internal error");
                 }
             }

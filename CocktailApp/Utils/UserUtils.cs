@@ -24,6 +24,8 @@ namespace CocktailApp.Utils
             public string idDrink { get; set; }
         }
         private static string _connectionString = "Data Source=cocktail.db";
+        //const ingredientCount: { [ingredient: string]: number } = {};
+
         public static bool IsMinor(string email)
         {
             var age = GetUserAge(email);
@@ -55,7 +57,6 @@ namespace CocktailApp.Utils
             conn.Open();
             string query = "SELECT CocktailIDs FROM UserPreferences WHERE Mail = @mail";
             using var command = new SqliteCommand(query, conn);
-            Console.WriteLine("6");
             command.Parameters.AddWithValue("@mail", email);
             using var reader = command.ExecuteReader();
             while (reader.Read())
@@ -91,6 +92,21 @@ namespace CocktailApp.Utils
             return suggestedIds;
         }
 
-
+        public static async Task<List<string>> Get3AlcoholicIdsAsync(List<string> favoriteCocktailIds)
+        {
+            Console.WriteLine($"puppa {favoriteCocktailIds[0]}");
+            foreach (var element in favoriteCocktailIds)
+            {
+                Console.WriteLine("sciamn");
+                var url = $"https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={element}";
+                Console.WriteLine("Stoke");
+                var httpClient = new HttpClient();
+                Console.WriteLine("Azzo");
+                var response = await httpClient.GetStringAsync(url);
+                Console.WriteLine($"response {response}");
+            }
+            return favoriteCocktailIds;
+            
+        }
     }
 }
