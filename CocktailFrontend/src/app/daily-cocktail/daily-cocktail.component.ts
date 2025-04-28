@@ -16,6 +16,7 @@ export class DailyCocktailComponent implements OnInit {
   currentIndex: number = 0;
   intervalId: any;
   currentCocktailIndex: number = 0;
+  isMinimized = false;
 
   constructor(private http: HttpClient, private srs: SignalrService) {}
 
@@ -24,6 +25,10 @@ export class DailyCocktailComponent implements OnInit {
       console.log("Received ID from SignalR service:", id);
       this.setDaily(id);
     });
+  }
+
+  toggleMinimize(): void {
+    this.isMinimized = !this.isMinimized;
   }
 
   

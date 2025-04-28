@@ -32,7 +32,7 @@ export class PersonalAreaComponent implements OnInit {
   };
 
   isEditing = false;
-  isDevelopmentMode = false; // Modalità di sviluppo
+  isDevelopmentMode = true; // Modalità di sviluppo
   termsAccepted = false; // Accettazione dei termini
 
   constructor(private http: HttpClient,
