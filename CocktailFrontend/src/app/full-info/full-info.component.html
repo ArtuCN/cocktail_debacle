@@ -1,30 +1,55 @@
 <div *ngIf="cocktail?.strDrink">
-    <h1>{{ cocktail.strDrink }}</h1>
-    <img [src]="cocktail.strDrinkThumb" [alt]="cocktail.strDrink" style="max-width: 300px; border-radius: 10px;" />
-  
-    <!-- Selettore lingua con bandiera italiana -->
-    <div class="language-selector" style="margin-top: 20px;">
-        <button (click)="setLanguage('strInstructions')" title="English">
-          <img [src]="getFlag('strInstructions')" alt="English" style="width: 30px; height: 20px;" />
+    <div class = "main">
+        <h1>{{ cocktail.strDrink }}</h1>
+        <img [src]="cocktail.strDrinkThumb" [alt]="cocktail.strDrink" style="max-width: 300px; border-radius: 10px;" />
+    </div>
+    
+    <div class="t">
+        <button (click)="toggleLanguageMenu()" class="language-button">
+          🌐 Change Language
         </button>
-        <button (click)="setLanguage('strInstructionsIT')" title="Italiano">
-          <img [src]="getFlag('strInstructionsIT')" alt="Italiano" style="width: 30px; height: 20px;" />
-        </button>
-        <button (click)="setLanguage('strInstructionsES')" title="Español">
-          <img [src]="getFlag('strInstructionsES')" alt="Español" style="width: 30px; height: 20px;" />
-        </button>
-        <button (click)="setLanguage('strInstructionsDE')" title="Deutsch">
-          <img [src]="getFlag('strInstructionsDE')" alt="Deutsch" style="width: 30px; height: 20px;" />
-        </button>
-        <button (click)="setLanguage('strInstructionsFR')" title="Français">
-          <img [src]="getFlag('strInstructionsFR')" alt="Français" style="width: 30px; height: 20px;" />
-        </button>
-        <button (click)="setLanguage('strInstructionsZH_HANS')" title="简体中文">
-          <img [src]="getFlag('strInstructionsZH_HANS')" alt="中文 (Semplificato)" style="width: 30px; height: 20px;" />
-        </button>
-        <button (click)="setLanguage('strInstructionsZH_HANT')" title="繁體中文">
-          <img [src]="getFlag('strInstructionsZH_HANT')" alt="中文 (Tradizionale)" style="width: 30px; height: 20px;" />
-        </button>
+      
+        <div *ngIf="showLanguages" class="language-menu show">
+          <button (click)="setLanguage('strInstructions')" title="English">
+            <img [src]="getFlag('strInstructions')" alt="English" />
+          </button>
+          <button (click)="setLanguage('strInstructionsIT')" title="Italiano">
+            <img [src]="getFlag('strInstructionsIT')" alt="Italiano" />
+          </button>
+          <button (click)="setLanguage('strInstructionsES')" title="Español">
+            <img [src]="getFlag('strInstructionsES')" alt="Español" />
+          </button>
+          <button (click)="setLanguage('strInstructionsDE')" title="Deutsch">
+            <img [src]="getFlag('strInstructionsDE')" alt="Deutsch" />
+          </button>
+          <button (click)="setLanguage('strInstructionsFR')" title="Français">
+            <img [src]="getFlag('strInstructionsFR')" alt="Français" />
+          </button>
+          <button (click)="setLanguage('strInstructionsZH_HANS')" title="简体中文">
+            <img [src]="getFlag('strInstructionsZH_HANS')" alt="中文简体" />
+          </button>
+          <button (click)="setLanguage('strInstructionsZH_HANT')" title="繁體中文">
+            <img [src]="getFlag('strInstructionsZH_HANT')" alt="中文繁體" />
+          </button>
+        </div>
+    </div>
+
+    <div class="ingredients">
+        <div *ngIf="selectedCocktail">
+          <h2>{{ selectedCocktail.strDrink }}</h2>
+          <h3>Ingredients:</h3>
+          <ul>
+            <li *ngFor="let ingredient of ingredients">
+              <img [src]="getIngredientImageUrl(ingredient)" [alt]="ingredient" style="max-width: 30px; margin-right: 10px;" />
+              {{ ingredient }}
+            </li>
+          </ul>
+      
+          <div *ngIf="selectedCocktail.strVideo">
+            <h3>Video:</h3>
+            <a [href]="selectedCocktail.strVideo" target="_blank">Watch the video</a>
+          </div>
+        </div>
       </div>
       
       
