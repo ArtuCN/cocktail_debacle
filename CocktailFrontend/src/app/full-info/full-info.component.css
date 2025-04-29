@@ -1,0 +1,22 @@
+.language-selector button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: transform 0.2s ease;
+}
+
+button {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.language-selector button:hover {
+    transform: scale(1.2);
+}
+
+.language-selector img {
+    width: 30px;
+    height: 20px;
+    border-radius: 5px;
+}

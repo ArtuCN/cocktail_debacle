@@ -11,6 +11,7 @@ import { IngredientGalleryComponent } from './ingredient-gallery/ingredient-gall
 import { ADMINPAGEComponent } from './admin-page/admin-page.component';
 import { PersonalAreaComponent } from './personal-area/personal-area.component';
 import { SuggestionComponent } from './suggestion/suggestion.component';
+import { FullInfoComponent } from './full-info/full-info.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -25,6 +26,7 @@ export const routes: Routes = [
     {path: 'ingredientgallery', component: IngredientGalleryComponent},
     {path: 'admin', component: ADMINPAGEComponent},
     {path: 'suggestions', component: SuggestionComponent},
+    {path: 'fullInfo', component: FullInfoComponent},
     {path: '**', redirectTo: 'home'},
 ];
 

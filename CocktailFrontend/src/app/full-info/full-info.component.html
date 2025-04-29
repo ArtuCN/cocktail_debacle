@@ -1,0 +1,43 @@
+<div *ngIf="cocktail?.strDrink">
+    <h1>{{ cocktail.strDrink }}</h1>
+    <img [src]="cocktail.strDrinkThumb" [alt]="cocktail.strDrink" style="max-width: 300px; border-radius: 10px;" />
+  
+    <!-- Selettore lingua con bandiera italiana -->
+    <div class="language-selector" style="margin-top: 20px;">
+        <button (click)="setLanguage('strInstructions')" title="English">
+          <img [src]="getFlag('strInstructions')" alt="English" style="width: 30px; height: 20px;" />
+        </button>
+        <button (click)="setLanguage('strInstructionsIT')" title="Italiano">
+          <img [src]="getFlag('strInstructionsIT')" alt="Italiano" style="width: 30px; height: 20px;" />
+        </button>
+        <button (click)="setLanguage('strInstructionsES')" title="Español">
+          <img [src]="getFlag('strInstructionsES')" alt="Español" style="width: 30px; height: 20px;" />
+        </button>
+        <button (click)="setLanguage('strInstructionsDE')" title="Deutsch">
+          <img [src]="getFlag('strInstructionsDE')" alt="Deutsch" style="width: 30px; height: 20px;" />
+        </button>
+        <button (click)="setLanguage('strInstructionsFR')" title="Français">
+          <img [src]="getFlag('strInstructionsFR')" alt="Français" style="width: 30px; height: 20px;" />
+        </button>
+        <button (click)="setLanguage('strInstructionsZH_HANS')" title="简体中文">
+          <img [src]="getFlag('strInstructionsZH_HANS')" alt="中文 (Semplificato)" style="width: 30px; height: 20px;" />
+        </button>
+        <button (click)="setLanguage('strInstructionsZH_HANT')" title="繁體中文">
+          <img [src]="getFlag('strInstructionsZH_HANT')" alt="中文 (Tradizionale)" style="width: 30px; height: 20px;" />
+        </button>
+      </div>
+      
+      
+  
+    <!-- Istruzioni nella lingua selezionata -->
+    <div class="description-box" style="margin-top: 20px;">
+      <h2>Istruzioni</h2>
+      <p *ngIf="cocktail[selectedLang]; else noTranslation">
+        {{ cocktail[selectedLang] }}
+      </p>
+      <ng-template #noTranslation>
+        <p><i>Nessuna traduzione disponibile per questa lingua.</i></p>
+      </ng-template>
+    </div>
+  </div>
+  
