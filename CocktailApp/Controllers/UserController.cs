@@ -90,7 +90,7 @@ namespace CocktailApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> loginUser([FromBody] loginData ld)
+        public async Task<IActionResult> LoginUser([FromBody] loginData ld)
         {
             try
             {
@@ -112,7 +112,13 @@ namespace CocktailApp.Controllers
                             Console.WriteLine("User found and password is correct!");
                             
                             string UserName = reader["UserName"].ToString();
-                            var t = new { token = GenerateJwtToken(ld.Mail, UserName) };
+                            DateTime bd = reader.GetDateTime(reader.GetOrdinal("BirthDate"));
+                            string bdStr = bd.ToString("yyyy-MM-dd");
+                            Console.WriteLine($"Birthdate: {bdStr}");
+                            var t = new {
+                                 token = GenerateJwtToken(ld.Mail, UserName),
+                                 birthdate = bdStr
+                                 };
                             Console.WriteLine("Token generato: " + t.token);
                             return Ok(t);
                         }
@@ -137,8 +143,39 @@ namespace CocktailApp.Controllers
             {
                 return BadRequest($"Unexpected error: {ex.Message}");
             }
-            
-
         }
+
+        [HttpGet("{mail}")]
+        public async Task<IActionResult> GetUser(string mail)
+        {
+            try
+            {
+            using var conn = new SqliteConnection(_connectionString);
+            await conn.OpenAsync();
+            var q = "SELECT UserName, Mail, BirthDate, AcceptedTerms FROM User WHERE Mail = @mail";
+            using var cmd = new SqliteCommand(q, conn);
+            cmd.Parameters.AddWithValue("@mail", mail);
+            using var rdr = await cmd.ExecuteReaderAsync();
+            if (!await rdr.ReadAsync())
+                return NotFound();
+
+            var bd = rdr.GetDateTime(rdr.GetOrdinal("BirthDate"))
+                        .ToString("yyyy-MM-dd");
+            return Ok(new {
+                username    = rdr.GetString(rdr.GetOrdinal("UserName")),
+                mail        = rdr.GetString(rdr.GetOrdinal("Mail")),
+                birthdate   = bd,
+                acceptterms = rdr.GetBoolean(rdr.GetOrdinal("AcceptedTerms"))
+            });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
+
+        
     }
+    
 }

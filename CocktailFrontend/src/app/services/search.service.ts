@@ -22,14 +22,32 @@ export class SearchService {
   }
   getCocktailByIngredient(name: string): Observable<{drinks: CocktailInterface[]}> {
     this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByIngridient';
-    return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    const response = this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    response.subscribe(data => {
+      data.drinks.forEach(drink => {
+      printCocktailDetails(drink); // Print each cocktail's details
+      });
+    });
+    return response;
   }
   getCocktailByCategory(name: string): Observable<{drinks: CocktailInterface[]}> {
     this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByCategory';
-    return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    const response = this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    response.subscribe(data => {
+      data.drinks.forEach(drink => {
+      printCocktailDetails(drink); // Print each cocktail's details
+      });
+    });
+    return response;
   }
   getCocktailByGlass(name: string): Observable<{drinks: CocktailInterface[]}> {
     this.apiUrl = 'http://localhost:5001/api/cocktail/searchCocktailByGlass';
-    return this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    const response = this.http.get<{drinks: CocktailInterface[]}>(`${this.apiUrl}${name}`);
+    response.subscribe(data => {
+      data.drinks.forEach(drink => {
+      printCocktailDetails(drink); // Print each cocktail's details
+      });
+    });
+    return response;
   }
 }

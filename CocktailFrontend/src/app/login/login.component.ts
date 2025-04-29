@@ -27,14 +27,18 @@ export class LoginComponent {
   loginError: string = '';
   onLogin: boolean = false;
   loggedIn: boolean = false;
+  birthdate: string = '';
   
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService,
+    private router: Router
+  ) {
     console.log('LoginComponent initialized');
   }
  
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     this.loggedIn = !!token;
+    this.birthdate = localStorage.getItem('birthdate') || '';
   }
 
   onLoginClick() {
@@ -44,25 +48,26 @@ export class LoginComponent {
 
   
   testLogin(): void {
-    const isAdmin = this.mail === 'admin@admin.com';
-    if (isAdmin == true)
-    {
-      this.password == "psw";
-      this.router.navigate(['/admin']);
-    }
-    this.authService.login(this.mail, this.password).subscribe({
-
-      next: (response) => {
-        localStorage.setItem('token', response.token); // Salva il token nel localStorage
-        localStorage.setItem('mail', this.mail);
-        this.loggedIn = true; // Imposta loggedIn a true
-        console.log('Login successful', response);
-      },
-      error: (err) => {
-        console.error('Login failed', err);
-        this.loginError = 'Invalid login credentials';
-      }
-    });
+    this.authService.login(this.mail, this.password)
+      .subscribe({
+        next: (res) => {
+          // 1) log completo della risposta
+          console.log('✅ [testLogin] response:', res);
+          // 2) estrai esplicitamente la birthdate
+          const bd = (res as any).birthdate;
+          console.log('🥳 [testLogin] birthdate to store:', bd);
+          // 3) salva in localStorage
+          localStorage.setItem('birthdate', bd);
+          localStorage.setItem('token', (res as any).token);
+          localStorage.setItem('mail', this.mail);
+          this.loggedIn = true;
+          this.router.navigate(['/home']).then(() => window.location.reload());
+        },
+        error: err => {
+          console.error('❌ [testLogin] Login failed', err);
+          this.loginError = 'Invalid login credentials';
+        }
+      });
   }
   logout(): void {
     this.authService.logout(); // Chiama il metodo di logout del servizio
@@ -70,20 +75,5 @@ export class LoginComponent {
     this.router.navigate(['/home']); // Naviga alla pagina Home dopo il logout
   }
   
-  onLoginSubmit(event: Event) {
-    event.preventDefault();
-    console.log('Login attempted with mail:', this.mail, 'password:', this.password);
-
-    this.authService.login(this.mail, this.password).subscribe(
-      response => {
-        console.log('Login successful', response);
-        this.loginError = '';
-        this.router.navigate(['/home']);  // Naviga alla pagina Home dopo il login
-      },
-      error => {
-        console.error('Login error', error);
-        this.loginError = error.message;  // Mostra errore in caso di credenziali errate
-      }
-    );
-  }
+ 
 }

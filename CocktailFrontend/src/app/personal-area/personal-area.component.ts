@@ -32,7 +32,7 @@ export class PersonalAreaComponent implements OnInit {
   };
 
   isEditing = false;
-  isDevelopmentMode = true; // Modalità di sviluppo
+  isDevelopmentMode = false; // Modalità di sviluppo
   termsAccepted = false; // Accettazione dei termini
 
   constructor(private http: HttpClient,
@@ -89,12 +89,16 @@ export class PersonalAreaComponent implements OnInit {
   loadUserData(): void {
     const apiUrl = `http://localhost:5001/api/user/${this.userData.mail}`;
 
+    console.log('entro qua dio merda');
     this.http.get<any>(apiUrl).subscribe({
       next: (data) => {
+        console.log('🔍 Dati utente recuperati:', data);
+        const birthdate = new Date(data.birthdate);
+        console.log('📅 Data di nascita:', birthdate);
         this.userData = {
           username: data.username || this.userData.username || '',
           mail: data.mail || this.userData.mail || '',
-          birthdate: data.birthdate || this.userData.birthdate || ''
+           birthdate: data.birthdate || this.userData.birthdate || ''
         };
       },
       error: (err) => {

@@ -1,6 +1,6 @@
-
 <div class="search-container">
   <h1 class="search-title">Search for a Cocktail</h1>
+
   <div class="mb-4">
     <label for="searchType" class="block mb-1 font-bold">Type of research</label>
     <select id="searchType" [(ngModel)]="selectedType" class="border px-2 py-1 rounded w-full">
@@ -10,41 +10,53 @@
       <option value="glass">Glass</option>
     </select>
   </div>
+
   <div class="search-bar">
     <form (ngSubmit)="searchCocktail()" class="d-flex w-100">
       <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
-      <button (click)="searchCocktail()" class="btn btn-primary ms-2">Search</button>
+      <button type="submit" class="btn btn-primary ms-2">Search</button>
     </form>
   </div>
-
 </div>
 
 <!-- Display error message -->
-<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+<div *ngIf="errorMessage" class="error-message text-danger mt-2">{{ errorMessage }}</div>
 
 <!-- Display cocktail results in a carousel -->
-<div *ngIf="cocktails.length > 0" class="carousel-container">
-<div id="cocktailCarousel" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
-      <div class="cocktail-card text-center">
-        <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img d-block w-100">
-        <h3 class = nomeCocktailCss>{{ cocktail.strDrink }}</h3>
-        <button (click)="toggleFavorite(cocktail)" class="btn btn-outline-light mt-2">
-          <i class="bi" [ngClass]="isFavorite(cocktail.idDrink) ? 'bi-heart-fill text-danger' : 'bi-heart'"></i>
-          {{ isFavorite(cocktail.idDrink) ? 'Rimuovi dai prefe bro' : 'Aggiungi ai preferiti fra' }}
-        </button>
+<div *ngIf="cocktails.length > 0" class="carousel-container mt-4">
+  <div id="cocktailCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
+        <div class="cocktail-card text-center">
+          <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img d-block w-100">
+          <h3 class="nomeCocktailCss">{{ cocktail.strDrink }}</h3>
+
+          <!-- Messaggio per i minorenni -->
+          <div *ngIf="underageMessage" class="text-danger mb-2">
+            {{ underageMessage }}
+          </div>
+
+          <!-- Bottone per aggiungere/rimuovere preferiti -->
+          <button
+            class="btn btn-outline-light mt-2"
+            (click)="toggleFavorite(cocktail)">
+            <i class="bi" [ngClass]="isFavorite(cocktail.idDrink)
+              ? 'bi-heart-fill text-danger'
+              : 'bi-heart'"></i>
+            {{ isFavorite(cocktail.idDrink) ? 'Rimuovi dai prefe bro' : 'Aggiungi ai preferiti fra' }}
+          </button>
+        </div>
       </div>
     </div>
+
+    <!-- Controls for carousel -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
-  <!-- Controls for carousel -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
 </div>

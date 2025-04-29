@@ -6,6 +6,7 @@ import { SearchService } from '../services/search.service';
 import { HttpClient } from '@angular/common/http';
 import { CocktailInterface } from '../models/models';
 import { FavoritesService } from '../services/favorites.service';
+import { brotliDecompress } from 'node:zlib';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,31 @@ export class CocktailResearchComponent {
   cocktails: CocktailInterface[] = [];
   errorMessage: string = '';
   selectedType: string = 'name';
+  underageMessage: string = '';
   favoritesMap: Map<string, boolean> = new Map<string, boolean>();
+
+  private calculateAge(birthdate: string): number {
+    const bd = new Date(birthdate);
+    const now = new Date();
+    let age = now.getFullYear() - bd.getFullYear();
+    const m = now.getMonth() - bd.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < bd.getDate())) age--;
+    return age;
+  }
+
+  isUnderage(): boolean {
+    const raw = localStorage.getItem('birthdate') || '';
+    console.log("raw birthday from storage", raw);
+    const dateOnly = raw.split('T')[0];
+    const bd = new Date(dateOnly);
+    if (isNaN(bd.getTime())) {
+      console.warn('Data di nascita non valida:');
+      return false;
+    }
+    const age = this.calculateAge(dateOnly);
+    console.log(`🔢 parsed birthdate: ${dateOnly}, age: ${age}`);
+    return age < 18;
+  }
 
    // Modifica questo metodo per memorizzare lo stato nella mappa
    checkFavoriteStatus(id: string): void {
@@ -46,6 +71,12 @@ export class CocktailResearchComponent {
 
   // Aggiorna questo metodo per aggiornare anche la mappa
   toggleFavorite(cocktail: CocktailInterface): void {
+    this.underageMessage = '';
+    const isAlcoholic = cocktail.strAlcoholic === 'Alcoholic';
+    if (this.isUnderage() && isAlcoholic) {
+      this.underageMessage = 'Non puoi aggiungere cocktail alcolici ai preferiti finché non hai compiuto 18 anni.';
+      return;
+    }
     const id = cocktail.idDrink;
     this.favoritesService.isFavorite(id).subscribe({
       next: (isFav) => {
