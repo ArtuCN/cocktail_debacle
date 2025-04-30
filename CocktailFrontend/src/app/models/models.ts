@@ -70,6 +70,17 @@ export interface Message {
   timestamp: string;
 }
 
+export interface Share
+{
+  sender: string;
+  text: string;
+  timestamp: string;
+  cocktailId: string;
+
+  cocktailName?: string;
+  cocktailImage?: string;
+}
+
 export function printCocktailDetails(cocktail: CocktailInterface): void {
   console.log("=== Cocktail Details ===");
   for (const [key, value] of Object.entries(cocktail)) {

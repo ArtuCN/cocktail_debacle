@@ -52,9 +52,10 @@
         </div>
       </div>
       
-      
+  <input [(ngModel)]="message" placeholder="Write here your message..." />
+  <button (click)="shareCocktail()">Share Cocktail</button>
+
   
-    <!-- Istruzioni nella lingua selezionata -->
     <div class="description-box" style="margin-top: 20px;">
       <h2>Istruzioni</h2>
       <p *ngIf="cocktail[selectedLang]; else noTranslation">
