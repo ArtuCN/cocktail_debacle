@@ -429,3 +429,88 @@ input, textarea, select, button{
   color: #ffffff;
   font-size: 20px;
 }
+
+
+
+
+
+
+
+
+
+
+
+.daily-carousel-container {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  overflow:hidden;
+  height: 500px;
+  background-color: #250f87;
+}
+.daily-carousel-container.daily-carousel-track {
+
+  background-color: #d0ff00;
+  margin-bottom: 100px;
+  height: 100%;
+}
+
+
+.daily-carousel-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  background-color: #09ff00;
+  height: 100%;
+  will-change: transform;
+}
+
+.daily-card {
+  flex: 0 0 300px;
+  margin: 0 25px;
+  margin-top: 25px;
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 120px;
+  text-align: center;
+  transition: transform 0.4s, filter 0.4s, opacity 0.4s;
+}
+
+.daily-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.daily-card.active {
+  transform: scale(1.2);
+  filter: none;
+  opacity: 1;
+  z-index: 2;
+  border: 3px solid rgb(255, 0, 238);
+}
+
+.daily-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 3rem;
+}
+
+.daily-btn {
+  font-size: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+.daily-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+
+

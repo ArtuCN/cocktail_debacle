@@ -28,8 +28,16 @@
     <div class="carousel-inner">
       <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
         <div class="cocktail-card text-center">
-          <img [src]="cocktail.strDrinkThumb" alt="{{ cocktail.strDrink }}" class="cocktail-img d-block w-100">
+          <img
+          [src]="cocktail.strDrinkThumb"
+          (error)="onImgError($event)"
+          alt="{{ cocktail.strDrink }}"
+          class="cocktail-img d-block w-100"
+          alt="{{ cocktail.strDrink }}"/>
           <h3 class="nomeCocktailCss">{{ cocktail.strDrink }}</h3>
+          <ul>
+            <li  *ngIf="let ing of getIngredients(cocktail)"> {{ ing }}</li>
+          </ul>
 
           <!-- Messaggio per i minorenni -->
           <div *ngIf="underageMessage" class="text-danger mb-2">

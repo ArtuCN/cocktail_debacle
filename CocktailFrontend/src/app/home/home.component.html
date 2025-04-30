@@ -49,6 +49,11 @@
       {{ isLoginMode ? 'DHN mi devo registrare!' : 'Oh botta ho gia un acccount!' }}
     </button>
   </div>
+
+  <div class="carousel-wrapper">
+    <app-daily-cocktail></app-daily-cocktail>
+  </div>
+
   <div class="usersCount">
     <h3>Live Users: {{ connectedClients }}</h3>
   </div>
@@ -72,9 +77,6 @@
 
   <div class="chat">
     <button [routerLink]="['/chat']">Chat</button>
-  </div>
-  <div class="tail2">
-    <app-daily-cocktail></app-daily-cocktail>
   </div>
 
   <div class="ingredient">
