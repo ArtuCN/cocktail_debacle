@@ -41,6 +41,7 @@ import { SuggestionComponent } from '../suggestion/suggestion.component';
 export class HomeComponent implements OnInit{
 
   connectedClients: number = 0;
+  admin: boolean = false;
   welcomeMessage: string = '';
   ssr: SignalrService;
   cocktail: any = null;
@@ -75,11 +76,7 @@ export class HomeComponent implements OnInit{
     if (token) {
       this.mail = localStorage.getItem('mail') as string;
       console.log('Token:', token);
-      console.log('Mail:', this.mail);
-      
-      if (!this.mail) {
-        this.mail = 'CAZZO CULO';
-      }
+      console.log('Mail:', this.mail);      
     }
     this.loggedIn = token !== null;
 
@@ -88,6 +85,8 @@ export class HomeComponent implements OnInit{
       const decodedToken: any = jwtDecode(token as string); // decodifica il token
       this.name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];  // Estrarre il nome
       console.log('Nome:', this.name);
+      if (this.mail === 'admin@admin.com')
+        this.admin = true;
     }
 
     this.router.events.subscribe(() => {
@@ -149,7 +148,7 @@ export class HomeComponent implements OnInit{
 
   navigateToPersonalArea(): void {
     this.router.navigate(['/personal-area']);
-    this.onLogin = false; // Chiude il menu di login
+    this.onLogin = false;
   }
 
 
