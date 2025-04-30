@@ -26,7 +26,7 @@ export const routes: Routes = [
     {path: 'ingredientgallery', component: IngredientGalleryComponent},
     {path: 'admin', component: ADMINPAGEComponent},
     {path: 'suggestions', component: SuggestionComponent},
-    {path: 'fullInfo', component: FullInfoComponent},
+    {path: 'fullinfo', component: FullInfoComponent},
     {path: '**', redirectTo: 'home'},
 ];
 

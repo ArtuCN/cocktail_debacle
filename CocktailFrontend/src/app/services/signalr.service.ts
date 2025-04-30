@@ -3,8 +3,9 @@ import * as signalR from "@microsoft/signalr";
 import { first } from "rxjs";
 import { User } from "../models/models";
 import { Subject } from 'rxjs';
-import { Message } from "../models/models";
+import { Message, Share } from "../models/models";
 import { BehaviorSubject } from 'rxjs';
+import { callbackify } from "util";
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,17 @@ export class SignalrService {
       callback(msg);
     });
   }
+
+  shareCocktail(mail: string, message: string, id: string){
+    this.hubConnection.invoke("ShareCocktail", mail, message, id)
+      .catch(err => console.error("Errore:", err));
+  }
   
+  reciveCocktail(callback:(message: Share) => void)
+  {
+    this.hubConnection.on("ReciveCocktail", (message: Share) => {
+      callback(message);
+    });
+  }
   
-    //per la chat
 }

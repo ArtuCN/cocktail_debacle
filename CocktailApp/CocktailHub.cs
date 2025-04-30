@@ -101,6 +101,17 @@ namespace CocktailApp.hubs {
             await Clients.All.SendAsync("UserJoined", $"{username} Joined in our comunity!");
         }
 
+        public async Task ShareCocktail(string user, string text, string id)
+        {
+            var share = new Share {
+                Sender = user,
+                Text = text,
+                Timestamp = DateTime.Now.ToString("HH:mm"),
+                CocktailId = id
+            };
+            await Clients.All.SendAsync("ReciveCocktail", share);
+        }
+
 
         public async Task SendMessage(string user, string text)
         {

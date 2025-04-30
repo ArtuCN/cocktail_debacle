@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CocktailInterface } from '../models/models';
-import { CommonModule } from '@angular/common'; // necessario se standalone
+import { CommonModule, getLocaleTimeFormat } from '@angular/common'; // necessario se standalone
 import { FormsModule } from '@angular/forms';
+import { SignalrService } from '../services/signalr.service';
+import { Sign } from 'crypto';
+import { get } from 'http';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -28,12 +32,12 @@ export class FullInfoComponent implements OnInit {
   ];
   ingredients: string[] = [];
   selectedCocktail: any = null;
-
+  message: string = '';
+  mail: string = '';
   currentFlag: string = '';  // Variabile per contenere la bandiera da visualizzare
-
-  constructor(private http: HttpClient) {}
-
+  constructor(private http: HttpClient, private srs: SignalrService, private router: Router) {}
   ngOnInit(): void {
+    this.mail = localStorage.getItem('mail') ?? '';
     this.http
       .get<{ drinks: CocktailInterface[] }>('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11004')
       .subscribe({
@@ -41,7 +45,7 @@ export class FullInfoComponent implements OnInit {
           if (data.drinks && data.drinks.length > 0) {
             this.cocktail = data.drinks[0];
             console.log(this.cocktail.strDrink);
-            this.loadCocktailDetails(this.cocktail); // ✅ chiamiamolo subito
+            this.loadCocktailDetails(this.cocktail);
           }
         },
         error: (err: any) => {
@@ -55,6 +59,13 @@ export class FullInfoComponent implements OnInit {
       this.showLanguages = !this.showLanguages;
     }
     
+    shareCocktail()
+    {
+      if (this.mail == '')
+        return;
+      this.srs.shareCocktail(this.mail, this.message, this.cocktail.idDrink);
+      this.router.navigate(['/chat']);
+    }
     loadCocktailDetails(cocktail: any) {
       console.log("loadCocktailDetails");
       this.selectedCocktail = cocktail;
