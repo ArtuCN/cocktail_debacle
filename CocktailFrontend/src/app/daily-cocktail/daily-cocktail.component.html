@@ -12,7 +12,7 @@
   </div>
 
   <div class="daily-controls">
-    <button class="daily-btn" (click)="prevSlide()" [disabled]="currentStartIndex === 0">←</button>
-    <button class="daily-btn" (click)="nextSlide()" [disabled]="currentStartIndex + visibleCards >= dailyCocktail.length">→</button>
+    <button class="daily-btn" (click)="prevSlide()" [disabled]="activeIndex <= 0">&#10094;</button>
+  <button class="daily-btn" (click)="nextSlide()" [disabled]="activeIndex >= dailyCocktail.length - 1">&#10095;</button>
   </div>
 </div>

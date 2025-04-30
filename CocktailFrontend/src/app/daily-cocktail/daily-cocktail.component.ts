@@ -8,14 +8,14 @@ import { CommonModule } from '@angular/common';
   selector: 'app-daily-cocktail',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './daily-cocktail.component.html',
+  templateUrl: './daily-cocktail.component.html'
 })
 export class DailyCocktailComponent implements OnInit {
   dailyCocktail: any[] = [];
-  currentStartIndex = 0;
+  activeIndex = 0;
   visibleCards = 3;
   cardWidth = 300;
-  cardMargin = 25;
+  cardMargin = 40;
 
   isDevelopmentMode = true;
   private mockCocktail: CocktailInterface = {
@@ -54,26 +54,33 @@ export class DailyCocktailComponent implements OnInit {
 
   getTransformValue(): number {
     const fullCard = this.cardWidth + 2 * this.cardMargin;
-    return -this.currentStartIndex * fullCard;
+  
+    const containerWidth = 1050; // oppure prendi dinamicamente con containerRef
+    const centerOffset = (containerWidth - fullCard) / 2;
+  
+    return -this.activeIndex * fullCard + centerOffset;
   }
+  
+  
 
   getCardClass(index: number): string {
-    const middle = this.currentStartIndex + Math.floor(this.visibleCards / 2);
-    if (index === middle) return 'daily-card active';
-    return 'daily-card';
+    return index === this.activeIndex ? 'daily-card active' : 'daily-card';
   }
+  
+  
 
   prevSlide() {
-    if (this.currentStartIndex > 0) {
-      this.currentStartIndex--;
+    if (this.activeIndex > 0) {
+      this.activeIndex--;
     }
   }
-
+  
   nextSlide() {
-    if (this.currentStartIndex + this.visibleCards < this.dailyCocktail.length) {
-      this.currentStartIndex++;
+    if (this.activeIndex < this.dailyCocktail.length - 1) {
+      this.activeIndex++;
     }
   }
+  
 
   setDaily(ids: string[]) {
     this.dailyCocktail = [];
