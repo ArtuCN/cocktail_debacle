@@ -31,6 +31,49 @@ export class CocktailResearchComponent {
   underageMessage: string = '';
   favoritesMap: Map<string, boolean> = new Map<string, boolean>();
 
+
+
+  // 1. Modalità di sviluppo
+  isDevelopmentMode = true;
+
+  mockCocktails: CocktailInterface[] = [
+    {
+    idDrink: 'DEV1',
+    strDrink: 'Dev Martini',
+    strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
+    strCategory: 'Cocktail',
+    strAlcoholic: 'Alcoholic',
+    strGlass: 'Martini Glass',
+    strIngredient1: 'Gin',
+    strIngredient2: 'Dry Vermouth',
+    strIngredient3: null,
+    strMeasure1: '60 ml',
+    strMeasure2: '10 ml',
+    strMeasure3: null,
+    // …chiudi gli altri campi strIngredient4…strIngredient15 e strMeasure4…15 a null
+    strInstructions: null, strTags: null, /* …*/
+  } as CocktailInterface
+  ];
+
+  // 3. utilità per estrarre gli ingredienti  
+  getIngredients(c: CocktailInterface): string[] {
+    const list: string[] = [];
+    const anyCocktail = c as any;
+    for (let i = 1; i <= 15; i++) {
+      const ing = anyCocktail[`strIngredient${i}`];
+      const meas = anyCocktail[`strMeasure${i}`];
+      if (ing) list.push(meas ? `${ing} – ${meas}` : ing);
+    }
+    return list;
+  }
+
+  onImgError(event: Event) {
+    (event.target as HTMLImageElement).src = 'https://via.placeholder.com/300x200.png?text=Immagine+non+disponibile';
+  }
+
+
+
+
   private calculateAge(birthdate: string): number {
     const bd = new Date(birthdate);
     const now = new Date();
@@ -111,6 +154,17 @@ export class CocktailResearchComponent {
 
 
   searchCocktail() {
+
+
+
+    if (this.isDevelopmentMode) {
+      this.cocktails = this.mockCocktails;
+      this.updateFavoritesStatus();
+      return;
+    }
+
+
+
     switch(this.selectedType)
     {
       case 'name':

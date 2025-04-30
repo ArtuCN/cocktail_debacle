@@ -1,17 +1,18 @@
-<button (click)="toggleMinimize()" class="btn btn-sm btn-outline-light mb-2">
-  {{ isMinimized ? 'Mostra Cocktail del Giorno' : 'Minimizza Cocktail del Giorno' }}
-</button>
+<div class="daily-carousel-container" #carouselContainer *ngIf="dailyCocktail.length > 0">
+  <div
+    class="daily-carousel-track"
+    [ngStyle]="{ transform: 'translateX(' + getTransformValue() + 'px)' }"
+  >
+    <div
+      *ngFor="let cocktail of dailyCocktail; let i = index"
+      [class]="getCardClass(i)">
+      <img [src]="cocktail.strDrinkThumb" [alt]="cocktail.strDrink" />
+      <h4>{{ cocktail.strDrink }}</h4>
+    </div>
+  </div>
 
-<div *ngIf="!isMinimized; else loading">
-  <h2>{{ dailyCocktail[currentIndex]?.strDrink }}</h2>
-  <img [src]="dailyCocktail[currentIndex]?.strDrinkThumb"
-       alt="{{ dailyCocktail[currentIndex]?.strDrink }}"
-       width="300" />
-  <h3>Category: {{ dailyCocktail[currentIndex]?.strCategory }}</h3>
-  <h4>Alcohol: {{ dailyCocktail[currentIndex]?.strAlcoholic }}</h4>
-  <p><strong>Glass:</strong> {{ dailyCocktail[currentIndex]?.strGlass }}</p>
+  <div class="daily-controls">
+    <button class="daily-btn" (click)="prevSlide()" [disabled]="currentStartIndex === 0">←</button>
+    <button class="daily-btn" (click)="nextSlide()" [disabled]="currentStartIndex + visibleCards >= dailyCocktail.length">→</button>
+  </div>
 </div>
-
-<ng-template #loading>
-  <p>Cocktail del giorno...</p>
-</ng-template>
