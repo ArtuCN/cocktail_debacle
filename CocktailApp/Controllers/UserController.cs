@@ -59,7 +59,7 @@ namespace CocktailApp.Controllers
                 };
 
 
-                Console.WriteLine($"✅ Parsed: username = {user.UserName}, mail = {user.Mail}, psw = {user.Psw}, birthdate = {user.BirthDate}, acceptedTerms = {user.AcceptedTerms}");
+                Console.WriteLine($"✅ Parsed: username = {user.UserName}, mail = {user.Mail}, psw = {user.Psw}, birthdate = {user.BirthDate}, acceptedTerms = {user.AcceptedTerms}, IsOnline = false");
 
                 string formattedBirthDate = user.BirthDate.ToString("yyyy-MM-dd");
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Psw);
@@ -67,7 +67,7 @@ namespace CocktailApp.Controllers
                 using (var conn = new SqliteConnection(_connectionString))
                 {
                     conn.Open();
-                    string query = "INSERT INTO User (Mail, UserName, BirthDate, Psw, AcceptedTerms) VALUES (@Mail, @UserName, @BirthDate, @Psw, @AcceptedTerms)";
+                    string query = "INSERT INTO User (Mail, UserName, BirthDate, Psw, AcceptedTerms, Isonline) VALUES (@Mail, @UserName, @BirthDate, @Psw, @AcceptedTerms, 0)";
 
                     using (var cmd = new SqliteCommand(query, conn))
                     {

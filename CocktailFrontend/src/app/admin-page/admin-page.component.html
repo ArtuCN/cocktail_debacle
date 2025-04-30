@@ -1,1 +1,29 @@
-<p>admin-page works!</p>
+<h1>Admin Page</h1>
+<h2>Users Overview</h2>
+<h6>Attention! This page is reserved only for admins, all actions here are irreversible!</h6>
+<table class="user-table">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Birthdate</th>
+      <th>Accepted Terms</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>
+        <span class="status-dot" [class.active]="user.isOnline"></span>
+      </td>
+      <td>{{ user.userName }}</td>
+      <td>{{ user.mail }}</td>
+      <td>{{ user.birthDate | date:'yyyy-MM-dd' }}</td>
+      <td>{{ user.hasAccepted ? 'Yes' : 'No' }}</td>
+      <td>
+        <button class="delete-btn" (click)="kickUser(user.id)">🗑 Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

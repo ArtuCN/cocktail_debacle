@@ -33,7 +33,7 @@ namespace CocktailApp.Controllers
                 await connection.OpenAsync();
                 
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT Id, Mail, UserName, BirthDate, AcceptedTerms FROM User";
+                command.CommandText = "SELECT Id, Mail, UserName, BirthDate, AcceptedTerms, IsOnline FROM User";
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -45,7 +45,8 @@ namespace CocktailApp.Controllers
                             Mail = reader.GetString(1),
                             UserName = reader.GetString(2),
                             BirthDate = reader.GetDateTime(3),
-                            AcceptedTerms = reader.GetBoolean(4)
+                            AcceptedTerms = reader.GetBoolean(4),
+                            IsOnline = reader.GetBoolean(5)
                         };
                         users.Add(user);
                     }
