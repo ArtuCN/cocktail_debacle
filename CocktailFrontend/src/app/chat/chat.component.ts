@@ -4,18 +4,23 @@ import { SignalrService } from '../services/signalr.service';
 import { FormsModule } from '@angular/forms';
 import { NgClass, CommonModule, Location } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { OnInit } from '@angular/core';
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule, CommonModule, NgClass],
+  imports: [FormsModule, CommonModule, NgClass ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit{
   
   ngOnInit() {
-    this.srs.receiveMessage((msg: Message) => {
-      this.messages.push(msg);
+    this.getMessages();
+    console.log('ngOnInit chiamato');
+    this.srs.startConnection().then(() => {
+      this.srs.receiveMessage((msg: Message) => {
+        this.messages.push(msg);
+      });
     });
     this.srs.reciveCocktail((shared: Share) => {
       this.fetchCocktailData(shared);
@@ -32,7 +37,16 @@ export class ChatComponent {
   connectedClients: number = 0;
   mail: string = '';
 
-
+  getMessages() {
+    console.log('Recupero messaggi dal backend...');
+    this.srs.receiveAllMessages((msgs: Message[]) => {
+      console.log("Messaggi ricevuti:", msgs);
+      this.messages.push(...msgs);
+    });
+    this.messages.forEach(element => {
+      console.log(element);
+    });
+  }
 
   constructor(private location: Location, private srs: SignalrService) 
   {
@@ -41,6 +55,9 @@ export class ChatComponent {
     if (!this.mail && !this.isDevelopmentMode)
       return;
     this.m.sender = this.mail;
+    
+    console.log(this.messages);
+    
     if (this.isDevelopmentMode) {
       const mockShare: Share = {
         sender: 'DevBot',
@@ -81,15 +98,20 @@ export class ChatComponent {
   goBack(): void {
     this.location.back();
   }
-  sendMessage()
-  {
+  sendMessage() {
     if (this.m.text.trim() === '') return;
-    console.log("mail inviata ", this.mail);
+    
+    const newMessage: Message = {
+      sender: this.mail,
+      text: this.m.text,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+  
     this.srs.sendMessage(this.mail, this.m.text);
-    let i: number = 0;
-    while (i++ < 10)
-      console.log(this.messages[i]);
+    this.messages.push(newMessage); // 👈 Aggiunta immediata del messaggio
+  
     this.m.text = '';
+    this.scrollToBottom();
   }
 
 

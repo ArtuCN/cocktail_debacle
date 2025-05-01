@@ -82,6 +82,12 @@ export class SignalrService {
     });
   }
 
+  receiveAllMessages(callback: (messages: Message[]) => void) {
+    this.hubConnection.on("ReceiveAllMessages", (msgs: Message[]) => {
+      callback(msgs);
+    });
+  }
+  
   shareCocktail(mail: string, message: string, id: string){
     this.hubConnection.invoke("ShareCocktail", mail, message, id)
       .catch(err => console.error("Errore:", err));
@@ -92,6 +98,10 @@ export class SignalrService {
     this.hubConnection.on("ReciveCocktail", (message: Share) => {
       callback(message);
     });
+  }
+
+  public startConnection(): Promise<void> {
+    return this.hubConnection.start();
   }
   
 }

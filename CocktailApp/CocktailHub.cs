@@ -15,6 +15,7 @@ namespace CocktailApp.hubs {
         public CocktailHub(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            
         }
         public async Task NotLoggedMessage(string user, string message)
         {
@@ -27,7 +28,7 @@ namespace CocktailApp.hubs {
         {
             _connectedClients++;
             await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
-
+            await ReceiveAllMessages();
             var today = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
             using var conn = new SqliteConnection(_connectionString);
             await conn.OpenAsync();
@@ -77,6 +78,7 @@ namespace CocktailApp.hubs {
                 }
 
                 existingIds.AddRange(fetchedCocktails);
+
             }
 
             if (existingIds.Count > 0)
@@ -140,6 +142,29 @@ namespace CocktailApp.hubs {
             await Clients.All.SendAsync("ReciveCocktail", share);
         }
 
+        public async Task ReceiveAllMessages()
+        {
+            Console.WriteLine("sending all messages to client");
+            var messages = new List<Message>();
+            using var connection = new SqliteConnection("Data Source=cocktail.db");
+            await connection.OpenAsync();
+            const string queryString = "SELECT Id, Sender, MessageText, SendingTime FROM Message ORDER BY SendingTime";
+            using var command = new SqliteCommand(queryString, connection);
+            using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                var message = new Message
+                {
+                    Sender = reader.GetString(1),
+                    Text = reader.GetString(2),
+                    Timestamp = DateTime.Parse(reader.GetString(3)).ToString("HH:mm")
+                };
+                messages.Add(message);
+            }
+            await Clients.Caller.SendAsync("ReceiveAllMessages", messages);
+        }
+
+
 
         public async Task SendMessage(string user, string text)
         {
@@ -149,7 +174,21 @@ namespace CocktailApp.hubs {
                 Text = text,
                 Timestamp = DateTime.Now.ToString("HH:mm")
             };
-            await Clients.All.SendAsync("ReceiveMessage", message);
+
+            using var connection = new SqliteConnection("Data Source=cocktail.db");
+            await connection.OpenAsync();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = @"
+                INSERT INTO Message (Sender, MessageText, SendingTime)
+                VALUES ($sender, $text, $time);
+            ";
+            command.Parameters.AddWithValue("$sender", user);
+            command.Parameters.AddWithValue("$text", text);
+            command.Parameters.AddWithValue("$time", DateTime.Now);
+
+            await command.ExecuteNonQueryAsync();
+            await Clients.All.SendAsync("RecveMessage", message);
         }
 
     }
