@@ -10,7 +10,7 @@ h1, h2, h3, h4, h5, h6{
 a {
     color: #0d6efd;
 }
-input, textarea, select, button{
+input, textarea, select{
     background-color: #9696961b !important;
     color: #ffffff !important;
     border: 1px solid #564a4a47 !important;
@@ -134,7 +134,7 @@ html {
 }
 
 
-/*search-component*/
+/*SEARCH-COMPONENT*/
 
 /* Contenitore per la barra di ricerca */
 .search-container {
@@ -193,7 +193,7 @@ html {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
-    background-color: #0069d9;
+    background-color: #d9cb00;
     color: white;
     font-weight: bold;
   }
@@ -209,52 +209,136 @@ html {
     font-weight: bold;
   }
   
+
+/* CARD DELLA RICERCA*/
+
   /* Risultati della ricerca */
   .results-container {
     margin-top: 30px;
   }
   
+  .carousel-container,
+  .carousel-container .carousel-inner,
+  .carousel-container .carousel-item {
+    perspective: 1000px;
+    overflow: visible !important;
+  }
+
   .carousel-container {
-    max-width: 30%;  /* Limita la larghezza del carousel */
+    background-color: transparent;
+    max-width: 40%;  /* Limita la larghezza del carousel */
     margin: 0 auto;  /* Centra il carousel nella pagina */
-    padding-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
   }
-  .carousel-item {
-    justify-content: center; /* Allinea gli item al centro */
-    align-items: center;
-    height: 900px; /* Imposta l'altezza delle card */
-  }
-  
-  .nomeCocktailCss{
-    color: #000000 !important;
-  }
-  
+
+ 
   .cocktail-card {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi una leggera ombra */
-    background-color: #fff;
+    background-color: #6cfc76;
     padding: 20px;
     /*transition: transform 0.3s ease;*/
   }
-  .cocktail-card:hover {
-    transform: scale(1.05); /* Effetto di ingrandimento al passaggio del mouse */
+  
+  .cocktail-card.flipped {
+    transform: rotateY(540deg) scale(1.05);
   }
-  .carousel-ccontrols {
+
+  .cocktail-card:not(.flipped):hover {
+    transform: scale(1.05);
+  }
+
+  .card-front {
+    text-align: center;
+    border-radius: 8px;
+    background-color: transparent;
+    padding: 20px;
+    backface-visibility: hidden;
+  }
+
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi una leggera ombra */
+    background-color: #fc3535;
+    padding: 10px;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+  }
+
+
+  .btn-aggiungi {
+    font-size: 20px;
+    display: block;
+    margin: 20px auto 0;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: none;
+  }
+
+
+  /*TESTO DIETRO LA CARD*/
+
+  .cocktail-description,
+  .cocktail-category,
+  .cocktail-glass,
+  .cocktail-alcoholic {
+    text-align: left;
+    color: #3300d9 !important;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+  }
+
+/* TASTI DELLA CARD RICERCA */
+
+  .carousel-controls {
     background-color: #4f0707;
     align-items: center;
     border-radius: 50%;
     padding: 10px;
     color: #000000;
+  }
 
+
+  #cocktailCarousel .carousel-control-prev-icon,
+  #cocktailCarousel .carousel-control-next-icon {
+    width: 13rem !important;
+    height: 13rem !important;
+    background-size: 100%, 100% !important;
+  }
+
+  #cocktailCarousel .carousel-control-prev,
+  #cocktailCarousel .carousel-control-next {
+    align-items: center;
+    background-color: transparent !important;
+    padding: 10px;
   }
   
   .cocktail-img {
     width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 50px;
   }
   
+  .carousel-item {
+    justify-content: center; /* Allinea gli item al centro */
+    align-items: center;
+  }
+  
+  .nomeCocktailCss{
+    color: #000000 !important;
+  }
   .cocktail-card h3 {
     font-size: 1.5rem;
     color: #fff;
@@ -263,6 +347,9 @@ html {
   .cocktail-card p {
     color: #bbb;
   }
+
+
+
   .tail{
     text-align: center;
     display: flex;

@@ -30,6 +30,7 @@ export class CocktailResearchComponent {
   selectedType: string = 'name';
   underageMessage: string = '';
   favoritesMap: Map<string, boolean> = new Map<string, boolean>();
+  flippedCard: boolean[] = [];
 
 
 
@@ -71,6 +72,9 @@ export class CocktailResearchComponent {
     (event.target as HTMLImageElement).src = 'https://via.placeholder.com/300x200.png?text=Immagine+non+disponibile';
   }
 
+  toggleFlip(index: number) {
+    this.flippedCard[index] = !this.flippedCard[index];
+  }
 
 
 
@@ -159,6 +163,7 @@ export class CocktailResearchComponent {
 
     if (this.isDevelopmentMode) {
       this.cocktails = this.mockCocktails;
+      this.flippedCard = new Array(this.cocktails.length).fill(false);
       this.updateFavoritesStatus();
       return;
     }
@@ -172,6 +177,7 @@ export class CocktailResearchComponent {
           this.ss.getCocktailByName(this.name).subscribe({
             next: (data) => {
               this.cocktails = data.drinks as CocktailInterface[];
+              this.flippedCard = new Array(this.cocktails.length).fill(false);
               this.updateFavoritesStatus();
             },
             error: (err) => {
@@ -185,6 +191,7 @@ export class CocktailResearchComponent {
           this.ss.getCocktailByIngredient(this.name).subscribe({
             next: (data) => {
               this.cocktails = data.drinks as CocktailInterface[];
+              this.flippedCard = new Array(this.cocktails.length).fill(false);
               this.updateFavoritesStatus();
             },
             error: (err) => {
@@ -198,6 +205,7 @@ export class CocktailResearchComponent {
             this.ss.getCocktailByCategory(this.name).subscribe({
               next: (data) => {
                 this.cocktails = data.drinks as CocktailInterface[];
+                this.flippedCard = new Array(this.cocktails.length).fill(false);
                 this.updateFavoritesStatus();
              },
               error: (err) => {
@@ -211,6 +219,7 @@ export class CocktailResearchComponent {
             this.ss.getCocktailByGlass(this.name).subscribe({
               next: (data) => {
                 this.cocktails = data.drinks as CocktailInterface[];
+                this.flippedCard = new Array(this.cocktails.length).fill(false);
                 this.updateFavoritesStatus();
               },
               error: (err) => {
