@@ -1,32 +1,46 @@
-<h1>THIS IS COCKTAIL DEBACLE CHATROOM!</h1>
-<h1>
-    <button (click)="goBack()">Go back to menu</button>
-</h1>
-<h3>Shared Cocktails</h3>
-<div *ngFor="let s of share" class="shared-cocktail">
-  <div><strong>{{ s.sender }}</strong> Has shared a Cocktail!</div>
-  <div>{{ s.text }}</div>
-  <div style="font-size: 0.75rem; text-align: right;">{{ s.timestamp }}</div>
-  <div *ngIf="s.cocktailImage && s.cocktailName">
-    <img [src]="s.cocktailImage" [alt]="s.cocktailName" style="max-width: 150px; border-radius: 10px; margin-top: 5px;" />
-    <div><strong>{{ s.cocktailName }}</strong></div>
-  </div>
+
+<div class = "goBack">
+  <button (click)="goBack()">Go back to menu</button>
 </div>
 
-<h4>
-    <div class="chat">
-        <div class="messages">
-          <div *ngFor="let m of messages" 
-               class="message" 
-               [ngClass]="m.sender === this.m.sender ? 'sent' : 'received'">
-            <div><strong>{{m.sender}}</strong></div>
-                <div>
-                    {{m.text}}
-                </div>
-            <div style="font-size: 0.75rem; text-align: right;">{{m.timestamp}}</div>
+
+<div class = "all">
+  <div *ngIf="currentShare" class="shared-cocktail">
+    <div class="cocktail-name"><strong>{{ currentShare.cocktailName }}</strong></div>
+    <img [src]="currentShare.cocktailImage" 
+         [alt]="currentShare.cocktailName" 
+         class="shared-cocktail-img" />
+    <div class="shared-info-box">
+      <div><strong>{{ currentShare.sender }}</strong> has shared a Cocktail!</div>
+      <div class="sharetext">{{ currentShare.text }}</div>
+      <div class="sharetime">{{ currentShare.timestamp }}</div>
+    </div>
+  </div>
+  
+  <div *ngIf="share.length > 1" style="margin-top: 10px;">
+    <button (click)="prevShare()" [disabled]="currentShareIndex === 0">← Previous</button>
+    <button (click)="nextShare()" [disabled]="currentShareIndex === share.length - 1">Next →</button>
+  </div>
+  
+  
+  <h4>
+      <div class="chat">
+          <div class="messages">
+            <div *ngFor="let m of messages" 
+                  class="message" 
+                  [ngClass]="m.sender === this.m.sender ? 'sent' : 'received'">
+              <div><strong>{{m.sender}}</strong></div>
+                  <div>
+                      {{m.text}}
+                  </div>
+              <div style="font-size: 0.75rem; text-align: right;">{{m.timestamp}}</div>
+            </div>
           </div>
-        </div>
-        <input [(ngModel)]="m.text" placeholder="Scrivi un messaggio..." />
-        <button (click)="sendMessage()">Invia</button>
-    </div>      
-</h4>
+          <div class = "write-send">
+            <input [(ngModel)]="m.text" placeholder="Scrivi un messaggio..." />
+            <button (click)="sendMessage()">Invia</button>
+          </div>
+      </div>      
+  </h4>
+</div>
+

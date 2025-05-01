@@ -11,7 +11,7 @@ import { NgClass, CommonModule, Location } from '@angular/common';
   styleUrl: './chat.component.css'
 })
 export class ChatComponent {
-
+  
   ngOnInit() {
     this.srs.receiveMessage((msg: Message) => {
       this.messages.push(msg);
@@ -22,13 +22,39 @@ export class ChatComponent {
   }
   m: Message = { sender: '', text: '',  timestamp: ''};
   messages: Message[] = [];
+  currentShareIndex: number = 0;
   share: Share[] = [];
+  isDevelopmentMode = true;
   
+
+
   constructor(private location: Location, private srs: SignalrService) 
   {
-    this.m.sender = localStorage.getItem('mail') || '';
-    if (this.m.sender == '')
-      this.goBack();
+    
+
+    if (this.isDevelopmentMode) {
+      // Aggiungi manualmente un cocktail finto
+      const mockShare: Share = {
+        sender: 'DevBot',
+        text: 'Mock cocktail di esempio!',
+        timestamp: new Date().toISOString(),
+        cocktailId: '11007' // Margarita (esempio reale di ID di TheCocktailDB)
+      };
+  
+      this.fetchCocktailData(mockShare);
+    }
+        
+    this.srs.dailyId$.subscribe(ids => {
+      ids.forEach(id => {
+        this.fetchCocktailData({
+          sender: 'CocktailBot',
+          text: 'Daily-Cocktails!',
+          timestamp: new Date().toISOString(),
+          cocktailId: id
+        });
+      });
+    });
+    
   }
   fetchCocktailData(share: Share)
   {
@@ -62,4 +88,19 @@ export class ChatComponent {
     chatDiv?.scrollTo({ top: chatDiv.scrollHeight, behavior: 'smooth' });
   }
 
+  get currentShare(): Share | null {
+    return this.share.length > 0 ? this.share[this.currentShareIndex] : null;
+  }
+
+  nextShare() {
+    if (this.currentShareIndex < this.share.length - 1) {
+      this.currentShareIndex++;
+    }
+  }
+
+  prevShare() {
+    if (this.currentShareIndex > 0) {
+      this.currentShareIndex--;
+    }
+  }
 }
