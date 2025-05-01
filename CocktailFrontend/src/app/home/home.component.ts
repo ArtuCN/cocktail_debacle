@@ -97,6 +97,15 @@ export class HomeComponent implements OnInit{
     };
   }
 
+  scrollTo(id: string, ev: MouseEvent) {
+    ev.preventDefault();
+    document
+      .getElementById(id)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+
+  
 
   switchToLogin(): void {
     this.isLoginMode = true;
