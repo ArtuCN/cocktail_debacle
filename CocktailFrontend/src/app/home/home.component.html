@@ -13,6 +13,10 @@
       <div class="title">
         <p class="title-text">Cocktail Debacle</p>
       </div>
+      <a class="home" href="#daily" (click)="scrollTo('daily',$event)">Home</a>
+      <a class="sc"   href="#cocktailResearch" (click)="scrollTo('cocktailResearch',$event)">
+        Search for a cocktail!
+      </a>
       <a class="navbar-brand ms-auto login-link" 
          href="javascript:void(0)" 
          (click)="onLoginClick($event)">
@@ -22,7 +26,7 @@
   </nav>
 
   <!-- MENU che appare sotto la navbar quando clicchi -->
-  <div *ngIf="onLogin" class="login-menu text-center mt-5 pt-4">
+  <div *ngIf="onLogin" class="login-menu">
     <ng-container *ngIf="!loggedIn">
       <app-create-user *ngIf="!isLoginMode"></app-create-user>
       <app-login *ngIf="isLoginMode"></app-login>
@@ -43,19 +47,15 @@
   </div>
 
   <!-- Bottone per switch login/registrazione -->
-  <div class="botton-login-menu text-center mt-2" *ngIf="onLogin && !loggedIn">
+  <div class="botton-login-menu" *ngIf="onLogin && !loggedIn">
     <button class="custom-auth-btn btn btn-outline-light mt-2"
       (click)="isLoginMode ? switchToCreateUser() : switchToLogin()">
       {{ isLoginMode ? 'DHN mi devo registrare!' : 'Oh botta ho gia un acccount!' }}
     </button>
   </div>
 
-  <div class="carousel-wrapper">
+  <div id="daily" class="carousel-wrapper">
     <app-daily-cocktail></app-daily-cocktail>
-  </div>
-
-  <div class="usersCount">
-    <h3>Live Users: {{ connectedClients }}</h3>
   </div>
 
   <div *ngIf="welcomeMessage" class="announcement-banner">
@@ -63,7 +63,7 @@
   </div>
 
   <!-- Componente di ricerca cocktail -->
-  <div class="cock" *ngIf="!isFavoritesPage">
+  <div id="sc" class="cock" *ngIf="!isFavoritesPage">
     <app-cocktail-research></app-cocktail-research>
   </div>
 
@@ -75,6 +75,10 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
+
+  <div class="usersCount">
+    <h6>Live Users: {{ connectedClients }}</h6>
+  </div>
   <div class="chat">
     <button [routerLink]="['/chat']">Chat</button>
   </div>
