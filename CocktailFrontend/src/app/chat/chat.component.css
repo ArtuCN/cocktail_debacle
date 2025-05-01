@@ -4,6 +4,21 @@
   margin: 0 150px;
 }
 
+.userCount {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #121212;
+  color: #e0e0e0;
+  border: 1px solid #333;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  border-radius: 10px;
+}
+
 .chat {
   display: flex;
   flex-direction: column;
@@ -54,14 +69,18 @@
 }
 
 
-
 .messages {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow-y: auto;
   margin-bottom: 0.5rem;
 }
 
 .message {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
   padding: 0.6rem 1rem;
   margin: 0.3rem 0;
   border-radius: 15px;
@@ -73,16 +92,17 @@
 }
 
 .sent {
-  background-color: #005c4b;
   align-self: flex-end;
+  background-color: #005c4b;
   text-align: right;
 }
 
 .received {
-  background-color: #1f1f1f;
   align-self: flex-start;
+  background-color: #1f1f1f;
   text-align: left;
 }
+
 
 .write-send {
   display: flex;

@@ -17,7 +17,7 @@ export class DailyCocktailComponent implements OnInit {
   cardWidth = 300;
   cardMargin = 40;
 
-  isDevelopmentMode = true;
+  isDevelopmentMode = false;
   private mockCocktail: CocktailInterface = {
     idDrink: 'DEV1',
     strDrink: 'Dev Cocktail',

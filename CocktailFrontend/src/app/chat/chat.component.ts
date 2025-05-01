@@ -3,6 +3,7 @@ import { Message, Share } from '../models/models';
 import { SignalrService } from '../services/signalr.service';
 import { FormsModule } from '@angular/forms';
 import { NgClass, CommonModule, Location } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -19,21 +20,28 @@ export class ChatComponent {
     this.srs.reciveCocktail((shared: Share) => {
       this.fetchCocktailData(shared);
     });
+    this.srs.onClientCountUpdate = (count: number) => {
+      this.connectedClients = count;
+    };
   }
   m: Message = { sender: '', text: '',  timestamp: ''};
   messages: Message[] = [];
   currentShareIndex: number = 0;
   share: Share[] = [];
-  isDevelopmentMode = true;
-  
+  isDevelopmentMode = false;
+  connectedClients: number = 0;
+  mail: string = '';
+
 
 
   constructor(private location: Location, private srs: SignalrService) 
   {
     
-
+    this.mail = localStorage.getItem('mail') || '';
+    if (!this.mail && !this.isDevelopmentMode)
+      return;
+    this.m.sender = this.mail;
     if (this.isDevelopmentMode) {
-      // Aggiungi manualmente un cocktail finto
       const mockShare: Share = {
         sender: 'DevBot',
         text: 'Mock cocktail di esempio!',
@@ -76,12 +84,14 @@ export class ChatComponent {
   sendMessage()
   {
     if (this.m.text.trim() === '') return;
-    this.srs.sendMessage(this.m.sender, this.m.text);
+    console.log("mail inviata ", this.mail);
+    this.srs.sendMessage(this.mail, this.m.text);
     let i: number = 0;
     while (i++ < 10)
       console.log(this.messages[i]);
     this.m.text = '';
   }
+
 
   scrollToBottom() {
     const chatDiv = document.querySelector('.messages');
