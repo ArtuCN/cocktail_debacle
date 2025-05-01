@@ -21,6 +21,8 @@ namespace CocktailApp
         public required string? Mail {get; set;}
         public required DateTime BirthDate {get; set;}
         public required bool AcceptedTerms {get; set;}
+        public required bool IsOnline {get; set;}
+
     }
 }
 

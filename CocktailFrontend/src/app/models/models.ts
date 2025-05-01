@@ -1,4 +1,14 @@
-
+export class adminUserInfo
+{
+  constructor(
+    public id: string,
+    public userName: string = '',
+    public mail: string = '',
+    public birthDate: string = '',
+    public hasAccepted: boolean,
+    public isOnline: boolean = false
+  ){}
+};
 
 export class User {
     constructor(

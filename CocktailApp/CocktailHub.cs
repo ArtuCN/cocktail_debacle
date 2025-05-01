@@ -7,7 +7,9 @@ using CocktailApp;
 namespace CocktailApp.hubs {
     public class CocktailHub : Hub
     {
+        private static Dictionary<string, string> _connectedUsers = new();
         private readonly string _connectionString = "Data Source=cocktail.db";
+
         private readonly HttpClient _httpClient;
         private static int _connectedClients = 0;
         public CocktailHub(HttpClient httpClient)
@@ -93,13 +95,39 @@ namespace CocktailApp.hubs {
         {
             _connectedClients = Math.Max(0, _connectedClients - 1);
             await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
+
+            if (_connectedUsers.TryGetValue(Context.ConnectionId, out var username))
+            {
+                using var conn = new SqliteConnection(_connectionString);
+                await conn.OpenAsync();
+
+                var query = "UPDATE User SET IsOnline = 0 WHERE UserName = @name";
+                using var cmd = new SqliteCommand(query, conn);
+                cmd.Parameters.AddWithValue("@name", username);
+                await cmd.ExecuteNonQueryAsync();
+
+                _connectedUsers.Remove(Context.ConnectionId);
+            }
+
             await base.OnDisconnectedAsync(exception);
         }
-        public async Task AnnounceUser(string username)
+
+        public async Task AnnounceUser(string mail)
         {
-            Console.WriteLine($"{username} Joined in our community!");
-            await Clients.All.SendAsync("UserJoined", $"{username} Joined in our comunity!");
+            Console.WriteLine($"{mail} Joined our community!");
+            _connectedUsers[Context.ConnectionId] = mail;
+
+            using var conn = new SqliteConnection(_connectionString);
+            await conn.OpenAsync();
+
+            var query = "UPDATE User SET IsOnline = 1 WHERE Mail = @mail";
+            using var cmd = new SqliteCommand(query, conn);
+            cmd.Parameters.AddWithValue("@mail", mail);
+            await cmd.ExecuteNonQueryAsync();
+
+            await Clients.All.SendAsync("UserJoined", $"{mail} joined our community!");
         }
+
 
         public async Task ShareCocktail(string user, string text, string id)
         {

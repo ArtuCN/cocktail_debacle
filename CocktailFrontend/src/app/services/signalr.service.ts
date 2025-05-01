@@ -16,7 +16,7 @@ export class SignalrService {
   connectedClients : number = 0;
   public announcementMessage: string = '';
   public dailyIdSubject = new BehaviorSubject<string[]>([]); // accetta un array di stringhe
-
+  mail : string = '';
 
   dailyId$ = this.dailyIdSubject.asObservable();
 
@@ -34,6 +34,8 @@ export class SignalrService {
       console.log("SignalR connection started.");
     }).catch(err => console.error("SignalR error:", err));
     this.addListeners();
+    this.mail = localStorage.getItem('mail') || '';
+    this.hubConnection.invoke("AnnounceUser", this.mail);
     this.hubConnection.on("UpdateConnectedClients", (count: number) => {
       this.connectedClients = count;
       console.log("Utenti connessi:", count);
