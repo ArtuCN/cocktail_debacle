@@ -1,11 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as signalR from "@microsoft/signalr";
-import { first } from "rxjs";
-import { User } from "../models/models";
-import { Subject } from 'rxjs';
 import { Message, Share } from "../models/models";
 import { BehaviorSubject } from 'rxjs';
-import { callbackify } from "util";
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +28,7 @@ export class SignalrService {
     
    this.hubConnection.start().then(() => {
       console.log("SignalR connection started.");
-    }).catch(err => console.error("SignalR error:", err));
+    }).catch((err: any) => console.error("SignalR error:", err));
     this.addListeners();
     this.mail = localStorage.getItem('mail') || '';
     this.hubConnection.invoke("AnnounceUser", this.mail);
@@ -66,7 +62,7 @@ export class SignalrService {
   }
   announceUser(username: string) {
     this.hubConnection.invoke("AnnounceUser", username)
-      .catch(err => console.error("Errore:", err));
+      .catch((err: any) => console.error("Errore:", err));
   }
   public onDailyCocktailReceived: ((cocktailId: string[]) => void) | null = null;
   
@@ -82,6 +78,12 @@ export class SignalrService {
     });
   }
 
+  receiveAllMessages(callback: (messages: Message[]) => void) {
+    this.hubConnection.on("ReceiveAllMessages", (msgs: Message[]) => {
+      callback(msgs);
+    });
+  }
+  
   shareCocktail(mail: string, message: string, id: string){
     this.hubConnection.invoke("ShareCocktail", mail, message, id)
       .catch(err => console.error("Errore:", err));
@@ -92,6 +94,10 @@ export class SignalrService {
     this.hubConnection.on("ReciveCocktail", (message: Share) => {
       callback(message);
     });
+  }
+
+  public startConnection(): Promise<void> {
+    return this.hubConnection.start();
   }
   
 }
