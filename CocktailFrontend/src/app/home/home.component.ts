@@ -104,7 +104,10 @@ export class HomeComponent implements OnInit{
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-
+  goToChat() {
+    sessionStorage.setItem("enteredFromHome", "true");
+    this.router.navigate(['/chat']);
+  }
   
 
   switchToLogin(): void {

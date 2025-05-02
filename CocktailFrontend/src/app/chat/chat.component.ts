@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NgClass, CommonModule, Location } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -26,7 +27,8 @@ export class ChatComponent implements OnInit {
   constructor(
     private zone: NgZone,
     private location: Location,
-    private srs: SignalrService
+    private srs: SignalrService,
+    private router: Router
   ) {
     console.log("constructor");
     this.mail = localStorage.getItem('mail') || '';
@@ -57,6 +59,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     console.log("ngoninit");
+    sessionStorage.removeItem("enteredFromHome");
     this.srs.receiveAllMessages((allMessages: Message[]) => {
       this.zone.run(() => {
         this.messages = allMessages;
@@ -95,18 +98,11 @@ export class ChatComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/home']);
   }
 
   sendMessage() {
     if (this.m.text.trim() === '') return;
-
-    const newMessage: Message = {
-      sender: this.mail,
-      text: this.m.text,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-
     this.srs.sendMessage(this.mail, this.m.text);
     this.zone.run(() => {
       this.m.text = '';

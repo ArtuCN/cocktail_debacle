@@ -101,7 +101,6 @@ export class SignalrService {
   }
 
   private _receiveCocktailCallback: ((message: Share) => void) | null = null;
-  
   reciveCocktail(callback: (message: Share) => void) {
     this._receiveCocktailCallback = callback;
   }
