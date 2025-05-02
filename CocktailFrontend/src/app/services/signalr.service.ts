@@ -26,12 +26,17 @@ export class SignalrService {
     .withUrl('http://localhost:5001/cocktailHub') // URL del backend
     .build();
     
-   this.hubConnection.start().then(() => {
-      console.log("SignalR connection started.");
-    }).catch((err: any) => console.error("SignalR error:", err));
+    if (this.hubConnection.state === signalR.HubConnectionState.Disconnected) {
+      this.hubConnection.start()
+      .then(() => {
+        console.log("SignalR connection started.");
+        this.hubConnection.invoke("AnnounceUser", this.mail);
+      })
+        .catch(err => console.error("SignalR error:", err));
+    }
+   
     this.addListeners();
     this.mail = localStorage.getItem('mail') || '';
-    this.hubConnection.invoke("AnnounceUser", this.mail);
     this.hubConnection.on("UpdateConnectedClients", (count: number) => {
       this.connectedClients = count;
       console.log("Utenti connessi:", count);
@@ -73,12 +78,14 @@ export class SignalrService {
   }
 
   receiveMessage(callback: (message: Message) => void) {
+    console.log("recive message");
     this.hubConnection.on("ReceiveMessage", (msg: Message) => {
       callback(msg);
     });
   }
 
   receiveAllMessages(callback: (messages: Message[]) => void) {
+    console.log("recive ALL message");
     this.hubConnection.on("ReceiveAllMessages", (msgs: Message[]) => {
       callback(msgs);
     });

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone  } from '@angular/core';
 import { Message, Share } from '../models/models';
 import { SignalrService } from '../services/signalr.service';
 import { FormsModule } from '@angular/forms';
@@ -17,8 +17,8 @@ export class ChatComponent implements OnInit{
   ngOnInit() {
     this.getMessages();
     console.log('ngOnInit chiamato');
-    this.srs.startConnection().then(() => {
-      this.srs.receiveMessage((msg: Message) => {
+    this.srs.receiveMessage((msg: Message) => {
+      this.zone.run(() => {
         this.messages.push(msg);
       });
     });
@@ -48,7 +48,7 @@ export class ChatComponent implements OnInit{
     });
   }
 
-  constructor(private location: Location, private srs: SignalrService) 
+  constructor(private zone: NgZone, private location: Location, private srs: SignalrService) 
   {
     
     this.mail = localStorage.getItem('mail') || '';
