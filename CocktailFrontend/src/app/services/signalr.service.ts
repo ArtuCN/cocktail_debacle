@@ -6,105 +6,113 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-
 export class SignalrService {
-
-  connectedClients : number = 0;
+  connectedClients: number = 0;
   public announcementMessage: string = '';
-  public dailyIdSubject = new BehaviorSubject<string[]>([]); // accetta un array di stringhe
-  mail : string = '';
+  public dailyIdSubject = new BehaviorSubject<string[]>([]);
+  mail: string = '';
 
   dailyId$ = this.dailyIdSubject.asObservable();
 
-
   public onClientCountUpdate: ((count: number) => void) | null = null;
+  public onDailyCocktailReceived: ((cocktailId: string[]) => void) | null = null;
 
   private hubConnection: signalR.HubConnection;
 
   constructor() {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl('http://localhost:5001/cocktailHub') // URL del backend
-    .build();
-    
-    if (this.hubConnection.state === signalR.HubConnectionState.Disconnected) {
-      this.hubConnection.start()
-      .then(() => {
-        console.log("SignalR connection started.");
-        this.hubConnection.invoke("AnnounceUser", this.mail);
-      })
-        .catch(err => console.error("SignalR error:", err));
-    }
-   
-    this.addListeners();
     this.mail = localStorage.getItem('mail') || '';
-    this.hubConnection.on("UpdateConnectedClients", (count: number) => {
-      this.connectedClients = count;
-      console.log("Utenti connessi:", count);
-      if (this.onClientCountUpdate) this.onClientCountUpdate(count);
-    });
-    this.registerOnServerEvents();
+
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl('http://localhost:5001/cocktailHub') // URL del backend
+      .build();
+
+    this.hubConnection
+      .start()
+      .then(() => {
+        console.log("✅ SignalR connection started.");
+        this.hubConnection.invoke("AnnounceUser", this.mail);
+        this.addListeners();
+      })
+      .catch(err => console.error("❌ SignalR error:", err));
   }
 
   private addListeners() {
-    this.hubConnection.on('UserJoined', (message: string) => {
-      console.log("📨 Ricevuto da Hub:", message);
-      this.announcementMessage = message;
+    this.hubConnection.on("UpdateConnectedClients", (count: number) => {
+      this.connectedClients = count;
+      console.log("👥 Utenti connessi:", count);
+      if (this.onClientCountUpdate) this.onClientCountUpdate(count);
     });
-  
-    this.hubConnection.on('ReceiveDailyCocktail', (cocktailId: string[]) => {
-      console.log("🍹 Cocktail del giorno ricevuto:", cocktailId);
-      this.dailyIdSubject.next(cocktailId); // 👈 aggiorna il campo `daily`
+
+    this.hubConnection.on("UserJoined", (message: string) => {
+      this.announcementMessage = message;
+      console.log("📢 Annuncio:", message);
+    });
+
+    this.hubConnection.on("ReceiveDailyCocktail", (cocktailIds: string[]) => {
+      console.log("🍹 Cocktail del giorno ricevuto:", cocktailIds);
+      this.dailyIdSubject.next(cocktailIds);
       if (this.onDailyCocktailReceived) {
-        this.onDailyCocktailReceived(cocktailId);
+        this.onDailyCocktailReceived(cocktailIds);
+      }
+    });
+    this.hubConnection.on("ReceiveMessage", (msg: Message) => {
+      console.log("📩 Messaggio ricevuto:", msg);
+      if (this._receiveMessageCallback) {
+        this._receiveMessageCallback(msg);
+      }
+    });
+    this.hubConnection.on("ReceiveAllMessages", (msgs: Message[]) => {
+      if (this._receiveAllMessagesCallback) {
+        this._receiveAllMessagesCallback(msgs);
+      }
+    });
+    this.hubConnection.on("ReciveCocktail", (message: Share) => {
+      if (this._receiveCocktailCallback) {
+        this._receiveCocktailCallback(message);
       }
     });
   }
-  private registerOnServerEvents(): void {
-    this.hubConnection.on('UserJoined', (userName: string) => {
-      this.announcementMessage = `${userName} si è unito alla community!`;
-      console.log('Messaggio ricevuto:', this.announcementMessage);
-    });
-  }
+
   announceUser(username: string) {
     this.hubConnection.invoke("AnnounceUser", username)
-      .catch((err: any) => console.error("Errore:", err));
+      .catch(err => console.error("❌ Errore announceUser:", err));
   }
-  public onDailyCocktailReceived: ((cocktailId: string[]) => void) | null = null;
-  
-  sendMessage(mail: string, message: string)
-  {
+
+  sendMessage(mail: string, message: string) {
     this.hubConnection.invoke("sendMessage", mail, message)
-      .catch(err => console.error("Errore:", err));
+      .catch(err => console.error("❌ Errore sendMessage:", err));
   }
+
+  private _receiveMessageCallback: ((message: Message) => void) | null = null;
 
   receiveMessage(callback: (message: Message) => void) {
-    console.log("recive message");
-    this.hubConnection.on("ReceiveMessage", (msg: Message) => {
-      callback(msg);
-    });
+    this._receiveMessageCallback = callback;
   }
 
+  private _receiveAllMessagesCallback: ((messages: Message[]) => void) | null = null;
   receiveAllMessages(callback: (messages: Message[]) => void) {
-    console.log("recive ALL message");
-    this.hubConnection.on("ReceiveAllMessages", (msgs: Message[]) => {
-      callback(msgs);
-    });
+    console.log("recive all message di signalr richiamato");
+    this._receiveAllMessagesCallback = callback;
   }
-  
-  shareCocktail(mail: string, message: string, id: string){
+
+  shareCocktail(mail: string, message: string, id: string) {
     this.hubConnection.invoke("ShareCocktail", mail, message, id)
-      .catch(err => console.error("Errore:", err));
+      .catch(err => console.error("❌ Errore shareCocktail:", err));
+  }
+
+  private _receiveCocktailCallback: ((message: Share) => void) | null = null;
+  
+  reciveCocktail(callback: (message: Share) => void) {
+    this._receiveCocktailCallback = callback;
+  }
+
+  invokeLoadAllMessages() {
+    this.hubConnection.invoke("SendAllMessagesToCaller")
+      .catch(err => console.error("❌ Errore SendAllMessagesToCaller:", err));
   }
   
-  reciveCocktail(callback:(message: Share) => void)
-  {
-    this.hubConnection.on("ReciveCocktail", (message: Share) => {
-      callback(message);
-    });
-  }
 
   public startConnection(): Promise<void> {
     return this.hubConnection.start();
   }
-  
 }

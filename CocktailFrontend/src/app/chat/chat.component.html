@@ -38,7 +38,7 @@
         </div>       
           </div>
           <div class = "write-send">
-            <input [(ngModel)]="m.text" placeholder="Scrivi un messaggio..." />
+            <input [(ngModel)]="m.text" (keydown.enter)="sendMessage()" placeholder="Scrivi un messaggio..." />
             <button (click)="sendMessage()">Invia</button>
           </div>
       </div>      
