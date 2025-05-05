@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SignalrService } from '../services/signalr.service';
 import { CocktailInterface } from '../models/models';
 import { CommonModule } from '@angular/common';
-
+import { SuggestionService } from '../services/suggestion.service'
 @Component({
   selector: 'app-daily-cocktail',
   standalone: true,
@@ -39,7 +39,7 @@ export class DailyCocktailComponent implements OnInit {
 
   @ViewChild('carouselContainer', { static: false }) containerRef!: ElementRef;
 
-  constructor(private http: HttpClient, private srs: SignalrService) {}
+  constructor(private ss: SuggestionService, private http: HttpClient, private srs: SignalrService) {}
 
   ngOnInit(): void {
     if (this.isDevelopmentMode) {
@@ -48,7 +48,7 @@ export class DailyCocktailComponent implements OnInit {
     }
 
     this.srs.dailyId$.subscribe(ids => {
-      this.setDaily(ids);
+       this.setDaily(ids);
     });
   }
 
@@ -66,7 +66,6 @@ export class DailyCocktailComponent implements OnInit {
   getCardClass(index: number): string {
     return index === this.activeIndex ? 'daily-card active' : 'daily-card';
   }
-  
   
 
   prevSlide() {
@@ -91,6 +90,12 @@ export class DailyCocktailComponent implements OnInit {
         if (response.drinks?.[0]) {
           this.dailyCocktail.push(response.drinks[0]);
         }
+      });
+    });
+    this.ss.suggestions$.subscribe(suggestions => {
+      suggestions.forEach(s => {
+        console.log(s.idDrink, " ", s.strDrink);
+        this.dailyCocktail.push(s);
       });
     });
   }

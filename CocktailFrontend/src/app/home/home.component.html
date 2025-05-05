@@ -77,19 +77,13 @@
 
 
   
-  <div class="chat">
-    <button (click)="goToChat()">Chat</button>
-  </div>
+  <button class="chat-button" title="Open chat" (click)="goToChat()">
+    <i class="fas fa-comment-dots"></i>
+    <span>OPEN CHAT</span>
+  </button>
+  
 
-  <div class="ingredient">
-    <button [routerLink]="['/ingredientgallery']">Ingredient Gallery</button>
-  </div>
-  <div class="suggestions">
-    <button [routerLink]="['/suggestions']">suggestions</button>
-  </div>
-  <div class="fullinfo">
-    <button [routerLink]="['/fullinfo']">fullinfo</button>
-  </div>
+  
   <ng-container *ngIf="admin" class="admin">
     <button [routerLink]="['/admin']">admin page</button>
   </ng-container>

@@ -44,8 +44,10 @@ export class SignalrService {
     });
 
     this.hubConnection.on("UserJoined", (message: string) => {
-      this.announcementMessage = message;
-      console.log("📢 Annuncio:", message);
+      console.log("📢 User joined:", message);
+      if (this._userJoinedCallback) {
+        this._userJoinedCallback(message);
+      }
     });
 
     this.hubConnection.on("ReceiveDailyCocktail", (cocktailIds: string[]) => {
@@ -88,6 +90,25 @@ export class SignalrService {
   receiveMessage(callback: (message: Message) => void) {
     this._receiveMessageCallback = callback;
   }
+
+  private _reminderToLoginCallback: ((user: string, message: string) => void) | null = null;
+  reminderToLogin(callback: (user: string, message: string) => void) {
+    this._reminderToLoginCallback = callback;
+  }
+
+  private _userJoinedCallback: ((message: string) => void) | null = null;
+  userJoined(callback: (message: string) => void) {
+    this._userJoinedCallback = callback;
+  }
+
+  getConnectedClients() {
+    this.hubConnection.invoke("SendConnectedClientsCount")
+      .catch(err => console.error("❌ Errore getConnectedClients:", err));
+  }
+
+  getCurrentClientCount(): Promise<number> {
+  return this.hubConnection.invoke<number>('GetConnectedClientCount');
+}
 
   private _receiveAllMessagesCallback: ((messages: Message[]) => void) | null = null;
   receiveAllMessages(callback: (messages: Message[]) => void) {

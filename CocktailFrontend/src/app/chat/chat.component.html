@@ -13,7 +13,7 @@
     <div class="shared-info-box">
       <div><strong>{{ currentShare.sender }}</strong> has shared a Cocktail!</div>
       <div class="sharetext">{{ currentShare.text }}</div>
-      <div class="sharetime">{{ currentShare.timestamp }}</div>
+      <div class="sharetime">{{ currentShare.timestamp | date:'short' }}</div>
     </div>
   </div>
   

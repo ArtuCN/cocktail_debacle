@@ -58,8 +58,12 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("ngoninit");
     sessionStorage.removeItem("enteredFromHome");
+    this.srs.getCurrentClientCount().then(count => {
+      this.zone.run(() => {
+        this.connectedClients = count;
+      });
+    });
     this.srs.receiveAllMessages((allMessages: Message[]) => {
       this.zone.run(() => {
         this.messages = allMessages;
@@ -68,6 +72,7 @@ export class ChatComponent implements OnInit {
     this.srs.receiveMessage((msg: Message) => {
       this.zone.run(() => {
         this.messages.push(msg);
+        this.scrollToBottom();
       });
     });
     this.srs.reciveCocktail((shared: Share) => {

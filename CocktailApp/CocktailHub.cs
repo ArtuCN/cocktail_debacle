@@ -24,10 +24,19 @@ namespace CocktailApp.hubs {
             await Clients.All.SendAsync("ReminderToLogin", user, message);
         }
 
+        public async Task SendCount()
+        {
+            Console.WriteLine("number");
+            await Clients.All.SendAsync("GetConnectedClientCount", _connectedClients);
+
+        }
+        
+
         public override async Task OnConnectedAsync()
         {
             _connectedClients++;
             await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
+            await Clients.Caller.SendAsync("UpdateConnectedClients", _connectedClients);
             var today = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
             using var conn = new SqliteConnection(_connectionString);
             await conn.OpenAsync();
@@ -163,6 +172,10 @@ namespace CocktailApp.hubs {
             await Clients.Caller.SendAsync("ReceiveAllMessages", messages);
         }
 
+        public async Task SendConnectedClientsCount()
+        {
+            await Clients.Caller.SendAsync("UpdateConnectedClients", _connectedClients);
+        }
 
 
         public async Task SendMessage(string user, string text)

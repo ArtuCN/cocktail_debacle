@@ -1,6 +1,7 @@
 
 <div class="titolo-daily" id="daily">
-  <h1>Daily cocktails!</h1>
+  <h1 *ngIf="activeIndex < 5">Daily cocktails!</h1>
+  <h1 *ngIf="activeIndex >= 5">Suggested for you!</h1>
 </div>
 <div class="daily-carousel-container" #carouselContainer *ngIf="dailyCocktail.length > 0">
   <div

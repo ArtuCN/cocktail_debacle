@@ -18,9 +18,7 @@ import { FavoritesComponent } from '../favorites/favorites.component';
 import { SignalrService } from '../services/signalr.service';
 import { DailyCocktailComponent } from '../daily-cocktail/daily-cocktail.component';
 import { ChatComponent } from '../chat/chat.component';
-import { IngredientGalleryComponent } from '../ingredient-gallery/ingredient-gallery.component';
 import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
-import { SuggestionComponent } from '../suggestion/suggestion.component';
 
 
 @Injectable({
@@ -33,7 +31,7 @@ import { SuggestionComponent } from '../suggestion/suggestion.component';
   imports: [CommonModule, CocktailResearchComponent,
     CreateUserComponent, LoginComponent, RouterModule,
     FormsModule, FavoritesComponent, DailyCocktailComponent,
-    ChatComponent, IngredientGalleryComponent, ADMINPAGEComponent, SuggestionComponent], // Aggiungi ErrorComponent nelle imports
+    ChatComponent, ADMINPAGEComponent], // Aggiungi ErrorComponent nelle imports
   providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']
