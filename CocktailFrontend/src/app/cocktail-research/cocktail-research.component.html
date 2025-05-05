@@ -23,58 +23,51 @@
 <div *ngIf="errorMessage" class="error-message text-danger mt-2">{{ errorMessage }}</div>
 
 <!-- Display cocktail results in a carousel -->
-<div *ngIf="cocktails.length > 0" class="carousel-container mt-4">
-  <div id="cocktailCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
-        <div class="cocktail-card text-center" [class.flipped]="flippedCard[i]" (click)="toggleFlip(i)">
-
-            <div class="card-front">
-              <img
-              [src]="cocktail.strDrinkThumb"
-              (error)="onImgError($event)"
-              alt="{{ cocktail.strDrink }}"
-              class="cocktail-img d-block w-100"
-              alt="{{ cocktail.strDrink }}"/>
-              <h3 class="nomeCocktailCss">{{ cocktail.strDrink }}</h3>
-            </div>
-            <div class="card-back">
-              <p>ciaoneee dietroo!</p>
-              <p class="cocktail-description">{{ cocktail.strInstructions }}</p>
-              <p class="cocktail-category">Category: {{ cocktail.strCategory }}</p>
-              <p class="cocktail-glass">Glass: {{ cocktail.strGlass }}</p>
-              <p class="cocktail-alcoholic">Type: {{ cocktail.strAlcoholic }}</p>
-              <ul>
-                <li  *ngIf="let ing of getIngredients(cocktail)"> {{ ing }}</li>
-              </ul>
-            </div>
-            
-          <!-- Messaggio per i minorenni -->
-          <div *ngIf="underageMessage" class="text-danger mb-2">
-            {{ underageMessage }}
-          </div>
-
+<div class="daily-carousel-container" #carouselContainer *ngIf="cocktails.length > 0">
+  <div class="daily-carousel-track">
+    <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
+      <div class="cocktail-card text-center" [class.flipped]="flippedCard[i]" (click)="toggleFlip(i)">
+        <div class="card-front">
+          <img
+          [src]="cocktail.strDrinkThumb"
+          (error)="onImgError($event)"
+          alt="{{ cocktail.strDrink }}"
+          class="cocktail-img d-block w-100"
+          alt="{{ cocktail.strDrink }}"/>
+          <h3 class="nomeCocktailCss">{{ cocktail.strDrink }}</h3>
         </div>
-        <!-- Bottone per aggiungere/rimuovere preferiti -->
-        <button
-          class="btn-aggiungi"
-          (click)="toggleFavorite(cocktail)">
-          <i class="bi" [ngClass]="isFavorite(cocktail.idDrink)
-            ? 'bi-heart-fill text-danger'
-            : 'bi-heart'"></i>
-          {{ isFavorite(cocktail.idDrink) ? 'Rimuovi dai prefe bro' : 'Aggiungi ai preferiti fra' }}
-        </button>
+        <div class="card-back">
+          <p>ciaoneee dietroo!</p>
+          <p class="cocktail-description">{{ cocktail.strInstructions }}</p>
+          <p class="cocktail-category">Category: {{ cocktail.strCategory }}</p>
+          <p class="cocktail-glass">Glass: {{ cocktail.strGlass }}</p>
+          <p class="cocktail-alcoholic">Type: {{ cocktail.strAlcoholic }}</p>
+          <ul>
+            <li  *ngIf="let ing of getIngredients(cocktail)"> {{ ing }}</li>
+          </ul>
+        </div>
+        <!-- Messaggio per i minorenni -->
+        <div *ngIf="underageMessage" class="text-danger mb-2">
+          {{ underageMessage }}
+        </div>
+
+      </div>
+      <!-- Bottone per aggiungere/rimuovere preferiti -->
+      <button
+        class="btn-aggiungi"
+        (click)="toggleFavorite(cocktail)">
+        <i class="bi" [ngClass]="isFavorite(cocktail.idDrink)
+          ? 'bi-heart-fill text-danger'
+          : 'bi-heart'"></i>
+        {{ isFavorite(cocktail.idDrink) ? 'Rimuovi dai prefe bro' : 'Aggiungi ai preferiti fra' }}
+      </button>
       </div>
     </div>
+  </div>
 
-    <!-- Controls for carousel -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+  <div class="daily-controls">
+    <button class="daily-btn" (click)="prevSlide()" [disabled]="activeIndex <= 0">&#10094;</button>
+  <button class="daily-btn" (click)="nextSlide()" [disabled]="activeIndex >= dailyCocktail.length - 1">&#10095;</button>
   </div>
 </div>
+
