@@ -66,14 +66,9 @@
       </div>
     </div>
 
-    <!-- Controls for carousel -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+  <div class="daily-controls">
+    <button class="daily-btn" (click)="prevSlide()" [disabled]="activeIndex <= 0">&#10094;</button>
+  <button class="daily-btn" (click)="nextSlide()" [disabled]="activeIndex >= dailyCocktail.length - 1">&#10095;</button>
   </div>
 </div>
+
