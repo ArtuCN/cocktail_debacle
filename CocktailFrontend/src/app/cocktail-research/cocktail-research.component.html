@@ -39,24 +39,23 @@
               <h3 class="nomeCocktailCss">{{ cocktail.strDrink }}</h3>
             </div>
             <div class="card-back">
-              <p>ciaoneee dietroo!</p>
-              <p class="cocktail-description">{{ cocktail.strInstructions }}</p>
               <p class="cocktail-category">Category: {{ cocktail.strCategory }}</p>
               <p class="cocktail-glass">Glass: {{ cocktail.strGlass }}</p>
               <p class="cocktail-alcoholic">Type: {{ cocktail.strAlcoholic }}</p>
+              <button class="info" (click)="fullInfo(cocktail.idDrink)">fullinfo</button>
               <ul>
                 <li  *ngIf="let ing of getIngredients(cocktail)"> {{ ing }}</li>
               </ul>
             </div>
             
-          <!-- Messaggio per i minorenni -->
-          <div *ngIf="underageMessage" class="text-danger mb-2">
-            {{ underageMessage }}
+            <!-- Messaggio per i minorenni -->
+            <div *ngIf="underageMessage" class="text-danger mb-2">
+              {{ underageMessage }}
+            </div>
+            
           </div>
-
-        </div>
-        <!-- Bottone per aggiungere/rimuovere preferiti -->
-        <button
+          <!-- Bottone per aggiungere/rimuovere preferiti -->
+          <button
           class="btn-aggiungi"
           (click)="toggleFavorite(cocktail)">
           <i class="bi" [ngClass]="isFavorite(cocktail.idDrink)

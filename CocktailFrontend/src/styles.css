@@ -663,6 +663,7 @@ html {
 }
 
 .daily-btn {
+  color: #ffffff !important;
   background: transparent !important;
   border: none !important;
   pointer-events: auto;
