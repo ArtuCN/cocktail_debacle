@@ -56,6 +56,25 @@ export class CocktailResearchComponent {
   } as CocktailInterface
   ];
 
+
+  currentIndex: number = 0;
+
+nextSlide() {
+  if (this.currentIndex < this.cocktails.length - 1) {
+    this.currentIndex++;
+  } else {
+    this.currentIndex = 0;
+  }
+}
+
+prevSlide() {
+  if (this.currentIndex > 0) {
+    this.currentIndex--;
+  } else {
+    this.currentIndex = this.cocktails.length - 1;
+  }
+}
+
   // 3. utilità per estrarre gli ingredienti  
   getIngredients(c: CocktailInterface): string[] {
     const list: string[] = [];
