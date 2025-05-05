@@ -12,6 +12,7 @@ import { ADMINPAGEComponent } from './admin-page/admin-page.component';
 import { PersonalAreaComponent } from './personal-area/personal-area.component';
 import { SuggestionComponent } from './suggestion/suggestion.component';
 import { FullInfoComponent } from './full-info/full-info.component';
+import { ChatGuard } from './guards/chat.guard';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,7 +22,7 @@ export const routes: Routes = [
     {path: 'cocktail-research', component: CocktailResearchComponent},
     {path: 'login', component: LoginComponent},
     {path: 'favorites', component: FavoritesComponent},
-    {path: 'chat', component: ChatComponent},
+    {path: 'chat', component: ChatComponent, canActivate: [ChatGuard]},
     {path: 'error', component: ErrorComponent},
     {path: 'ingredientgallery', component: IngredientGalleryComponent},
     {path: 'admin', component: ADMINPAGEComponent},

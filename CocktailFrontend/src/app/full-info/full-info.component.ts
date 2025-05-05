@@ -64,7 +64,7 @@ export class FullInfoComponent implements OnInit {
       if (this.mail == '')
         return;
       this.srs.shareCocktail(this.mail, this.message, this.cocktail.idDrink);
-      this.router.navigate(['/chat']);
+      this.goToChat();
     }
     loadCocktailDetails(cocktail: any) {
       console.log("loadCocktailDetails");
@@ -81,7 +81,6 @@ export class FullInfoComponent implements OnInit {
           console.log(`Ingrediente ${i}:`, fullIngredient);
         }
       }
-    
       console.log("Ingredienti finali:", this.ingredients);
     }
     
@@ -108,5 +107,8 @@ export class FullInfoComponent implements OnInit {
     const language = this.availableLanguages.find(l => l.key === langKey);
     return language ? language.flag : '';
   }
-  
+  goToChat() {
+    sessionStorage.setItem("enteredFromHome", "true");
+    this.router.navigate(['/chat']);
+  }
 }

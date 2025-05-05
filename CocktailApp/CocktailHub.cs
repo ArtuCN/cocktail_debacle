@@ -28,7 +28,6 @@ namespace CocktailApp.hubs {
         {
             _connectedClients++;
             await Clients.All.SendAsync("UpdateConnectedClients", _connectedClients);
-            await ReceiveAllMessages();
             var today = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
             using var conn = new SqliteConnection(_connectionString);
             await conn.OpenAsync();
@@ -142,7 +141,7 @@ namespace CocktailApp.hubs {
             await Clients.All.SendAsync("ReciveCocktail", share);
         }
 
-        public async Task ReceiveAllMessages()
+        public async Task SendAllMessagesToCaller()
         {
             Console.WriteLine("sending all messages to client");
             var messages = new List<Message>();
@@ -188,7 +187,7 @@ namespace CocktailApp.hubs {
             command.Parameters.AddWithValue("$time", DateTime.Now);
 
             await command.ExecuteNonQueryAsync();
-            await Clients.All.SendAsync("RecveMessage", message);
+            await Clients.All.SendAsync("ReceiveMessage", message);
         }
 
     }
