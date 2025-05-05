@@ -22,7 +22,7 @@
       <td>{{ user.birthDate | date:'yyyy-MM-dd' }}</td>
       <td>{{ user.hasAccepted ? 'Yes' : 'No' }}</td>
       <td>
-        <button class="delete-btn" (click)="kickUser(user.id)">🗑 Delete</button>
+        <button class="delete-btn" (click)="kickUser(user.userName)">🗑 Delete</button>
       </td>
     </tr>
   </tbody>

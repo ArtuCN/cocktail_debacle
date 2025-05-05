@@ -34,7 +34,16 @@ export class ADMINPAGEComponent {
     });
   }
   
-  kickUser(id: string) {
-    console.log("Elimina utente con ID:", id);
+  kickUser(usermame: string) {
+    console.log("Elimina utente con ID:", usermame);
+    this.http.delete(`http://localhost:5001/api/admin/kickout/${usermame}`).subscribe({
+      next: () => {
+        console.log(`Utente con ID ${usermame} eliminato con successo.`);
+        this.users = this.users.filter(user => user.userName !== usermame);
+      },
+      error: (err) => {
+        console.error(`Errore durante l'eliminazione dell'utente con usermame ${usermame}:`, err);
+      }
+    });
   }
 }
