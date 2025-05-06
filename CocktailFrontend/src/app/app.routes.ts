@@ -7,10 +7,8 @@ import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { ChatComponent } from './chat/chat.component';
-import { IngredientGalleryComponent } from './ingredient-gallery/ingredient-gallery.component';
 import { ADMINPAGEComponent } from './admin-page/admin-page.component';
 import { PersonalAreaComponent } from './personal-area/personal-area.component';
-import { SuggestionComponent } from './suggestion/suggestion.component';
 import { FullInfoComponent } from './full-info/full-info.component';
 
 export const routes: Routes = [
@@ -23,9 +21,7 @@ export const routes: Routes = [
     {path: 'favorites', component: FavoritesComponent},
     {path: 'chat', component: ChatComponent},
     {path: 'error', component: ErrorComponent},
-    {path: 'ingredientgallery', component: IngredientGalleryComponent},
     {path: 'admin', component: ADMINPAGEComponent},
-    {path: 'suggestions', component: SuggestionComponent},
     {path: 'fullinfo', component: FullInfoComponent},
     {path: '**', redirectTo: 'home'},
 ];
