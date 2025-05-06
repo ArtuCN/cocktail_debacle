@@ -35,11 +35,26 @@ export class FullInfoComponent implements OnInit {
   message: string = '';
   mail: string = '';
   currentFlag: string = '';  // Variabile per contenere la bandiera da visualizzare
-  constructor(private http: HttpClient, private srs: SignalrService, private router: Router) {}
+  name: string = '';
+
+  constructor(private http: HttpClient,
+    private srs: SignalrService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
+    console.log('FullInfoComponent initialized');
+    this.name = sessionStorage.getItem('cocktailId') ?? '11004';
+    sessionStorage.removeItem('cocktailId');
     this.mail = localStorage.getItem('mail') ?? '';
+    if (this.name == '')
+    {
+      console.log("Nessun cocktail selezionato, reindirizzamento a home");
+      this.router.navigate(['/home']);
+      return;
+    }
+
     this.http
-      .get<{ drinks: CocktailInterface[] }>('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11004')
+      .get<{ drinks: CocktailInterface[] }>('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + this.name)
       .subscribe({
         next: (data: { drinks: CocktailInterface[] }) => {
           if (data.drinks && data.drinks.length > 0) {
@@ -53,7 +68,6 @@ export class FullInfoComponent implements OnInit {
         }
       });
   }
-  
     
     toggleLanguageMenu(): void {
       this.showLanguages = !this.showLanguages;
@@ -64,7 +78,7 @@ export class FullInfoComponent implements OnInit {
       if (this.mail == '')
         return;
       this.srs.shareCocktail(this.mail, this.message, this.cocktail.idDrink);
-      this.router.navigate(['/chat']);
+      this.goToChat();
     }
     loadCocktailDetails(cocktail: any) {
       console.log("loadCocktailDetails");
@@ -81,7 +95,6 @@ export class FullInfoComponent implements OnInit {
           console.log(`Ingrediente ${i}:`, fullIngredient);
         }
       }
-    
       console.log("Ingredienti finali:", this.ingredients);
     }
     
@@ -108,5 +121,8 @@ export class FullInfoComponent implements OnInit {
     const language = this.availableLanguages.find(l => l.key === langKey);
     return language ? language.flag : '';
   }
-  
+  goToChat() {
+    sessionStorage.setItem("enteredFromHome", "true");
+    this.router.navigate(['/chat']);
+  }
 }

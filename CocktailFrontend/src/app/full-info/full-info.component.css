@@ -1,87 +1,94 @@
 .t {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    z-index: 1000;
-  }
-  
-  .language-button {
-    background-color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.2s ease;
-  }
-  
-  .language-button:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .language-menu {
-    margin-top: 8px;
-    background-color: rgba(30, 30, 30, 0.9);
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    opacity: 0;
-    transform: translateY(-10px);
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  
-  .language-menu.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-  
-  .language-menu button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 5px;
-    transition: transform 0.2s;
-  }
-  
-  .language-menu button:hover {
-    transform: scale(1.1);
-  }
-  
-  .language-menu img {
-    width: 30px;
-    height: 20px;
-    display: block;
-  }
-  
-  .cocktail-details{
-    background-color: #e0e0e0;
-  }
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 1000;
+}
+.cocktailfull{
+  padding-left: 100px;
+  padding-right: 100px;
+}
 
-  .ingredients {
-    background-color: aqua;
-    top: 20px;
-    width: fit-content;
-    margin-left: auto;
-    padding: 10px;
-    border-radius: 8px;
-  }
+.language-button {
+  background-color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+}
 
-  .main {
-    background-color: aqua;
-    top: 20px;
-    width: fit-content;
-    margin-right: auto;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  
+.language-button:hover {
+  background-color: #e0e0e0;
+}
+
+.language-menu {
+  margin-top: 8px;
+  background-color: rgba(30, 30, 30, 0.9);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.language-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.language-menu button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 5px;
+  transition: transform 0.2s;
+}
+
+.language-menu button:hover {
+  transform: scale(1.1);
+}
+
+.language-menu img {
+  width: 30px;
+  height: 20px;
+  display: block;
+}
+
+.cocktail-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.main {
+  background-color: rgba(103, 103, 103, 0.37);
+  padding: 14px;
+  border-radius: 8px;
+  width: fit-content;
+}
+.ingredients
+{
+  background-color: rgba(255, 255, 255, 0.37);
+  padding: 14px;
+  border-radius: 8px;
+  width: fit-content;
+}
+.description-box {
+  margin-top: 20px;
+}

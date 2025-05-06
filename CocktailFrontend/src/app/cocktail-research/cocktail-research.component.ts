@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { CocktailInterface } from '../models/models';
 import { FavoritesService } from '../services/favorites.service';
 import { brotliDecompress } from 'node:zlib';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,10 @@ import { brotliDecompress } from 'node:zlib';
 })
 export class CocktailResearchComponent {
   
-  constructor(private ss: SearchService, private favoritesService: FavoritesService) { }
+  constructor(private ss: SearchService,
+    private favoritesService: FavoritesService,
+    private router: Router
+  ) { }
   //constructor(private rs: SignalrService) { }
   name: string = '';
   cocktails: CocktailInterface[] = [];
@@ -85,6 +89,12 @@ prevSlide() {
       if (ing) list.push(meas ? `${ing} – ${meas}` : ing);
     }
     return list;
+  }
+
+
+  fullInfo(str: string): void {
+    sessionStorage.setItem('cocktailId', str);
+    this.router.navigate(['/fullinfo']);
   }
 
   onImgError(event: Event) {
