@@ -785,6 +785,7 @@ html {
 }
 
 .daily-btn {
+  color: #ffffff;
   background: transparent !important;
   border: none !important;
   pointer-events: auto;
