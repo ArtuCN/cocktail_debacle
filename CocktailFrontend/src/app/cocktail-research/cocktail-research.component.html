@@ -1,79 +1,70 @@
-<div class="search-container" id="cocktailResearch">
+<div class="search-container" id="cocktailResearch" [ngClass]="{ 'has-results': cocktails.length > 0}">
   <h1 class="search-title">Search for a Cocktail!</h1>
-
-  <div class="mb-4">
-    <label for="searchType" class="block mb-1 font-bold">Type of research</label>
-    <select id="searchType" [(ngModel)]="selectedType" class="border px-2 py-1 rounded w-full">
-      <option value="name">Name</option>
-      <option value="ingredient">Ingredient</option>
-      <option value="category">Category</option>
-      <option value="glass">Glass</option>
-    </select>
-  </div>
-
-  <div class="search-bar">
-    <form (ngSubmit)="searchCocktail()" class="d-flex w-100">
-      <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
-      <button type="submit" class="btn btn-primary ms-2">Search</button>
-    </form>
-  </div>
-</div>
-
-<!-- Display error message -->
-<div *ngIf="errorMessage" class="error-message text-danger mt-2">{{ errorMessage }}</div>
-
-<!-- Display cocktail results in a carousel -->
-<div *ngIf="cocktails.length > 0" class="carousel-container mt-4">
-  <div id="cocktailCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div *ngFor="let cocktail of cocktails; let i = index" class="carousel-item" [class.active]="i === 0">
-        <div class="cocktail-card text-center" [class.flipped]="flippedCard[i]" (click)="toggleFlip(i)">
-
-            <div class="card-front">
-              <img
-              [src]="cocktail.strDrinkThumb"
-              (error)="onImgError($event)"
-              alt="{{ cocktail.strDrink }}"
-              class="cocktail-img d-block w-100"
-              alt="{{ cocktail.strDrink }}"/>
-              <h3 class="nomeCocktailCss">{{ cocktail.strDrink }}</h3>
-            </div>
-            <div class="card-back">
-              <p class="cocktail-category">Category: {{ cocktail.strCategory }}</p>
-              <p class="cocktail-glass">Glass: {{ cocktail.strGlass }}</p>
-              <p class="cocktail-alcoholic">Type: {{ cocktail.strAlcoholic }}</p>
-              <button class="info" (click)="fullInfo(cocktail.idDrink)">fullinfo</button>
-              <ul>
-                <li  *ngIf="let ing of getIngredients(cocktail)"> {{ ing }}</li>
-              </ul>
-            </div>
-            
-            <!-- Messaggio per i minorenni -->
-            <div *ngIf="underageMessage" class="text-danger mb-2">
-              {{ underageMessage }}
-            </div>
-            
-          </div>
-          <!-- Bottone per aggiungere/rimuovere preferiti -->
-          <button
-          class="btn-aggiungi"
-          (click)="toggleFavorite(cocktail)">
-          <i class="bi" [ngClass]="isFavorite(cocktail.idDrink)
-            ? 'bi-heart-fill text-danger'
-            : 'bi-heart'"></i>
-          {{ isFavorite(cocktail.idDrink) ? 'Rimuovi dai prefe bro' : 'Aggiungi ai preferiti fra' }}
-        </button>
-      </div>
+  <div class="search-controls">
+    <div class="mb-4">
+      <label for="searchType" class="block mb-1 font-bold">Type of research</label>
+      <select id="searchType" [(ngModel)]="selectedType" class="border px-2 py-1 rounded w-full">
+        <option value="name">Name</option>
+        <option value="ingredient">Ingredient</option>
+        <option value="category">Category</option>
+        <option value="glass">Glass</option>
+      </select>
     </div>
-
-    <!-- Controls for carousel -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#cocktailCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+    
+    <div class="search-bar">
+      <form (ngSubmit)="searchCocktail()" class="d-flex w-100">
+        <input type="text" [(ngModel)]="name" placeholder="Search for a cocktail..." class="form-control">
+        <button type="submit" class="btn btn-primary ms-2">Search</button>
+      </form>
+    </div>
+  </div>
+  <!-- Display error message -->
+  <div *ngIf="errorMessage" class="error-message text-danger mt-2">{{ errorMessage }}</div>
+  
+  <!-- Display cocktail results in a carousel -->
+  <!-- Slider personalizzato -->
+  <div *ngIf="cocktails.length > 0" class="carousel-container mt-4">
+    <div class="slider-wrapper">
+      <button class="carousel-control-prev" (click)="prevSlide()">
+        ‹
+      </button>
+  
+      <div class="cocktail-card text-center" [class.flipped]="flippedCard[currentIndex]" (click)="toggleFlip(currentIndex)">
+        <div class="card-front">
+          <img
+            [src]="cocktails[currentIndex].strDrinkThumb"
+            (error)="onImgError($event)"
+            alt="{{ cocktails[currentIndex].strDrink }}"
+            class="cocktail-img d-block w-100" />
+          <h3 class="nomeCocktailCss">{{ cocktails[currentIndex].strDrink }}</h3>
+        </div>
+  
+        <div class="card-back">
+          <p class="cocktail-category">Category: {{ cocktails[currentIndex].strCategory }}</p>
+          <p class="cocktail-glass">Glass: {{ cocktails[currentIndex].strGlass }}</p>
+          <p class="cocktail-alcoholic">Type: {{ cocktails[currentIndex].strAlcoholic }}</p>
+          <div class="fullinfo">
+            <button (click)="fullInfo(cocktails[currentIndex].idDrink)">fullinfo</button>
+          </div>
+        </div>
+  
+        <div *ngIf="underageMessage" class="text-danger mb-2">
+          {{ underageMessage }}
+        </div>
+      </div>
+  
+      <button class="carousel-control-next" (click)="nextSlide()">
+        ›
+      </button>
+    </div>
+  
+    <button
+      class="btn-aggiungi"
+      (click)="toggleFavorite(cocktails[currentIndex])">
+      <i class="bi" [ngClass]="isFavorite(cocktails[currentIndex].idDrink)
+        ? 'bi-heart-fill text-danger'
+        : 'bi-heart'"></i>
+      {{ isFavorite(cocktails[currentIndex].idDrink) ? 'Rimuovi dai prefe bro' : 'Aggiungi ai preferiti fra' }}
     </button>
   </div>
 </div>

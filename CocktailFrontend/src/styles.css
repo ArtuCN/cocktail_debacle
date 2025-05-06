@@ -24,6 +24,10 @@ html {
   scroll-margin-top: 200px;
 }
 
+#cocktailResearch {
+  scroll-margin-top: -70px;
+}
+
 /*navbar*/
 .home,
 .sc {
@@ -138,15 +142,96 @@ html {
 
 /* Contenitore per la barra di ricerca */
 .search-container {
+  position: relative;
+  overflow: visible;
   font-size: 20px;
-  height: 700px;
+  height: 800px;
   display: flex;
   text-align: center;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 10px;
   background-color: #a40099; /* Sfondo scuro */
-  padding: 30px;
+  padding: 20px;
+  padding-top: 200px !important;
   color: white;
+}
+
+.search-container .search-bar {
+  transition: opacity 0.7s ease;
+}
+
+.search-container .search-title {
+  transition: opacity 0.5s ease;
+}
+
+/*.search-container:focus-within .search-bar {
+  transform: translateY(-320px);
+}*/
+.search-container:focus-within .search-title {
+  opacity: 0;
+  pointer-events: none;
+}
+.search-container.has-results .search-title {
+  visibility: hidden;
+}
+
+.search-container .search-bar {
+  width: 700px;
+  margin: 0 auto;
+  transition: transform 0.5s ease, width 0.5s ease;
+}
+
+/*.search-container:not(.has-results):focus-within .search-bar {
+  transform: translateY(+0px);
+  width: 85%;
+}*/
+
+/*.search-container:not(.has-results):focus-within .search-bar input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.3rem;
+}*/
+
+.search-controls {
+  width: 700px;
+  margin: 20px auto;
+  transition: transform 0.5s ease, width 0.5s ease;
+}
+
+.search-container:focus-within:not(.has-results) .search-controls {
+  transform: translateY(310px);
+  height: 80px;
+  width: 80%;
+}
+
+
+/*.search-container.has-results .search-controls {
+  transform: none !important;
+}*/
+
+.search-container.has-results .search-controls {
+  transform: translateY(300px) !important;
+  width: 80%;
+}
+
+.search-container.has-results .carousel-container {
+  position: absolute;
+  top: 20px;      /* regola per allinearla dove c’era il titolo */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;     /* adatta a piacere */
+  margin: 0;
+  padding: 0;
+}
+
+.result-wrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(3rem);
+  width: 100%;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .search-title {
@@ -155,8 +240,8 @@ html {
     font-family: 'Tilt Warp', cursive;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     text-align: center;
-    font-size: 4.5rem !important;
-    margin-bottom: 30px;
+    font-size: 5rem !important;
+    margin-top: 30px;
   }
 
   .search-bar input {
@@ -212,6 +297,36 @@ html {
 
 /* CARD DELLA RICERCA*/
 
+
+.slider-wrapper {
+  height: 500px;
+  background-color: tr;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  perspective: 1000px; /* FONDAMENTALE per 3D */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: transparent !important;
+  color: rgb(255, 255, 255) !important;
+  border: none;
+  font-size: 6rem;
+  width: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+
+
+
   /* Risultati della ricerca */
   .results-container {
     margin-top: 30px;
@@ -226,57 +341,63 @@ html {
 
   .carousel-container {
     background-color: transparent;
-    max-width: 40%;  /* Limita la larghezza del carousel */
+    max-width: 50%;  /* Limita la larghezza del carousel */
+    max-height: 900px;
+    height: 600px;
     margin: 0 auto;  /* Centra il carousel nella pagina */
     padding: 20px;
     border-radius: 10px;
   }
-
  
   .cocktail-card {
+    width: 400px;
+    height: 500px;
+    position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s;
+    transition: transform 0.8s;
     cursor: pointer;
-    text-align: center;
-    border-radius: 50px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi una leggera ombra */
-    background-color: #6cfc76;
-    padding: 20px;
-    /*transition: transform 0.3s ease;*/
   }
   
   .cocktail-card.flipped {
-    transform: rotateY(540deg) scale(1.05);
+    transform: rotateY(180deg);
   }
 
   .cocktail-card:not(.flipped):hover {
     transform: scale(1.05);
   }
 
-  .card-front {
-    text-align: center;
-    border-radius: 8px;
-    background-color: transparent;
-    padding: 20px;
-    backface-visibility: hidden;
-  }
-
+  .card-front,
   .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    text-align: center;
-    border-radius: 50px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Aggiungi una leggera ombra */
-    background-color: #fc3535;
-    padding: 10px;
+    padding: 1rem;
     backface-visibility: hidden;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-front {
+    background-color: #6542e3;
+    color: white;
+    z-index: 2;
+  }
+  
+  /* Stili del retro */
+  .card-back {
+    background-color: #d74545;
+    color: #111;
     transform: rotateY(180deg);
   }
 
+  .cocktail-img {
+    max-height: 400px;
+    border-radius: 50px;
+  }
 
   .btn-aggiungi {
     font-size: 20px;
@@ -303,7 +424,7 @@ html {
 /* TASTI DELLA CARD RICERCA */
 
   .carousel-controls {
-    background-color: #4f0707;
+    background-color: #ff0000;
     align-items: center;
     border-radius: 50%;
     padding: 10px;
@@ -337,7 +458,8 @@ html {
   }
   
   .nomeCocktailCss{
-    color: #000000 !important;
+    color: #ffffff !important;
+    font-family: 'Courier New', Courier, monospace;
   }
   .cocktail-card h3 {
     font-size: 1.5rem;

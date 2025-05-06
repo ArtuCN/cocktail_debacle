@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { CocktailInterface } from '../models/models';
 import { FavoritesService } from '../services/favorites.service';
 import { brotliDecompress } from 'node:zlib';
-import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -61,11 +60,24 @@ export class CocktailResearchComponent {
   } as CocktailInterface
   ];
 
-  fullInfo(str: string) {
-    sessionStorage.setItem('cocktailId', str);
-    this.router.navigate(['/fullinfo']);
-  }
 
+  currentIndex: number = 0;
+
+nextSlide() {
+  if (this.currentIndex < this.cocktails.length - 1) {
+    this.currentIndex++;
+  } else {
+    this.currentIndex = 0;
+  }
+}
+
+prevSlide() {
+  if (this.currentIndex > 0) {
+    this.currentIndex--;
+  } else {
+    this.currentIndex = this.cocktails.length - 1;
+  }
+}
 
   // 3. utilità per estrarre gli ingredienti  
   getIngredients(c: CocktailInterface): string[] {
@@ -77,6 +89,12 @@ export class CocktailResearchComponent {
       if (ing) list.push(meas ? `${ing} – ${meas}` : ing);
     }
     return list;
+  }
+
+
+  fullInfo(str: string): void {
+    sessionStorage.setItem('cocktailId', str);
+    this.router.navigate(['/fullinfo']);
   }
 
   onImgError(event: Event) {
