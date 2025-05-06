@@ -4,9 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { adminUserInfo } from '../models/models';
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { elementAt } from 'rxjs';
+import { MessageAdmin } from '../models/models';
 @Component({
   selector: 'app-admin-page',
+  standalone: true,
   imports: [CommonModule, NgFor],
   templateUrl: './admin-page.component.html',
   styleUrl: './admin-page.component.css'
@@ -14,10 +15,15 @@ import { elementAt } from 'rxjs';
 export class ADMINPAGEComponent {
  
   users: adminUserInfo[] = [];
-  constructor(private http: HttpClient)
-  {
+  messages: MessageAdmin[] =[];
+  showUsers: boolean = true;
+  showMessages: boolean = true;
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
     this.showAllUsers();
-  };
+    this.getAllMessages();
+  }
   showAllUsers() {
     this.http.get<adminUserInfo[]>("http://localhost:5001/api/admin/users").subscribe((res: adminUserInfo[]) => {
       console.log("Utenti ricevuti dal backend:", res);
@@ -38,11 +44,31 @@ export class ADMINPAGEComponent {
     console.log("Elimina utente con ID:", usermame);
     this.http.delete(`http://localhost:5001/api/admin/kickout/${usermame}`).subscribe({
       next: () => {
-        console.log(`Utente con ID ${usermame} eliminato con successo.`);
         this.users = this.users.filter(user => user.userName !== usermame);
       },
       error: (err) => {
         console.error(`Errore durante l'eliminazione dell'utente con usermame ${usermame}:`, err);
+      }
+    });
+  }
+
+  reloadPage() {
+    window.location.reload();
+  }
+
+  getAllMessages(){
+    this.http.get<MessageAdmin[]>('http://localhost:5001/api/admin/messages').subscribe((res: MessageAdmin[])=> {
+      this.messages = res; 
+    });
+  }
+
+  deleteMessage(id: number) {
+    this.http.delete(`http://localhost:5001/api/admin/messages/${id}`).subscribe({
+      next: () => {
+        this.getAllMessages();
+      },
+      error: (err) => {
+        console.error('Failed to delete message', err);
       }
     });
   }

@@ -1,29 +1,61 @@
 <h1>Admin Page</h1>
-<h2>Users Overview</h2>
 <h6>Attention! This page is reserved only for admins, all actions here are irreversible!</h6>
-<table class="user-table">
-  <thead>
-    <tr>
-      <th>Status</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Birthdate</th>
-      <th>Accepted Terms</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <td>
-        <span class="status-dot" [class.active]="user.isOnline"></span>
-      </td>
-      <td>{{ user.userName }}</td>
-      <td>{{ user.mail }}</td>
-      <td>{{ user.birthDate | date:'yyyy-MM-dd' }}</td>
-      <td>{{ user.hasAccepted ? 'Yes' : 'No' }}</td>
-      <td>
-        <button class="delete-btn" (click)="kickUser(user.userName)">🗑 Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div  class = "reload-button">
+  <button (click)="reloadPage()">Updated Tables</button>
+</div>
+
+<h2 (click)="showUsers = !showUsers" style="cursor: pointer;">
+  Users Overview
+  <span *ngIf="showUsers">🔽</span><span *ngIf="!showUsers">▶️</span>
+</h2>
+
+<div *ngIf="showUsers">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Birthdate</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.userName }}</td>
+        <td>{{ user.mail }}</td>
+        <td>{{ user.birthDate | date:'yyyy-MM-dd' }}</td>
+        <td>
+          <button class="delete-btn" (click)="kickUser(user.userName)">🗑 Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 (click)="showMessages = !showMessages" style="cursor: pointer;">
+  Messages Overview
+  <span *ngIf="showMessages">🔽</span><span *ngIf="!showMessages">▶️</span>
+</h2>
+
+<div *ngIf="showMessages">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>From</th>
+        <th>Content</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let message of messages">
+        <td>{{ message.id }}</td>
+        <td>{{ message.sender }}</td>
+        <td>{{ message.messageText }}</td>
+        <td>
+          <button class="delete-btn" (click)="deleteMessage(+message.id)">🗑 Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

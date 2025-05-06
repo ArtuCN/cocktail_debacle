@@ -22,7 +22,7 @@ namespace CocktailApp
         public required DateTime BirthDate {get; set;}
         public required bool AcceptedTerms {get; set;}
         public required bool IsOnline {get; set;}
-
     }
+
 }
 

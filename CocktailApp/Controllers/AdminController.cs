@@ -58,74 +58,125 @@ namespace CocktailApp.Controllers
         [HttpDelete("kickout/{UserName}")]
         public async Task<IActionResult> KickUserAndRelatedData([FromRoute] string UserName)
         {
+            Console.WriteLine($"Ingresso {UserName}");
             if (string.IsNullOrWhiteSpace(UserName))
             {
-            return BadRequest("User parameter cannot be null or empty.");
+                return BadRequest("User parameter cannot be null or empty.");
             }
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                Console.WriteLine("Daje");
+
+                using (var transaction = await connection.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        // Ottieni la mail dell'utente
+                        var getUserMailCommand = connection.CreateCommand();
+                        getUserMailCommand.CommandText = "SELECT Mail FROM User WHERE UserName = @UserName";
+                        var userNameParam = getUserMailCommand.CreateParameter();
+                        userNameParam.ParameterName = "@UserName";
+                        userNameParam.Value = UserName;
+                        userNameParam.DbType = System.Data.DbType.String;
+                        getUserMailCommand.Parameters.Add(userNameParam);
+                        var userMailObj = await getUserMailCommand.ExecuteScalarAsync();
+                        if (userMailObj == null)
+                        {
+                            Console.WriteLine("Not found");
+                            return NotFound($"User '{UserName}' not found.");
+                        }
+                        string userMail = userMailObj.ToString();
+                        Console.WriteLine($"Mail = {userMail}");
+
+                        // Elimina da UserPreferences
+                        var deletePreferencesCommand = connection.CreateCommand();
+                        deletePreferencesCommand.CommandText = "DELETE FROM UserPreferences WHERE Mail = @Mail";
+                        var mailParam = deletePreferencesCommand.CreateParameter();
+                        mailParam.ParameterName = "@Mail";
+                        mailParam.Value = userMail;
+                        mailParam.DbType = System.Data.DbType.String;
+                        deletePreferencesCommand.Parameters.Add(mailParam);
+                        await deletePreferencesCommand.ExecuteNonQueryAsync();
+
+                        // Elimina da User
+                        var deleteUserCommand = connection.CreateCommand();
+                        deleteUserCommand.CommandText = "DELETE FROM User WHERE Mail = @Mail";
+                        deleteUserCommand.Parameters.Add(mailParam);
+                        var rowsAffected = await deleteUserCommand.ExecuteNonQueryAsync();
+
+                        await transaction.CommitAsync();
+
+                        if (rowsAffected > 0)
+                        {
+                            return Ok($"User '{UserName}' and related data have been removed.");
+                        }
+                        else
+                        {
+                            return NotFound($"User '{UserName}' not found.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        return StatusCode(500, $"An error occurred: {ex.Message}");
+                    }
+                }
+            }
+        }
+        [HttpGet("messages")]
+        public async Task<IActionResult> GetAllMessages()
+        {
+            var messages = new List<MessageAdmin>();
 
             using (var connection = new SqliteConnection(_connectionString))
             {
-            await connection.OpenAsync();
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT Id, Sender, MessageText, SendingTime FROM Message";
 
-            // Start a transaction
-            using (var transaction = await connection.BeginTransactionAsync())
-            {
-                try
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                // Get the user Id based on the UserName
-                var getUserIdCommand = connection.CreateCommand();
-                getUserIdCommand.CommandText = "SELECT Id FROM User WHERE UserName = @UserName";
-                var userNameParam = getUserIdCommand.CreateParameter();
-                userNameParam.ParameterName = "@UserName";
-                userNameParam.Value = UserName;
-                userNameParam.DbType = System.Data.DbType.String;
-                getUserIdCommand.Parameters.Add(userNameParam);
-
-                var userId = await getUserIdCommand.ExecuteScalarAsync();
-
-                if (userId == null)
-                {
-                    return NotFound($"User '{UserName}' not found.");
+                    while (await reader.ReadAsync())
+                    {
+                        messages.Add(new MessageAdmin
+                        {
+                            Id = reader.GetInt32(0),
+                            Sender = reader.GetString(1),
+                            MessageText = reader.GetString(2),
+                            SendingTime = reader.GetDateTime(3)
+                        });
+                    }
                 }
+            }
 
-                // Delete related data using the foreign key (Id)
-                var deleteRelatedDataCommand = connection.CreateCommand();
-                deleteRelatedDataCommand.CommandText = "DELETE FROM RelatedTable WHERE UserId = @UserId"; // Replace 'RelatedTable' with the actual table name
-                var userIdParam = deleteRelatedDataCommand.CreateParameter();
-                userIdParam.ParameterName = "@UserId";
-                userIdParam.Value = userId;
-                userIdParam.DbType = System.Data.DbType.Int32;
-                deleteRelatedDataCommand.Parameters.Add(userIdParam);
+            return Ok(messages);
+        }
+        [HttpDelete("messages/{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM Message WHERE Id = @Id";
+                var idParam = command.CreateParameter();
+                idParam.ParameterName = "@Id";
+                idParam.Value = id;
+                idParam.DbType = System.Data.DbType.Int32;
+                command.Parameters.Add(idParam);
 
-                await deleteRelatedDataCommand.ExecuteNonQueryAsync();
-
-                // Delete the user
-                var deleteUserCommand = connection.CreateCommand();
-                deleteUserCommand.CommandText = "DELETE FROM User WHERE Id = @UserId";
-                deleteUserCommand.Parameters.Add(userIdParam);
-
-                var rowsAffected = await deleteUserCommand.ExecuteNonQueryAsync();
-
-                // Commit the transaction
-                await transaction.CommitAsync();
-
+                var rowsAffected = await command.ExecuteNonQueryAsync();
                 if (rowsAffected > 0)
                 {
-                    return Ok($"User '{UserName}' and related data have been removed.");
+                    return Ok($"Message {id} deleted successfully.");
                 }
                 else
                 {
-                    return NotFound($"User '{UserName}' not found.");
+                    return NotFound($"Message with ID {id} not found.");
                 }
-                }
-                catch (Exception ex)
-                {
-                // Rollback the transaction in case of an error
-                await transaction.RollbackAsync();
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-                }
-            }
             }
         }
+
     }
 }

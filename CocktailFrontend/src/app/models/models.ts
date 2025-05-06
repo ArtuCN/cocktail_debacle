@@ -80,6 +80,13 @@ export interface Message {
   timestamp: string;
 }
 
+export interface MessageAdmin {
+  sender: string;
+  messageText: string;
+  timestamp: string;
+  id: string;
+}
+
 export interface Share
 {
   sender: string;
