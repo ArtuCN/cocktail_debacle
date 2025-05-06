@@ -62,8 +62,6 @@ export class CocktailResearchComponent {
   ];
 
   fullInfo(str: string) {
-    console.log("CI ETNRO BRO");
-    console.log("cocktailId", str);
     sessionStorage.setItem('cocktailId', str);
     this.router.navigate(['/fullinfo']);
   }
