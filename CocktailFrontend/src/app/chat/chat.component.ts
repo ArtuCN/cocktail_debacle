@@ -20,7 +20,7 @@ export class ChatComponent implements OnInit {
   messages: Message[] = [];
   currentShareIndex: number = 0;
   share: Share[] = [];
-  isDevelopmentMode = false;
+  isDevelopmentMode = true;
   connectedClients: number = 0;
   mail: string = '';
 
