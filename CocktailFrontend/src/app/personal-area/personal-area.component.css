@@ -23,12 +23,12 @@
 }
 
 .profile-title {
-    font-family: 'Courier New', Courier, monospace;
+  font-family: 'Tilt Warp', cursive;
     font-size: 40px;
 }
 
 .profile-mail {
-    font-family: 'Courier New', Courier, monospace;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 22px;
     margin-right: 10px;
     margin-top: 10px;
@@ -43,7 +43,7 @@
     display: block;
     text-decoration: none;
     color: rgb(255, 255, 255);
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     background-color: #333333;
     padding: 10px;
@@ -83,7 +83,7 @@
 }
 
 .account-title {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 20px;
   color: #0069d9;
   font-weight: 500;

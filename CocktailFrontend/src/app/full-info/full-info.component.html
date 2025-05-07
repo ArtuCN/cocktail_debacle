@@ -34,14 +34,12 @@
     <div class="cocktail-info">
       <div class="main">
         <h1>{{ cocktail.strDrink }}</h1>
-        <img [src]="cocktail.strDrinkThumb" [alt]="cocktail.strDrink"
-             style="max-width: 300px; border-radius: 10px;" />
+        <img [src]="cocktail.strDrinkThumb" class="foto" [alt]="cocktail.strDrink"/>
       </div>
-  
+
       <div class="ingredients">
         <div *ngIf="selectedCocktail">
-          <h2>{{ selectedCocktail.strDrink }}</h2>
-          <h3>Ingredients:</h3>
+          <h2>Ingredients:</h2>
           <ul>
             <li *ngFor="let ingredient of ingredients">
               <img [src]="getIngredientImageUrl(ingredient)"
@@ -49,26 +47,30 @@
               {{ ingredient }}
             </li>
           </ul>
-  
-          <div *ngIf="selectedCocktail.strVideo">
-            <h3>Video:</h3>
-            <a [href]="selectedCocktail.strVideo" target="_blank">Watch the video</a>
+          
+          <div *ngIf=true class="video">
+            <h3>How to make it:</h3>
+            <a [href]="selectedCocktail.strVideo" target="_blank">Click and Watch!</a>
           </div>
         </div>
       </div>
+      <div class="description-box">
+        <h2>Instructions:</h2>
+        <p class="testo-info" *ngIf="cocktail[selectedLang]; else noTranslation">
+          {{ cocktail[selectedLang] }}
+        </p>
+        <ng-template #noTranslation>
+          <p><i>No translation available</i></p>
+        </ng-template>
+        <div class="share">
+          <input [(ngModel)]="message" class="share-box" placeholder="Write here your message..." />
+          <button (click)="shareCocktail()">Share Cocktail</button>
+        </div>
+      </div>
     </div>
-  
-    <input [(ngModel)]="message" placeholder="Write here your message..." />
-    <button (click)="shareCocktail()">Share Cocktail</button>
-  
-    <div class="description-box" style="margin-top: 20px;">
-      <h2>Instructions</h2>
-      <p *ngIf="cocktail[selectedLang]; else noTranslation">
-        {{ cocktail[selectedLang] }}
-      </p>
-      <ng-template #noTranslation>
-        <p><i>No translation available</i></p>
-      </ng-template>
-    </div>
+    
+    
   </div>
 </div>
+
+<link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">

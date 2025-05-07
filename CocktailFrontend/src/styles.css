@@ -10,10 +10,20 @@ h1, h2, h3, h4, h5, h6{
 a {
     color: #0d6efd;
 }
-input, textarea, select{
-    background-color: #9696961b !important;
-    color: #ffffff !important;
-    border: 1px solid #564a4a47 !important;
+select {
+  color: white;
+  background-color: #9696961b;
+}
+
+select option {
+  color: black; /* testo nero nel menu aperto */
+  background-color: white; /* sfondo bianco per contrasto */
+}
+
+input {
+  background-color: #9696961b !important;
+  color: #ffffff !important;
+  border: 1px solid #564a4a47 !important;
 }
 
 html {
@@ -105,7 +115,6 @@ html {
 .custom-auth-btn {
   align-items: center;
   justify-content: center;
-  color: #ffffff !important;
 }
 
 
@@ -424,7 +433,7 @@ html {
   .cocktail-alcoholic {
     text-align: left;
     color: #ffffff !important;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 30px;
   }
 
@@ -436,6 +445,23 @@ html {
     border-radius: 50%;
     padding: 10px;
     color: #000000;
+  }
+
+  .fullinfo button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #d9cb00;
+    color: black;
+    font-weight: bold;
+  }
+
+  .fullinfo button:hover {
+    background-color: #0056b3;
+  }
+
+  .border {
+    background-color: transparent !important;
   }
 
 
@@ -509,11 +535,8 @@ html {
   
   
   
-  
-  
-  
-  
   .container {
+    padding-left: 140px;
     display: flex;
     margin: 50px 10px;
   }
@@ -537,12 +560,12 @@ html {
   }
   
   .profile-title {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Tilt Warp', cursive;
     font-size: 40px;
   }
   
 .profile-mail {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 22px;
   margin-right: 10px;
   justify-content: left;
@@ -558,7 +581,7 @@ html {
     display: block;
     text-decoration: none;
     color: rgb(255, 255, 255);
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     background-color: #333333;
     padding: 10px;
@@ -570,7 +593,7 @@ html {
     display: block;
     text-decoration: none;
     color: rgb(255, 255, 255);
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     background-color: #fb0404c7;
     padding: 10px;
@@ -629,7 +652,7 @@ html {
   }
   
   .account-title {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size:30px;
     color: #ffffff;
   font-weight: 500;
@@ -689,7 +712,7 @@ html {
 }
 
 .input-container label {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #ffffff;
   font-size: 20px;
 }

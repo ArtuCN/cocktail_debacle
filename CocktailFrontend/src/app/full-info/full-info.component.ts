@@ -54,7 +54,7 @@ export class FullInfoComponent implements OnInit {
     }
 
     this.http
-      .get<{ drinks: CocktailInterface[] }>('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + this.name)
+      .get<{ drinks: CocktailInterface[] }>('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + '11007')
       .subscribe({
         next: (data: { drinks: CocktailInterface[] }) => {
           if (data.drinks && data.drinks.length > 0) {
