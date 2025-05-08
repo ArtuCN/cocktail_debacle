@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../services/auth.service';
 import { TermsService } from '../services/terms.service';
 import { catchError, map, of } from 'rxjs';
+import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
 
 interface UserData {
   username: string;
@@ -33,6 +34,10 @@ export class PersonalAreaComponent implements OnInit {
     birthdate: ''
   };
 
+  admin: boolean = false;
+  mail: string = '';
+  name: string = '';
+  loggedIn: boolean = true;//loggato o no
   isEditing = false;
   isDevelopmentMode = false; // Modalità di sviluppo
   termsAccepted = false; // Accettazione dei termini
@@ -65,8 +70,17 @@ export class PersonalAreaComponent implements OnInit {
       this.router.navigate(['/home']);
       return;
     }
-    
+
     this.userData.mail = mail;
+    
+    if (this.loggedIn) {
+      // Decodifica il token per ottenere il nome dell'utente
+      const decodedToken: any = jwtDecode(token as string); // decodifica il token
+      this.name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];  // Estrarre il nome
+      console.log('Nome:', this.name);
+      if (this.userData.mail === 'admin@admin.com')
+        this.admin = true;
+    }
     
     console.log('📧 Mail recuperata:', this.userData.mail);
     this.termsService.getTerms(this.userData.mail).pipe(

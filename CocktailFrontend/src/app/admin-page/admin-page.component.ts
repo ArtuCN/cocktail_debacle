@@ -5,6 +5,7 @@ import { adminUserInfo } from '../models/models';
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { MessageAdmin } from '../models/models';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-page',
   standalone: true,
@@ -18,11 +19,17 @@ export class ADMINPAGEComponent {
   messages: MessageAdmin[] =[];
   showUsers: boolean = true;
   showMessages: boolean = true;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
+  mail: string = '';
 
   ngOnInit(): void {
     this.showAllUsers();
     this.getAllMessages();
+    this.mail = localStorage.getItem('mail') || '';
+    if (this.mail !== 'admin@admin.com') { 
+      this.router.navigate(['/home']); // Reindirizza alla home se non è admin
+      return; 
+    }
   }
   showAllUsers() {
     this.http.get<adminUserInfo[]>("http://localhost:5001/api/admin/users").subscribe((res: adminUserInfo[]) => {

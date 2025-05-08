@@ -53,6 +53,7 @@ html {
 
 .logging {
   display: flex;
+  color: #ffffff !important;
   line-height: 30px;
   border-radius: 25px;
   text-align: left;
@@ -292,6 +293,11 @@ html {
     margin: 0 auto;
     padding: 20px;
     border-radius: 10px;
+  }
+  .form-control {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: 1px solid #564a4a47 !important;
   }
   .cocktail-card {
     width: 400px;
