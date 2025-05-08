@@ -18,7 +18,6 @@ import { SignalrService } from '../services/signalr.service';
 import { DailyCocktailComponent } from '../daily-cocktail/daily-cocktail.component';
 import { ChatComponent } from '../chat/chat.component';
 import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
-import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -31,8 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule, CocktailResearchComponent,
     CreateUserComponent, LoginComponent, RouterModule,
-    FormsModule, FavoritesComponent, DailyCocktailComponent,
-    ChatComponent, ADMINPAGEComponent, HttpClientModule], // Aggiungi ErrorComponent nelle imports
+    FormsModule, FavoritesComponent, DailyCocktailComponent], // Aggiungi ErrorComponent nelle imports
   providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']

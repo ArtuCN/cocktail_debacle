@@ -24,31 +24,31 @@
 		<div class="account-header">
 			<h1 class="account-title">Account Info</h1>
 		</div>
-
+		
 		<div class="account-edit">
 			<div class="input-container">
-				<label>Username</label>
-				<input type="text" placeholder="Username" [(ngModel)]="userData.username" name="username" [disabled]="!isEditing">
+			<label>Username</label>
+			<input type="text" placeholder="Username" [(ngModel)]="userData.username" name="username" [disabled]="!isEditing">
 			</div>
 			<div class="input-container">
-				<label>Password</label>
-				<input type="text" placeholder="******">
+			<label>Password</label>
+			<input type="text" placeholder="******" name="password"> <!-- Aggiungi il name -->
 			</div>
 		</div>
-
+		
 		<div class="account-edit">
 			<div class="input-container">
-				<label>Birthdate</label>
-				<input type="date" [(ngModel)]="userData.birthdate" name="birthdate" [disabled]="!isEditing">
+			<label>Birthdate</label>
+			<input type="date" [(ngModel)]="userData.birthdate" name="birthdate" [disabled]="!isEditing">
 			</div>
 		</div>
-				
+		
 		<div class="account-edit">
 			<div class="input-container">
-				<label>Mail</label>
-				<input type="mail" placeholder="mettolamiamail.com" [(ngModel)]="userData.mail" disabled>
+			<label>Mail</label>
+			<input type="mail" placeholder="mettolamiamail.com" [(ngModel)]="userData.mail" name="mail" [ngModelOptions]="{standalone: true}" disabled>
 			</div>
 		</div>
-	</form>
+		</form>
 </div>
 <link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">

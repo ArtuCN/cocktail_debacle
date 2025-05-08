@@ -72,7 +72,7 @@ app.UseSpa(spa =>
         RequestPath = "",
         OnPrepareResponse = ctx => Console.WriteLine($"📄 Servendo file statico: {ctx.File.Name}")
     };
-    spa.Options.DefaultPage = "/index.csr.html";
+    spa.Options.DefaultPage = "/index.html";
 });
 
 app.Run();
