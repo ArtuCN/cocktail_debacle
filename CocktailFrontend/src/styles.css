@@ -312,7 +312,7 @@ html {
 
 .slider-wrapper {
   height: 500px;
-  background-color: tr;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -17,14 +17,14 @@ namespace CocktailApp.Utils
     {
         public class CocktailApiDto
         {
-            public List<CocktailShort> drinks { get; set; }
+            public List<CocktailShort> drinks { get; set; } = new List<CocktailShort>();
         }
 
         public class CocktailShort
         {
-            public string strDrink { get; set; }
-            public string strDrinkThumb { get; set; }
-            public string idDrink { get; set; }
+            public string strDrink { get; set; }  = string.Empty;
+            public string strDrinkThumb { get; set; }  = string.Empty;
+            public string idDrink { get; set; }  = string.Empty;
         }
         private static string _connectionString = "Data Source=cocktail.db";
         //const ingredientCount: { [ingredient: string]: number } = {};

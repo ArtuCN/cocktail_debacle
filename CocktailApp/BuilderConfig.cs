@@ -61,6 +61,11 @@ namespace CocktailApp
             .AddJwtBearer(options =>
             {
                 var secretKey = builder.Configuration["JwtSettings:Secret"];
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    throw new InvalidOperationException("JWT Secret key is not configured in app settings.");
+                }
+
                 var key = Encoding.ASCII.GetBytes(secretKey);
 
                 options.TokenValidationParameters = new TokenValidationParameters

@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { SignalrService } from '../services/signalr.service';
 import { CocktailInterface } from '../models/models';
 import { CommonModule } from '@angular/common';
-import { SuggestionService } from '../services/suggestion.service'
+import { SuggestionService } from '../services/suggestion.service';
+
 @Component({
   selector: 'app-daily-cocktail',
   standalone: true,

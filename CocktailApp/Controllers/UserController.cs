@@ -43,7 +43,7 @@ namespace CocktailApp.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateUser([FromBody] JsonElement data)
+        public IActionResult CreateUser([FromBody] JsonElement data)
         {
             Console.WriteLine("➡️ Entrato nel metodo create");
 
@@ -57,7 +57,6 @@ namespace CocktailApp.Controllers
                     BirthDate = data.GetProperty("birthdate").GetDateTime(),
                     AcceptedTerms = data.GetProperty("acceptterms").GetBoolean()
                 };
-
 
                 Console.WriteLine($"✅ Parsed: username = {user.UserName}, mail = {user.Mail}, psw = {user.Psw}, birthdate = {user.BirthDate}, acceptedTerms = {user.AcceptedTerms}, IsOnline = false");
 
@@ -75,12 +74,11 @@ namespace CocktailApp.Controllers
                         cmd.Parameters.AddWithValue("@UserName", user.UserName);
                         cmd.Parameters.AddWithValue("@BirthDate", formattedBirthDate);
                         cmd.Parameters.AddWithValue("@Psw", hashedPassword);
-                        cmd.Parameters.AddWithValue("@AcceptedTerms", user.AcceptedTerms);
                         cmd.ExecuteNonQuery();
                     }
                 }
 
-                return Ok(new { message = "User created successfully"});
+                return Ok(new { message = "User created successfully" });
             }
             catch (Exception ex)
             {
@@ -88,6 +86,7 @@ namespace CocktailApp.Controllers
                 return BadRequest(new { message = "Errore: " + ex.Message });
             }
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser([FromBody] loginData ld)
@@ -106,17 +105,17 @@ namespace CocktailApp.Controllers
                     using var reader = await command.ExecuteReaderAsync();
                     if (await reader.ReadAsync())
                     {
-                        string storedHash = reader["Psw"].ToString();
-                        if (BCrypt.Net.BCrypt.Verify(ld.Psw, storedHash))
+                        string? storedHash = reader["Psw"]?.ToString();
+                        if (!string.IsNullOrEmpty(storedHash) && BCrypt.Net.BCrypt.Verify(ld.Psw, storedHash))
                         {
                             Console.WriteLine("User found and password is correct!");
                             
-                            string UserName = reader["UserName"].ToString();
+                            string? UserName = reader["UserName"].ToString();
                             DateTime bd = reader.GetDateTime(reader.GetOrdinal("BirthDate"));
                             string bdStr = bd.ToString("yyyy-MM-dd");
                             Console.WriteLine($"Birthdate: {bdStr}");
                             var t = new {
-                                 token = GenerateJwtToken(ld.Mail, UserName),
+                                 token = GenerateJwtToken(ld.Mail ?? "", UserName ?? ""),
                                  birthdate = bdStr
                                  };
                             Console.WriteLine("Token generato: " + t.token);

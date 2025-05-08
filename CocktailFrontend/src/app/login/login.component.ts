@@ -1,5 +1,5 @@
 // src/app/home/home.component.ts
-import { Component, Injectable, importProvidersFrom  } from '@angular/core';
+import { Component, Injectable  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';  // Inietta HttpClient come servizio
 import { AuthService } from '../services/auth.service';

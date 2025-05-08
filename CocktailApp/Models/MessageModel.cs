@@ -17,8 +17,8 @@ namespace CocktailApp
     public class MessageAdmin
     {
         public int Id { get; set; }
-        public string Sender { get; set; }
-        public string MessageText { get; set; }
+        public string Sender { get; set; } = string.Empty;
+        public string MessageText { get; set; } = string.Empty;
         public DateTime SendingTime { get; set; }
     }
 }

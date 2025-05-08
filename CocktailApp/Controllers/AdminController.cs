@@ -86,7 +86,7 @@ namespace CocktailApp.Controllers
                             Console.WriteLine("Not found");
                             return NotFound($"User '{UserName}' not found.");
                         }
-                        string userMail = userMailObj.ToString();
+                        string userMail = userMailObj?.ToString() ?? string.Empty;
                         Console.WriteLine($"Mail = {userMail}");
 
                         // Elimina da UserPreferences

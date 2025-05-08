@@ -1,5 +1,5 @@
 // src/app/home/home.component.ts
-import { Component, Injectable, OnInit, importProvidersFrom  } from '@angular/core';
+import { Component, Injectable, OnInit  } from '@angular/core';
 import { ErrorService } from '../services/error.service';
 import { ErrorComponent } from "../error/error.component";  // Importa il servizio di errori
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,6 @@ import { HttpClient } from '@angular/common/http';  // Inietta HttpClient come s
 import { AuthService } from '../services/auth.service';
 import { LoginComponent } from "../login/login.component";
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { CocktailService } from '../services/testdb.service';
 import { jwtDecode } from 'jwt-decode';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
@@ -19,6 +18,8 @@ import { SignalrService } from '../services/signalr.service';
 import { DailyCocktailComponent } from '../daily-cocktail/daily-cocktail.component';
 import { ChatComponent } from '../chat/chat.component';
 import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @Injectable({
@@ -31,7 +32,7 @@ import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
   imports: [CommonModule, CocktailResearchComponent,
     CreateUserComponent, LoginComponent, RouterModule,
     FormsModule, FavoritesComponent, DailyCocktailComponent,
-    ChatComponent, ADMINPAGEComponent], // Aggiungi ErrorComponent nelle imports
+    ChatComponent, ADMINPAGEComponent, HttpClientModule], // Aggiungi ErrorComponent nelle imports
   providers: [ErrorService],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']
