@@ -24,5 +24,10 @@ namespace CocktailApp
         public required bool IsOnline {get; set;}
     }
 
+
+    public class TermsDto
+    {
+        public bool Accepted { get; set; }
+    }
 }
 

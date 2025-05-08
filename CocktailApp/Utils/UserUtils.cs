@@ -143,7 +143,7 @@ namespace CocktailApp.Utils
                             Console.WriteLine($"ID del cocktail: {cocktailId}");
                             ret.Add(cocktailId);
                             if (ret.Count >= 3)
-                                return ret;
+                                return ret.GetRange(0, 3);
                         }
                     }
                     Console.WriteLine($"ingredient {i}");

@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../services/auth.service';
+import { TermsService } from '../services/terms.service';
+import { catchError, map, of } from 'rxjs';
 
 interface UserData {
   username: string;
@@ -32,12 +34,13 @@ export class PersonalAreaComponent implements OnInit {
   };
 
   isEditing = false;
-  isDevelopmentMode = true; // Modalità di sviluppo
+  isDevelopmentMode = false; // Modalità di sviluppo
   termsAccepted = false; // Accettazione dei termini
 
   constructor(private http: HttpClient,
     public router: Router,
     private authService: AuthService,
+    private termsService: TermsService
   ) { }
 
   ngOnInit(): void {
@@ -56,14 +59,25 @@ export class PersonalAreaComponent implements OnInit {
 
     console.log('🔑 Token:', token);
     console.log('📧 Mail:', mail);
-
+    
     if (!mail) {
-
+      
       this.router.navigate(['/home']);
       return;
     }
-
+    
     this.userData.mail = mail;
+    
+    console.log('📧 Mail recuperata:', this.userData.mail);
+    this.termsService.getTerms(this.userData.mail).pipe(
+      map((response: boolean) => {
+        this.termsAccepted = response;
+      }),
+      catchError((error) => {
+        console.error('❌ Errore nel recupero dei termini:', error);
+        return of(null);
+      })
+    ).subscribe();
     
     if (token) {
       try {
@@ -82,14 +96,15 @@ export class PersonalAreaComponent implements OnInit {
     this.loadUserData();
   }
 
+
   toggleTermsAccepted(): void {
     this.termsAccepted = !this.termsAccepted;
+    this.http.put(`/api/user/${this.userData.mail}/terms`, {accepted: this.termsAccepted }).subscribe();
   }
 
   loadUserData(): void {
     const apiUrl = `http://localhost:5001/api/user/${this.userData.mail}`;
 
-    console.log('entro qua dio merda');
     this.http.get<any>(apiUrl).subscribe({
       next: (data) => {
         console.log('🔍 Dati utente recuperati:', data);

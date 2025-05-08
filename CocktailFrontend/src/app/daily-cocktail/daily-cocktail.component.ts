@@ -17,7 +17,7 @@ export class DailyCocktailComponent implements OnInit {
   cardWidth = 300;
   cardMargin = 40;
 
-  isDevelopmentMode = true;
+  isDevelopmentMode = false;
   private mockCocktail: CocktailInterface = {
     idDrink: 'DEV1',
     strDrink: 'Dev Cocktail',
@@ -46,9 +46,14 @@ export class DailyCocktailComponent implements OnInit {
       this.dailyCocktail = Array(7).fill(this.mockCocktail); // Test con 7 cocktail
       return;
     }
-
     this.srs.dailyId$.subscribe(ids => {
-       this.setDaily(ids);
+      this.setDaily(ids);
+    });
+    this.ss.suggestions$.subscribe(suggestions => {
+      suggestions.forEach(s => {
+        console.log(s.idDrink, " ", s.strDrink);
+        this.dailyCocktail.push(s);
+      });
     });
   }
 
@@ -90,12 +95,6 @@ export class DailyCocktailComponent implements OnInit {
         if (response.drinks?.[0]) {
           this.dailyCocktail.push(response.drinks[0]);
         }
-      });
-    });
-    this.ss.suggestions$.subscribe(suggestions => {
-      suggestions.forEach(s => {
-        console.log(s.idDrink, " ", s.strDrink);
-        this.dailyCocktail.push(s);
       });
     });
   }

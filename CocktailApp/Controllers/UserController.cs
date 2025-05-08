@@ -173,9 +173,32 @@ namespace CocktailApp.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        
-
-        
+        [HttpPut("{mail}/terms")]
+        public async Task<IActionResult> UpdateTerms(string mail, [FromBody] TermsDto dto)
+        {
+            try
+            {
+                using var conn = new SqliteConnection(_connectionString);
+                await conn.OpenAsync();
+                string updateQuery = "UPDATE User SET AcceptedTerms = @AcceptedTerms WHERE Mail = @Mail";
+                using var command = new SqliteCommand(updateQuery, conn);
+                command.Parameters.AddWithValue("@AcceptedTerms", dto.Accepted);
+                command.Parameters.AddWithValue("@Mail", mail);
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+                if (rowsAffected > 0)
+                {
+                    return Ok(new {success="User terms updated successfully."});
+                }
+                else
+                {
+                    return NotFound(new {failed="User not found."});
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal error: {ex.Message}");
+            }
+        }
     }
     
 }

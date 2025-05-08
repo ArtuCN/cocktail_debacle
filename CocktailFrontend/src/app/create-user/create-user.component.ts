@@ -35,7 +35,7 @@ export class CreateUserComponent {
       this.message = 'Error invalid mail';
       return;
     }
-  
+
     this.cs.SendNewUser(this.us).subscribe({
       next: (response) => {
         console.log('User created successfully', response);
@@ -44,7 +44,6 @@ export class CreateUserComponent {
         //window.location.reload();
       },
       error: (error) => {
-        console.log("username ", this.us.username, " mail ", this.us.mail, " psw ", this.us.psw, this.us.birthdate, " accepted terms ", this.us.acceptterms);
         console.error('Error creating user', error);
         this.message = error.error.message;
       },

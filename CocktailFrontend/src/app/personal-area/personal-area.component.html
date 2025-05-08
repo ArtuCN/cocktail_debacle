@@ -11,7 +11,7 @@
 		<div class="menu">
 			<a (click)="router.navigate(['/home'])" class="menu-link"><i class="fa-solid
 				fa-circle-user menu-icon"></i>Back to Home</a>
-				<a href="#" class="menu-link"><i class="fa-solid
+				<a (click)="logout()" class="menu-link"><i class="fa-solid
 					fa-right-from-bracket menu-icon"></i>Logout</a>
 					<a href="javascript:void(0)" class="menu-link-cookies"
 					[ngClass]="{'terms-accepted' : termsAccepted, 'terms-rejected': !termsAccepted}"

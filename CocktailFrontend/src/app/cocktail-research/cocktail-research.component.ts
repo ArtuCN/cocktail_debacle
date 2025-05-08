@@ -39,7 +39,7 @@ export class CocktailResearchComponent {
 
 
   // 1. Modalità di sviluppo
-  isDevelopmentMode = true;
+  isDevelopmentMode = false;
 
   mockCocktails: CocktailInterface[] = [
     {
