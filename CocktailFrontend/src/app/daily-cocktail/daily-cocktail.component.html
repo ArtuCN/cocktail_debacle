@@ -3,21 +3,30 @@
   <h1 *ngIf="activeIndex < 5">Daily cocktails!</h1>
   <h1 *ngIf="activeIndex >= 5">Suggested for you!</h1>
 </div>
-<div class="daily-carousel-container" #carouselContainer *ngIf="dailyCocktail.length > 0">
-  <div
-    class="daily-carousel-track"
-    [ngStyle]="{ transform: 'translateX(' + getTransformValue() + 'px)' }"
-  >
-    <div
-      *ngFor="let cocktail of dailyCocktail; let i = index"
-      [class]="getCardClass(i)">
-      <img [src]="cocktail.strDrinkThumb" [alt]="cocktail.strDrink" />
-      <h4>{{ cocktail.strDrink }}</h4>
+<div class="daily-carousel-container" #carouselContainer *ngIf="dailyCocktail.length">
+  <div class="daily-carousel-track" [ngStyle]="{ transform: 'translateX(' + getTransformValue() + 'px)' }">
+    <div *ngFor="let cocktail of dailyCocktail; let i = index" [class]="getCardClass(i)">
+      <div class="cocktail-card"
+           [class.flipped]="flippedDaily[i]"
+           (click)="toggleFlipDaily(i)">
+        <div class="card-front">
+          <img [src]="cocktail.strDrinkThumb" [alt]="cocktail.strDrink" class="cocktail-img" />
+          <h4>{{ cocktail.strDrink }}</h4>
+        </div>
+        <div class="card-back">
+          <p>Category: {{ cocktail.strCategory }}</p>
+          <p>Glass: {{ cocktail.strGlass }}</p>
+          <p>Type: {{ cocktail.strAlcoholic }}</p>
+          <div class="fullinfo">
+            <button (click)="fullInfo(cocktail.idDrink)">More Info</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="daily-controls">
     <button class="daily-btn" (click)="prevSlide()" [disabled]="activeIndex <= 0">&#10094;</button>
-  <button class="daily-btn" (click)="nextSlide()" [disabled]="activeIndex >= dailyCocktail.length - 1">&#10095;</button>
+    <button class="daily-btn" (click)="nextSlide()" [disabled]="activeIndex >= dailyCocktail.length - 1">&#10095;</button>
   </div>
 </div>

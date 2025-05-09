@@ -13,9 +13,9 @@
       <div class="title">
         <p class="title-text">Noisy Shots</p>
       </div>
-      <a class="home" href="#daily" (click)="scrollTo('daily',$event)">Home</a>
+      <a class="home" href="#daily" (click)="scrollTo('daily',$event)">Suggested</a>
       <a class="sc"   href="#cocktailResearch" (click)="scrollTo('cocktailResearch',$event)">
-        Search for a cocktail!
+        Search
       </a>
       <a class="navbar-brand ms-auto login-link" 
          href="javascript:void(0)" 
@@ -33,12 +33,12 @@
     </ng-container>
 
     <ng-container *ngIf="loggedIn" class="cazzo">
-      <p class="text-light mb-2">Bentornato, {{ name }}!</p>
+      <p class="text-light mb-2">Hi again, {{ name }}!</p>
       <a class="text-light d-block mb-2" [routerLink]="'/favorites'" (click)="onLogin = false">
-        <i class="bi bi-heart-fill me-2"></i> Preferiti
+        <i class="bi bi-heart-fill me-2"></i> Favorites
       </a>
       <a class="text-light d-block mb-2" [routerLink]="'/personal-area'" (click)="onLogin = false">
-        <i class="bi bi-person-fill me-2"></i> Area Personale
+        <i class="bi bi-person-fill me-2"></i> Personal Area
       </a>
       <button class="btn btn-outline-danger logout-button" (click)="logout()">
         <i class="bi bi-box-arrow-right"></i> Logout

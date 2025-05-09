@@ -57,7 +57,6 @@ namespace CocktailApp.Controllers
                     BirthDate = data.GetProperty("birthdate").GetDateTime(),
                     AcceptedTerms = data.GetProperty("acceptterms").GetBoolean()
                 };
-
                 Console.WriteLine($"✅ Parsed: username = {user.UserName}, mail = {user.Mail}, psw = {user.Psw}, birthdate = {user.BirthDate}, acceptedTerms = {user.AcceptedTerms}, IsOnline = false");
 
                 string formattedBirthDate = user.BirthDate.ToString("yyyy-MM-dd");
@@ -74,6 +73,7 @@ namespace CocktailApp.Controllers
                         cmd.Parameters.AddWithValue("@UserName", user.UserName);
                         cmd.Parameters.AddWithValue("@BirthDate", formattedBirthDate);
                         cmd.Parameters.AddWithValue("@Psw", hashedPassword);
+                        cmd.Parameters.AddWithValue("@AcceptedTerms", user.AcceptedTerms);
                         cmd.ExecuteNonQuery();
                     }
                 }

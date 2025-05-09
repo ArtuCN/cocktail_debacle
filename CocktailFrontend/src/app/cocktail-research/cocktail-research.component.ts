@@ -6,6 +6,7 @@ import { CocktailInterface } from '../models/models';
 import { FavoritesService } from '../services/favorites.service';
 import { Router } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
   selector: 'app-cocktail-research',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  providers: [SearchService, FavoritesService],
+  providers: [SearchService],
   templateUrl: './cocktail-research.component.html',
   //styleUrl: './cocktail-research.component.css'
 })
@@ -31,8 +32,7 @@ export class CocktailResearchComponent {
   underageMessage: string = '';
   favoritesMap: Map<string, boolean> = new Map<string, boolean>();
   flippedCard: boolean[] = [];
-
-
+  info: boolean = false;
 
   // 1. Modalità di sviluppo
   isDevelopmentMode = false;
@@ -95,6 +95,15 @@ prevSlide() {
       return true;
   }
 
+  checkInfo(): boolean {
+    if (this.info === true) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
 
   fullInfo(str: string): void {
     sessionStorage.setItem('cocktailId', str);
@@ -108,6 +117,7 @@ prevSlide() {
   toggleFlip(index: number) {
     this.flippedCard[index] = !this.flippedCard[index];
   }
+
 
 
 
@@ -192,8 +202,6 @@ prevSlide() {
 
   searchCocktail() {
 
-
-
     if (this.isDevelopmentMode) {
       this.cocktails = this.mockCocktails;
       this.flippedCard = new Array(this.cocktails.length).fill(false);
@@ -209,6 +217,7 @@ prevSlide() {
         {
           this.ss.getCocktailByName(this.name).subscribe({
             next: (data) => {
+              this.info = true;
               this.cocktails = data.drinks as CocktailInterface[];
               this.flippedCard = new Array(this.cocktails.length).fill(false);
               this.updateFavoritesStatus();
@@ -223,6 +232,7 @@ prevSlide() {
         {
           this.ss.getCocktailByIngredient(this.name).subscribe({
             next: (data) => {
+              this.info = false;
               this.cocktails = data.drinks as CocktailInterface[];
               this.flippedCard = new Array(this.cocktails.length).fill(false);
               this.updateFavoritesStatus();
@@ -237,6 +247,7 @@ prevSlide() {
           {
             this.ss.getCocktailByCategory(this.name).subscribe({
               next: (data) => {
+              this.info = false;
                 this.cocktails = data.drinks as CocktailInterface[];
                 this.flippedCard = new Array(this.cocktails.length).fill(false);
                 this.updateFavoritesStatus();
@@ -251,6 +262,7 @@ prevSlide() {
           {
             this.ss.getCocktailByGlass(this.name).subscribe({
               next: (data) => {
+                this.info = false;
                 this.cocktails = data.drinks as CocktailInterface[];
                 this.flippedCard = new Array(this.cocktails.length).fill(false);
                 this.updateFavoritesStatus();

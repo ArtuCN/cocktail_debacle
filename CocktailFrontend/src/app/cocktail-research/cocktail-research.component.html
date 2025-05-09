@@ -40,9 +40,11 @@
         </div>
         
         <div class="card-back">
-          <p class="cocktail-category">Category: {{ cocktails[currentIndex].strCategory }}</p>
-          <p class="cocktail-glass">Glass: {{ cocktails[currentIndex].strGlass }}</p>
-          <p class="cocktail-alcoholic">Type: {{ cocktails[currentIndex].strAlcoholic }}</p>
+          <div *ngIf="checkInfo()">
+            <p class="cocktail-category">Category: {{ cocktails[currentIndex].strCategory }}</p>
+            <p class="cocktail-glass">Glass: {{ cocktails[currentIndex].strGlass }}</p>
+            <p class="cocktail-alcoholic">Type: {{ cocktails[currentIndex].strAlcoholic }}</p>
+          </div>
           <div class="fullinfo">
             <button (click)="fullInfo(cocktails[currentIndex].idDrink)">More Info</button>
           </div>
