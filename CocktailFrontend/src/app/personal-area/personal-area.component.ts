@@ -63,6 +63,7 @@ export class PersonalAreaComponent implements OnInit {
     if (!mail) {
       
       this.router.navigate(['/home']);
+      window.location.reload();
       return;
     }
 

@@ -48,6 +48,7 @@ export class FullInfoComponent implements OnInit {
     if (this.name == '')
     {
       this.router.navigate(['/home']);
+      window.location.reload();
       return;
     }
 
@@ -76,6 +77,16 @@ export class FullInfoComponent implements OnInit {
         return false;
       return true;
     }
+
+    video(): boolean {
+      if (this.cocktail.strVideo == null)
+        return false;
+      return true;
+    }
+
+  goBack(): void {
+    this.router.navigate(['/home']);
+  }
 
     shareCocktail()
     {

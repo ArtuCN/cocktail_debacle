@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-
+using System.Text.Json;
 
 
 namespace CocktailApp.Utils
@@ -120,6 +120,7 @@ namespace CocktailApp.Utils
                 .Take(3)
                 .Select(kv => kv.Key)
                 .ToList();
+            
             var ret = new List<string>();
             using (var httpClient = new HttpClient())
             {
@@ -127,21 +128,47 @@ namespace CocktailApp.Utils
                 {
                     var url2 = $"https://www.thecocktaildb.com/api/json/v1/1/filter.php?i={i}";
                     var response = await httpClient.GetStringAsync(url2);
-                    var matches = Regex.Matches(response, "\"idDrink\":\"(.*?)\"");
-                    if (matches.Count > 0)
+
+                    using var document = JsonDocument.Parse(response);
+                    var drinks = document.RootElement.GetProperty("drinks");
+
+                    if (drinks.GetArrayLength() > 0)
                     {
-                        foreach (Match match in matches)
+                        // Prendi un cocktail random
+                        var random = new Random();
+                        var index = random.Next(0, drinks.GetArrayLength());
+                        var cocktailId = drinks[index].GetProperty("idDrink").GetString();
+
+                        if (!string.IsNullOrEmpty(cocktailId))
                         {
-                            var cocktailId = match.Groups[1].Value;
                             ret.Add(cocktailId);
                             if (ret.Count >= 3)
                                 return ret.GetRange(0, 3);
                         }
                     }
                 }
+                if (top3.Count == 0)
+                {
+                    var url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic";
+                    var response = await httpClient.GetStringAsync(url);
+                    var cocktails = JsonConvert.DeserializeObject<CocktailApiDto>(response);
+                    var alcoholicCocktails = cocktails.drinks
+                        .Where(c => !favoriteCocktailIds.Contains(c.idDrink))
+                        .ToList();
+
+                    var random = new Random();
+                    var selected = alcoholicCocktails
+                        .OrderBy(_ => random.Next())
+                        .Take(3)
+                        .ToList();
+
+                    foreach (var cocktail in selected)
+                    {
+                        ret.Add(cocktail.idDrink);
+                    }
+                }
             }
             return ret;
-            
         }
     }
 }

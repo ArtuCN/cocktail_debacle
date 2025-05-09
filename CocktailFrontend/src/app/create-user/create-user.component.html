@@ -1,26 +1,23 @@
-<!-- create-user.component.html -->
 <div *ngIf="!loggedIn" class="logging">
   <h1>Create User:</h1>
   <form (ngSubmit)="newUser()">
-    <div>
+    <div class="form-group">
       <label for="username">Username:</label>
       <input type="text" id="username" [(ngModel)]="us.username" name="username" required>
-    </div>
-    <div>
+
       <label for="mail">Email:</label>
       <input type="email" id="mail" [(ngModel)]="us.mail" name="mail" required>
-    </div>
-    <div>
+
       <label for="birthdate">Birth Date:</label>
       <input type="date" id="birthdate" [(ngModel)]="us.birthdate" name="birthdate" required>
-    </div>
-    <div>
+
       <label for="psw">Password:</label>
       <input type="password" id="psw" [(ngModel)]="us.psw" name="psw" required>
-    </div>
-    <div>
-      <label for="acceptterms">Accept Terms:</label>
-      <input type="checkbox" id="acceptterms" [(ngModel)]="us.acceptterms" name="acceptterms" required>
+
+      <div>
+        <label for="acceptterms">Accept Terms:</label>
+        <input type="checkbox" id="acceptterms" [(ngModel)]="us.acceptterms" name="acceptterms" required>
+      </div>
     </div>
     <button type="submit">Create User</button>
   </form>

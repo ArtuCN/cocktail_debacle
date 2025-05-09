@@ -62,10 +62,20 @@ html {
   position: fixed;
   width: 40%;
   left: 60%;
-  height: 350px;
+  height: 500px;
   justify-content: center;
   background-color: #000000e7;
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 0px;
+  max-width: 400px;
+}
+
 
 .ng-dirty {
   color: #ffffff !important;
@@ -78,9 +88,9 @@ html {
   text-align: center;
   flex-direction: column;
   margin: auto;
-  margin-top: 230px;
+  margin-top: -25px;
   position: fixed;
-  left: 72%;
+  left: 85%;
   background-color: transparent;
   justify-content: center;
 }
@@ -114,14 +124,30 @@ html {
   border-radius: 25px;
   top: 57px;
   right: 10px;
-  padding: 20px;
+  width: 35%;
+  height: 15%;
   margin: auto;
   background-color: #000000;
   justify-content: center;
-  align-items: top;
+  align-items: bottom;
   text-align: left !important;
   color: rgba(255, 255, 255, 0.699);
   text-align: center;
+}
+
+.login-menu-settings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;      /* centra orizzontalmente */
+  justify-content: center;  /* centra verticalmente se c’è altezza */
+  text-align: center;
+  gap: .5rem;
+}
+
+.login-menu-settings p,
+.login-menu-settings a {
+  display: inline-flex;
+  align-items: center;      /* icona e testo allineati */
 }
 
 .custom-auth-btn {
@@ -129,7 +155,9 @@ html {
   justify-content: center;
 }
 
-
+.no-translation {
+  color: white;
+}
 
 .custom-navbar{
   position: relative;
@@ -832,4 +860,17 @@ html {
   100% {
     transform: scale(1);
   }
+}
+
+.goBack {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.goBack button {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  background-color: #d9cb00;
+  border-radius: 6px;
 }

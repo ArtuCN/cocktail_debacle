@@ -29,6 +29,11 @@
     </div>
   </div>
 
+  <div class="return">
+    <button (click)="goBack()" class="return-button">
+      <i class="fas fa-arrow-left"></i> Go Home
+    </button>
+  </div>
   <div class="cocktailfull">
 
     <div class="cocktail-info">
@@ -48,7 +53,7 @@
               </li>
             </ul>
           
-          <div *ngIf=true class="video">
+          <div *ngIf="video()" class="video">
             <h3>How to make it:</h3>
             <a [href]="selectedCocktail.strVideo" target="_blank">Click and Watch!</a>
           </div>
@@ -60,7 +65,9 @@
           {{ cocktail[selectedLang] }}
         </p>
         <ng-template #noTranslation>
-          <p>No translation available</p>
+          <div class="no-translation">            
+            <p>Translation not available in the selected language.</p>
+          </div>
         </ng-template>
         <div *ngIf="missMail()" class="share">
           <input [(ngModel)]="message" class="share-box" placeholder="Write here your message..." />

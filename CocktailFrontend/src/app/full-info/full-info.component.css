@@ -97,18 +97,21 @@
 }
 .ingredients
 {
+  color: white;
   max-width: 100%;
   background-color: transparent;
   border-radius: 8px;
 }
 
 .ingredients h2 {
+  color: white;
   font-family: 'Tilt Warp', cursive;
   padding-bottom: 11px;
   font-size: 50px;
 }
 
 .ingredients li {
+  color: white;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -119,6 +122,7 @@
 }
 
 .ingredients ul {
+  color: white;
   padding: 0px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -127,7 +131,7 @@
 }
 
 .testo-info {
-  margin-top: 10%;
+  color: white;
   font-size: 25px;
 }
 
@@ -187,4 +191,17 @@
 .share button:hover {
   background-color: #94d2bd;
   color: #000;
+}
+
+.return {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.return-button {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  background-color: #d9cb00;
+  border-radius: 6px;
 }

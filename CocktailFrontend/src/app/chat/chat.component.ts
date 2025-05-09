@@ -102,6 +102,7 @@ export class ChatComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/home']);
+    window.location.reload();
   }
 
   sendMessage() {

@@ -19,6 +19,7 @@ export class DailyCocktailComponent implements OnInit {
   cardWidth = 300;
   cardMargin = 40;
   flippedDaily: boolean[] = [];
+  variable: boolean = false;
 
   isDevelopmentMode = false;
   private mockCocktail: CocktailInterface = {
@@ -56,11 +57,14 @@ export class DailyCocktailComponent implements OnInit {
     }
     this.srs.dailyId$.subscribe(ids => {
       this.setDaily(ids);
-    });
-    this.ss.suggestions$.subscribe(suggestions => {
-      suggestions.forEach(s => {
-        this.dailyCocktail.push(s);
-      });
+      if (this.variable === false) {
+        this.variable = true;
+        this.ss.suggestions$.subscribe(suggestions => {
+          suggestions.forEach(s => {
+            this.dailyCocktail.push(s);
+          });
+        });
+      }
     });
   }
 

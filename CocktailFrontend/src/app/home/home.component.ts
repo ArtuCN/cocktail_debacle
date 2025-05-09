@@ -63,12 +63,11 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
     // Verifica se l'utente è loggato (se esiste un token nel localStorage)
     const token = localStorage.getItem('token');
-
     if (token) {
       this.mail = localStorage.getItem('mail') as string;   
     }
     this.loggedIn = token !== null;
-
+    
     if (this.loggedIn) {
       // Decodifica il token per ottenere il nome dell'utente
       const decodedToken: any = jwtDecode(token as string); // decodifica il token

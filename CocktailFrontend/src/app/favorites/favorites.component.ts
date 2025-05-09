@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class FavoritesComponent implements OnInit {
   favorites: CocktailInterface[] = [];
 
-  constructor(private favoritesService: FavoritesService) { }
+  constructor(private favoritesService: FavoritesService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadFavorites();
@@ -38,5 +38,7 @@ export class FavoritesComponent implements OnInit {
       error: (err) => console.error("Error ", err)
     });
   }
-
+  goBack(): void {
+    this.router.navigate(['/home']);
+  }
 }

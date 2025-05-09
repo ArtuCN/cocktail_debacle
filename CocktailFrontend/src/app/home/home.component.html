@@ -32,7 +32,7 @@
       <app-login *ngIf="isLoginMode"></app-login>
     </ng-container>
 
-    <ng-container *ngIf="loggedIn" class="login-menu-settings">
+    <div *ngIf="loggedIn" class="login-menu-settings">
       <p class="text-light mb-2">Hi again, {{ name }}!</p>
       <a class="text-light d-block mb-2" [routerLink]="'/favorites'" (click)="onLogin = false">
         <i class="bi bi-heart-fill me-2"></i> Favorites
@@ -43,7 +43,7 @@
       <button class="btn btn-outline-danger logout-button" (click)="logout()">
         <i class="bi bi-box-arrow-right"></i> Logout
       </button>
-    </ng-container>
+    </div>
   </div>
 
   <!-- Bottone per switch login/registrazione -->
