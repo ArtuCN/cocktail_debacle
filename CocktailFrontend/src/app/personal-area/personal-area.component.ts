@@ -49,7 +49,6 @@ export class PersonalAreaComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isDevelopmentMode) {
-      console.log('💻 Modalità sviluppo attiva');
       // Dati fittizi per lo sviluppo
       this.userData = {
         username: 'Utente Test',
@@ -60,9 +59,6 @@ export class PersonalAreaComponent implements OnInit {
     }
     const token = localStorage.getItem('token');
     const mail = localStorage.getItem('mail');
-
-    console.log('🔑 Token:', token);
-    console.log('📧 Mail:', mail);
     
     if (!mail) {
       
@@ -76,18 +72,16 @@ export class PersonalAreaComponent implements OnInit {
       // Decodifica il token per ottenere il nome dell'utente
       const decodedToken: any = jwtDecode(token as string); // decodifica il token
       this.name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];  // Estrarre il nome
-      console.log('Nome:', this.name);
       if (this.userData.mail === 'admin@admin.com')
         this.admin = true;
     }
     
-    console.log('📧 Mail recuperata:', this.userData.mail);
     this.termsService.getTerms(this.userData.mail).pipe(
       map((response: boolean) => {
         this.termsAccepted = response;
       }),
       catchError((error) => {
-        console.error('❌ Errore nel recupero dei termini:', error);
+        console.error('Error', error);
         return of(null);
       })
     ).subscribe();
@@ -98,10 +92,9 @@ export class PersonalAreaComponent implements OnInit {
         const username = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
         if (username) {
           this.userData.username = username;
-          console.log('✅ Nome utente decodificato:', this.userData.username);
         }
       } catch (error) {
-        console.error('❌ Errore nella decodifica del token:', error);
+        console.error('Error', error);
       }
     }
     
@@ -120,9 +113,7 @@ export class PersonalAreaComponent implements OnInit {
 
     this.http.get<any>(apiUrl).subscribe({
       next: (data) => {
-        console.log('🔍 Dati utente recuperati:', data);
         const birthdate = new Date(data.birthdate);
-        console.log('📅 Data di nascita:', birthdate);
         this.userData = {
           username: data.username || this.userData.username || '',
           mail: data.mail || this.userData.mail || '',
@@ -130,7 +121,7 @@ export class PersonalAreaComponent implements OnInit {
         };
       },
       error: (err) => {
-        console.error('❌ Errore nel recupero dei dati utente:', err);
+        console.error('Error', err);
       }
     });
   }
@@ -140,11 +131,10 @@ export class PersonalAreaComponent implements OnInit {
     
     this.http.put<any>(apiUrl, this.userData).subscribe({
       next: () => {
-        console.log('✅ Dati utente aggiornati con successo');
         this.isEditing = false;
       },
       error: (err) => {
-        console.error('❌ Errore durante l\'aggiornamento dei dati utente:', err);
+        console.error('Error', err);
       }
     });
   }

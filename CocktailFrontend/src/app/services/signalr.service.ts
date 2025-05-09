@@ -39,26 +39,22 @@ export class SignalrService {
   private addListeners() {
     this.hubConnection.on("UpdateConnectedClients", (count: number) => {
       this.connectedClients = count;
-      console.log("👥 Utenti connessi:", count);
       if (this.onClientCountUpdate) this.onClientCountUpdate(count);
     });
 
     this.hubConnection.on("UserJoined", (message: string) => {
-      console.log("📢 User joined:", message);
       if (this._userJoinedCallback) {
         this._userJoinedCallback(message);
       }
     });
 
     this.hubConnection.on("ReceiveDailyCocktail", (cocktailIds: string[]) => {
-      console.log("🍹 Cocktail del giorno ricevuto:", cocktailIds);
       this.dailyIdSubject.next(cocktailIds);
       if (this.onDailyCocktailReceived) {
         this.onDailyCocktailReceived(cocktailIds);
       }
     });
     this.hubConnection.on("ReceiveMessage", (msg: Message) => {
-      console.log("📩 Messaggio ricevuto:", msg);
       if (this._receiveMessageCallback) {
         this._receiveMessageCallback(msg);
       }
@@ -77,12 +73,12 @@ export class SignalrService {
 
   announceUser(username: string) {
     this.hubConnection.invoke("AnnounceUser", username)
-      .catch(err => console.error("❌ Errore announceUser:", err));
+      .catch(err => console.error("❌ Error ", err));
   }
 
   sendMessage(mail: string, message: string) {
     this.hubConnection.invoke("sendMessage", mail, message)
-      .catch(err => console.error("❌ Errore sendMessage:", err));
+      .catch(err => console.error("❌ Error ", err));
   }
 
   private _receiveMessageCallback: ((message: Message) => void) | null = null;
@@ -112,13 +108,12 @@ export class SignalrService {
 
   private _receiveAllMessagesCallback: ((messages: Message[]) => void) | null = null;
   receiveAllMessages(callback: (messages: Message[]) => void) {
-    console.log("recive all message di signalr richiamato");
     this._receiveAllMessagesCallback = callback;
   }
 
   shareCocktail(mail: string, message: string, id: string) {
     this.hubConnection.invoke("ShareCocktail", mail, message, id)
-      .catch(err => console.error("❌ Errore shareCocktail:", err));
+      .catch(err => console.error("❌ Error", err));
   }
 
   private _receiveCocktailCallback: ((message: Share) => void) | null = null;
@@ -128,7 +123,7 @@ export class SignalrService {
 
   invokeLoadAllMessages() {
     this.hubConnection.invoke("SendAllMessagesToCaller")
-      .catch(err => console.error("❌ Errore SendAllMessagesToCaller:", err));
+      .catch(err => console.error("❌ Error", err));
   }
   
 

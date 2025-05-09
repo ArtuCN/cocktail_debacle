@@ -41,14 +41,12 @@ export class FullInfoComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    console.log('FullInfoComponent initialized');
     this.name = sessionStorage.getItem('cocktailId') ?? '';
     sessionStorage.removeItem('cocktailId');
     this.mail = localStorage.getItem('mail') ?? '';
     
     if (this.name == '')
     {
-      console.log("Nessun cocktail selezionato, reindirizzamento a home");
       this.router.navigate(['/home']);
       return;
     }
@@ -59,12 +57,11 @@ export class FullInfoComponent implements OnInit {
         next: (data: { drinks: CocktailInterface[] }) => {
           if (data.drinks && data.drinks.length > 0) {
             this.cocktail = data.drinks[0];
-            console.log(this.cocktail.strDrink);
             this.loadCocktailDetails(this.cocktail);
           }
         },
         error: (err: any) => {
-          console.error('Errore durante il fetch del cocktail:', err);
+          console.error('Error ', err);
         }
       });
   }
@@ -88,7 +85,6 @@ export class FullInfoComponent implements OnInit {
       this.goToChat();
     }
     loadCocktailDetails(cocktail: any) {
-      console.log("loadCocktailDetails");
       this.selectedCocktail = cocktail;
       this.ingredientDetails = [];
     
@@ -103,7 +99,6 @@ export class FullInfoComponent implements OnInit {
           });
         }
       }
-      console.log("Ingredienti finali:", this.ingredients);
     }
     
     getIngredientImageUrl(ingredient: string): string {

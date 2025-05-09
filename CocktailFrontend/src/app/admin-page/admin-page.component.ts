@@ -32,7 +32,6 @@ export class ADMINPAGEComponent {
   }
   showAllUsers() {
     this.http.get<adminUserInfo[]>("http://localhost:5001/api/admin/users").subscribe((res: adminUserInfo[]) => {
-      console.log("Utenti ricevuti dal backend:", res);
   
       this.users = res.map((element: adminUserInfo) => {
         return {
@@ -41,19 +40,16 @@ export class ADMINPAGEComponent {
           isOnline: element.isOnline === true
         };
       });
-  
-      console.log("Utenti processati:", this.users);
     });
   }
   
   kickUser(usermame: string) {
-    console.log("Elimina utente con ID:", usermame);
     this.http.delete(`http://localhost:5001/api/admin/kickout/${usermame}`).subscribe({
       next: () => {
         this.users = this.users.filter(user => user.userName !== usermame);
       },
       error: (err) => {
-        console.error(`Errore durante l'eliminazione dell'utente con usermame ${usermame}:`, err);
+        console.error(`Error: ${usermame}:`, err);
       }
     });
   }

@@ -22,7 +22,6 @@ namespace CocktailApp.Controllers
         [HttpGet("searchCocktailByName{name}")]
         public async Task<IActionResult> GetCocktailByName(string name)
         {
-            Console.WriteLine($"Searching for cocktail: {name}");
             var apiUrl = $"https://www.thecocktaildb.com/api/json/v1/1/search.php?s={name}";
             var response = await _httpClient.GetAsync(apiUrl);
 

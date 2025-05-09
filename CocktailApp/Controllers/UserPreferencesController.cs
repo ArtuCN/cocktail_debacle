@@ -58,16 +58,14 @@ namespace CocktailApp.Controllers
             {
                 using (SqliteConnection conn = new SqliteConnection(_connectionString))
                 {
-                    Console.WriteLine($"Searching if {mail} exists and {id} is correct");
                     await conn.OpenAsync();
-
                     string findQuery = "SELECT * FROM User WHERE Mail = @mail";
                     using var command = new SqliteCommand(findQuery, conn);
                     command.Parameters.AddWithValue("@mail", mail);
                     using var reader = await command.ExecuteReaderAsync();
                     if (await reader.ReadAsync())
                     {
-                        Console.WriteLine("User exists!");
+                        ;
                     }
                     else
                     {
@@ -104,7 +102,6 @@ namespace CocktailApp.Controllers
             {
                 using (SqliteConnection conn = new SqliteConnection(_connectionString))
                 {
-                    Console.WriteLine($"Removing favorite cocktail with ID {id} for user {mail}");
                     await conn.OpenAsync();
                     string removeQuery = "DELETE FROM UserPreferences WHERE Mail = @Mail AND CocktailIDs = @IdCocktail";
                     using var command = new SqliteCommand(removeQuery, conn);

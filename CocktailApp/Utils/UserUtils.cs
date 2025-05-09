@@ -64,7 +64,6 @@ namespace CocktailApp.Utils
             using var reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Console.WriteLine($"reader {reader.GetInt32(0).ToString()}");
                 favoriteIds.Add(reader.GetInt32(0).ToString());
             }
             return favoriteIds;
@@ -103,9 +102,7 @@ namespace CocktailApp.Utils
                 var url = $"https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i={element}";
                 var httpClient = new HttpClient();
                 var response = await httpClient.GetStringAsync(url);
-                Console.WriteLine($"response {response}");
                 var matches = Regex.Matches(response, "\"strIngredient[0-9]+\":\"(.*?)\"");
-
                 foreach (Match match in matches)
                 {
                     var ingredient = match.Groups[1].Value;
@@ -117,10 +114,6 @@ namespace CocktailApp.Utils
                             ing[ingredient] = 1;
                     }
                 }
-            }
-            foreach (var ingr in ing)
-            {
-                Console.WriteLine($"{ingr.Key} = {ingr.Value}");
             }
             var top3 = ing
                 .OrderByDescending(kv => kv.Value)
@@ -140,13 +133,11 @@ namespace CocktailApp.Utils
                         foreach (Match match in matches)
                         {
                             var cocktailId = match.Groups[1].Value;
-                            Console.WriteLine($"ID del cocktail: {cocktailId}");
                             ret.Add(cocktailId);
                             if (ret.Count >= 3)
                                 return ret.GetRange(0, 3);
                         }
                     }
-                    Console.WriteLine($"ingredient {i}");
                 }
             }
             return ret;

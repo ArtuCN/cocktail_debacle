@@ -25,7 +25,6 @@ namespace CocktailApp.Controllers
             var secretKey = "y0uR$up3r$ecret!Key_Wh1ch_1s_Long#Enough!";
             var key = Encoding.ASCII.GetBytes(secretKey);
 
-            Console.WriteLine($"generando token per email: {mail} e nome: {UserName}");
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, mail),
@@ -45,8 +44,6 @@ namespace CocktailApp.Controllers
         [HttpPost("create")]
         public IActionResult CreateUser([FromBody] JsonElement data)
         {
-            Console.WriteLine("➡️ Entrato nel metodo create");
-
             try
             {
                 var user = new User
@@ -57,11 +54,8 @@ namespace CocktailApp.Controllers
                     BirthDate = data.GetProperty("birthdate").GetDateTime(),
                     AcceptedTerms = data.GetProperty("acceptterms").GetBoolean()
                 };
-                Console.WriteLine($"✅ Parsed: username = {user.UserName}, mail = {user.Mail}, psw = {user.Psw}, birthdate = {user.BirthDate}, acceptedTerms = {user.AcceptedTerms}, IsOnline = false");
-
                 string formattedBirthDate = user.BirthDate.ToString("yyyy-MM-dd");
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Psw);
-
                 using (var conn = new SqliteConnection(_connectionString))
                 {
                     conn.Open();
@@ -82,7 +76,6 @@ namespace CocktailApp.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("❌ Errore: " + ex.Message);
                 return BadRequest(new { message = "Errore: " + ex.Message });
             }
         }
@@ -94,11 +87,8 @@ namespace CocktailApp.Controllers
             try
             {
                 using (SqliteConnection conn = new SqliteConnection(_connectionString))
-                {
-                    Console.WriteLine($"Searching if {ld.Mail} exists and {ld.Psw} is correct");
-                    
+                {                    
                     await conn.OpenAsync();
-
                     string findQuery = "SELECT * FROM User WHERE Mail = @mail";
                     using var command = new SqliteCommand(findQuery, conn);
                     command.Parameters.AddWithValue("@mail", ld.Mail);
@@ -108,28 +98,22 @@ namespace CocktailApp.Controllers
                         string? storedHash = reader["Psw"]?.ToString();
                         if (!string.IsNullOrEmpty(storedHash) && BCrypt.Net.BCrypt.Verify(ld.Psw, storedHash))
                         {
-                            Console.WriteLine("User found and password is correct!");
-                            
                             string? UserName = reader["UserName"].ToString();
                             DateTime bd = reader.GetDateTime(reader.GetOrdinal("BirthDate"));
                             string bdStr = bd.ToString("yyyy-MM-dd");
-                            Console.WriteLine($"Birthdate: {bdStr}");
                             var t = new {
                                  token = GenerateJwtToken(ld.Mail ?? "", UserName ?? ""),
                                  birthdate = bdStr
                                  };
-                            Console.WriteLine("Token generato: " + t.token);
                             return Ok(t);
                         }
                         else
                         {
-                            Console.WriteLine("Password is incorrect.");
                             return BadRequest("Invalid login credentials");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("No matching user found.");
                         return BadRequest("Invalid login credentials");
                     }
                 }

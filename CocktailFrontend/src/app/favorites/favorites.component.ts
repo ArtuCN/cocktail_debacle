@@ -18,18 +18,15 @@ export class FavoritesComponent implements OnInit {
   constructor(private favoritesService: FavoritesService) { }
 
   ngOnInit(): void {
-    console.log("mail in localstorage:", localStorage.getItem('mail'));
     this.loadFavorites();
   }
 
   loadFavorites(): void {
-    console.log("caricamento preferiti...");
     this.favoritesService.getFavorites().subscribe({
       next: (cocktails) => {
-        console.log("Preferiti ricevuti:", cocktails);
         this.favorites = cocktails;
       },
-      error: (err) => console.error("❌ Errore nel recupero dei preferiti:", err)
+      error: (err) => console.error("Error ", err)
     });
   }
 
@@ -38,7 +35,7 @@ export class FavoritesComponent implements OnInit {
       next: () => {
         this.loadFavorites(); // Ricarica i preferiti dopo la rimozione
       },
-      error: (err) => console.error("❌ Errore nella rimozione del preferito:", err)
+      error: (err) => console.error("Error ", err)
     });
   }
 

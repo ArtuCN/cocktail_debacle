@@ -58,7 +58,6 @@ export class HomeComponent implements OnInit{
     private activatedRoute: ActivatedRoute,
     private ssrService: SignalrService) {
       this.ssr = ssrService;
-      console.log('HomeComponent initialized');
   }
 
   ngOnInit(): void {
@@ -66,9 +65,7 @@ export class HomeComponent implements OnInit{
     const token = localStorage.getItem('token');
 
     if (token) {
-      this.mail = localStorage.getItem('mail') as string;
-      console.log('Token:', token);
-      console.log('Mail:', this.mail);      
+      this.mail = localStorage.getItem('mail') as string;   
     }
     this.loggedIn = token !== null;
 
@@ -76,7 +73,6 @@ export class HomeComponent implements OnInit{
       // Decodifica il token per ottenere il nome dell'utente
       const decodedToken: any = jwtDecode(token as string); // decodifica il token
       this.name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];  // Estrarre il nome
-      console.log('Nome:', this.name);
       if (this.mail === 'admin@admin.com')
         this.admin = true;
     }
@@ -141,7 +137,6 @@ export class HomeComponent implements OnInit{
   testdb(): void {
     this.cs.searchCocktailByName('margarita').subscribe((res) => {
       this.cocktail = res.drinks?.[0];
-      console.log('Cocktail:', this.cocktail);
     });
   }
 

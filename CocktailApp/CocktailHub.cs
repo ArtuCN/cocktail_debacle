@@ -19,16 +19,13 @@ namespace CocktailApp.hubs {
         }
         public async Task NotLoggedMessage(string user, string message)
         {
-            Console.WriteLine($"Inviato da {user}: {message}");
             message = "remember to login or to create an account!";
             await Clients.All.SendAsync("ReminderToLogin", user, message);
         }
 
         public async Task SendCount()
         {
-            Console.WriteLine("number");
             await Clients.All.SendAsync("GetConnectedClientCount", _connectedClients);
-
         }
         
 
@@ -152,7 +149,6 @@ namespace CocktailApp.hubs {
 
         public async Task SendAllMessagesToCaller()
         {
-            Console.WriteLine("sending all messages to client");
             var messages = new List<Message>();
             using var connection = new SqliteConnection("Data Source=cocktail.db");
             await connection.OpenAsync();
@@ -180,7 +176,6 @@ namespace CocktailApp.hubs {
 
         public async Task SendMessage(string user, string text)
         {
-            Console.WriteLine($"{user} ha scritto: {text}");
             var message = new Message {
                 Sender = user,
                 Text = text,

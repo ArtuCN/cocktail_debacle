@@ -31,7 +31,6 @@ export class LoginComponent {
   constructor(private authService: AuthService,
     private router: Router
   ) {
-    console.log('LoginComponent initialized');
   }
  
   ngOnInit(): void {
@@ -51,10 +50,8 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           // 1) log completo della risposta
-          console.log('✅ [testLogin] response:', res);
           // 2) estrai esplicitamente la birthdate
           const bd = (res as any).birthdate;
-          console.log('🥳 [testLogin] birthdate to store:', bd);
           // 3) salva in localStorage
           localStorage.setItem('birthdate', bd);
           localStorage.setItem('token', (res as any).token);

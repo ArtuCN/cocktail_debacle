@@ -32,7 +32,7 @@
       <app-login *ngIf="isLoginMode"></app-login>
     </ng-container>
 
-    <ng-container *ngIf="loggedIn" class="cazzo">
+    <ng-container *ngIf="loggedIn" class="login-menu-settings">
       <p class="text-light mb-2">Hi again, {{ name }}!</p>
       <a class="text-light d-block mb-2" [routerLink]="'/favorites'" (click)="onLogin = false">
         <i class="bi bi-heart-fill me-2"></i> Favorites
@@ -76,7 +76,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 
-    <button class="chat-button" title="Open chat" (click)="goToChat()">
+    <button *ngIf="loggedIn" class="chat-button" title="Open chat" (click)="goToChat()">
       <i class="fas fa-comment-dots"></i>
       <span>Chat Room</span>
     </button>

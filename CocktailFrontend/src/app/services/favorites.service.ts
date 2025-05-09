@@ -43,7 +43,7 @@ export class FavoritesService {
       // Attendi che tutte le richieste siano completate
       switchMap(requests => forkJoin(requests).pipe(
         catchError(error => {
-          console.error("Errore nel recupero dei cocktail:", error);
+          console.error("Error ", error);
           return of([]);
         })
       ))
@@ -79,7 +79,6 @@ export class FavoritesService {
 
 
   suggestion(email: string): Observable<any> {
-    console.log("dentro funzione email =", email);
     const apiurl = `http://localhost:5001/api/user/${email}/suggestions/`;
     return this.http.get<any>(apiurl);
   }

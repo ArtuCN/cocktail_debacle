@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit {
   messages: Message[] = [];
   currentShareIndex: number = 0;
   share: Share[] = [];
-  isDevelopmentMode = true;
+  isDevelopmentMode = false;
   connectedClients: number = 0;
   mail: string = '';
 
@@ -29,7 +29,6 @@ export class ChatComponent implements OnInit {
     private srs: SignalrService,
     private router: Router
   ) {
-    console.log("constructor");
     this.mail = localStorage.getItem('mail') || '';
     if (!this.mail && !this.isDevelopmentMode) return;
     this.m.sender = this.mail;
@@ -98,7 +97,7 @@ export class ChatComponent implements OnInit {
           });
         }
       })
-      .catch(error => console.error("Errore nel recupero cocktail:", error));
+      .catch(error => console.error("Error:", error));
   }
 
   goBack(): void {

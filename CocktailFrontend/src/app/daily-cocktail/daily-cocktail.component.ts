@@ -59,7 +59,6 @@ export class DailyCocktailComponent implements OnInit {
     });
     this.ss.suggestions$.subscribe(suggestions => {
       suggestions.forEach(s => {
-        console.log(s.idDrink, " ", s.strDrink);
         this.dailyCocktail.push(s);
       });
     });

@@ -19,11 +19,6 @@ namespace CocktailApp.Controllers
         {
             // Loggiamo il dato ricevuto nel log
             _logger.LogInformation($"Ricevuto: {data}");
-
-            // Stampa sulla console
-            Console.WriteLine($"Ricevuto: {data}");
-
-            // Inviamo il dato al servizio
         }
     }
 }

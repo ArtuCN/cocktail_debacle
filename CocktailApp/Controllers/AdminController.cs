@@ -58,7 +58,6 @@ namespace CocktailApp.Controllers
         [HttpDelete("kickout/{UserName}")]
         public async Task<IActionResult> KickUserAndRelatedData([FromRoute] string UserName)
         {
-            Console.WriteLine($"Ingresso {UserName}");
             if (string.IsNullOrWhiteSpace(UserName))
             {
                 return BadRequest("User parameter cannot be null or empty.");
@@ -66,7 +65,6 @@ namespace CocktailApp.Controllers
             using (var connection = new SqliteConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                Console.WriteLine("Daje");
 
                 using (var transaction = await connection.BeginTransactionAsync())
                 {
@@ -87,7 +85,6 @@ namespace CocktailApp.Controllers
                             return NotFound($"User '{UserName}' not found.");
                         }
                         string userMail = userMailObj?.ToString() ?? string.Empty;
-                        Console.WriteLine($"Mail = {userMail}");
 
                         // Elimina da UserPreferences
                         var deletePreferencesCommand = connection.CreateCommand();

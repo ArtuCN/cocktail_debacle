@@ -34,7 +34,7 @@ export class SuggestionService {
         return this.loadSuggestions();
       }),
       catchError(err => {
-        console.error('❌ Errore caricamento termini o suggerimenti:', err);
+        console.error('❌ Error', err);
         return of([]);
       })
     ).subscribe((suggestions: CocktailInterface[]) => {

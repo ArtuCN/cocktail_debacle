@@ -132,25 +132,22 @@ prevSlide() {
 
   isUnderage(): boolean {
     const raw = localStorage.getItem('birthdate') || '';
-    console.log("raw birthday from storage", raw);
     const dateOnly = raw.split('T')[0];
     const bd = new Date(dateOnly);
     if (isNaN(bd.getTime())) {
-      console.warn('Data di nascita non valida:');
+      console.warn('Wrong birthdate:');
       return false;
     }
     const age = this.calculateAge(dateOnly);
-    console.log(`🔢 parsed birthdate: ${dateOnly}, age: ${age}`);
     return age < 18;
   }
 
-   // Modifica questo metodo per memorizzare lo stato nella mappa
    checkFavoriteStatus(id: string): void {
     this.favoritesService.isFavorite(id).subscribe({
       next: (isFav) => {
         this.favoritesMap.set(id, isFav);
       },
-      error: (err) => console.error('Errore durante la verifica del preferito', err)
+      error: (err) => console.error('Error', err)
     });
   }
 
@@ -174,21 +171,19 @@ prevSlide() {
           this.favoritesService.removeFavorite(id).subscribe({
             next: () => {
               this.favoritesMap.set(id, false); // Aggiorna lo stato nella mappa
-              console.log("Rimosso dai preferiti");
             },
-            error: (err) => console.error("Errore nella rimozione", err)
+            error: (err) => console.error("Error ", err)
           });
         } else {
           this.favoritesService.addFavorite(cocktail).subscribe({
             next: () => {
               this.favoritesMap.set(id, true); // Aggiorna lo stato nella mappa
-              console.log("Aggiunto ai preferiti");
             },
-            error: (err) => console.error("Errore nell'aggiunta", err)
+            error: (err) => console.error("Error ", err)
           });
         }
       },
-      error: (err) => console.error("Errore nella verifica del preferito", err)
+      error: (err) => console.error("Error ", err)
     });
   }
 
@@ -223,7 +218,7 @@ prevSlide() {
               this.updateFavoritesStatus();
             },
             error: (err) => {
-              console.error('Errore durante la ricerca del cocktail:', err);
+              console.error('Error ', err);
             }
           });
           break;
@@ -238,7 +233,7 @@ prevSlide() {
               this.updateFavoritesStatus();
             },
             error: (err) => {
-              console.error('Errore durante la ricerca del cocktail:', err);
+              console.error('Error ', err);
             }
           });
           break;
@@ -253,7 +248,7 @@ prevSlide() {
                 this.updateFavoritesStatus();
              },
               error: (err) => {
-                console.error('Errore durante la ricerca del cocktail:', err);
+                console.error('Error ', err);
               }
             });
             break;
@@ -268,7 +263,7 @@ prevSlide() {
                 this.updateFavoritesStatus();
               },
               error: (err) => {
-                console.error('Errore durante la ricerca del cocktail:', err);
+                console.error('Error ', err);
               }
             });
             break;
