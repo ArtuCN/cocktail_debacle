@@ -4,8 +4,6 @@ import { CocktailInterface } from '../models/models';
 import { CommonModule, getLocaleTimeFormat } from '@angular/common'; // necessario se standalone
 import { FormsModule } from '@angular/forms';
 import { SignalrService } from '../services/signalr.service';
-import { Sign } from 'crypto';
-import { get } from 'http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -36,6 +34,7 @@ export class FullInfoComponent implements OnInit {
   mail: string = '';
   currentFlag: string = '';  // Variabile per contenere la bandiera da visualizzare
   name: string = '';
+  ingredientDetails: { ingredient: string; measure: string }[] = [];
 
   constructor(private http: HttpClient,
     private srs: SignalrService,
@@ -43,9 +42,10 @@ export class FullInfoComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     console.log('FullInfoComponent initialized');
-    this.name = sessionStorage.getItem('cocktailId') ?? '11004';
+    this.name = sessionStorage.getItem('cocktailId') ?? '';
     sessionStorage.removeItem('cocktailId');
     this.mail = localStorage.getItem('mail') ?? '';
+    
     if (this.name == '')
     {
       console.log("Nessun cocktail selezionato, reindirizzamento a home");
@@ -54,7 +54,7 @@ export class FullInfoComponent implements OnInit {
     }
 
     this.http
-      .get<{ drinks: CocktailInterface[] }>('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + '11007')
+      .get<{ drinks: CocktailInterface[] }>('https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=' + this.name)
       .subscribe({
         next: (data: { drinks: CocktailInterface[] }) => {
           if (data.drinks && data.drinks.length > 0) {
@@ -73,6 +73,13 @@ export class FullInfoComponent implements OnInit {
       this.showLanguages = !this.showLanguages;
     }
     
+    missMail(): boolean
+    {
+      if (this.mail == '')
+        return false;
+      return true;
+    }
+
     shareCocktail()
     {
       if (this.mail == '')
@@ -83,16 +90,17 @@ export class FullInfoComponent implements OnInit {
     loadCocktailDetails(cocktail: any) {
       console.log("loadCocktailDetails");
       this.selectedCocktail = cocktail;
-      this.ingredients = [];
+      this.ingredientDetails = [];
     
       for (let i = 1; i <= 15; i++) {
         const ingredient = cocktail[`strIngredient${i}`];
         const measure = cocktail[`strMeasure${i}`];
     
         if (ingredient) {
-          const fullIngredient = `${ingredient}`.trim();
-          this.ingredients.push(fullIngredient);
-          console.log(`Ingrediente ${i}:`, fullIngredient);
+          this.ingredientDetails.push({
+            ingredient: ingredient.trim(),
+            measure: measure ? measure.trim() : ''
+          });
         }
       }
       console.log("Ingredienti finali:", this.ingredients);

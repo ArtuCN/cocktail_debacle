@@ -151,7 +151,7 @@ namespace CocktailApp.Controllers
                         favoriteCocktails.Add(cocktailId);
                     }
 
-                    if (favoriteCocktails.Count > 0)
+                    if (favoriteCocktails.Count >= 0)
                     {
                         return Ok(favoriteCocktails); // Restituisce gli ID dei cocktail preferiti come una lista
                     }

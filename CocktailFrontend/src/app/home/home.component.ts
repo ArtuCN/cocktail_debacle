@@ -1,7 +1,5 @@
 // src/app/home/home.component.ts
 import { Component, Injectable, OnInit  } from '@angular/core';
-import { ErrorService } from '../services/error.service';
-import { ErrorComponent } from "../error/error.component";  // Importa il servizio di errori
 import { CommonModule } from '@angular/common';
 import { CocktailResearchComponent } from '../cocktail-research/cocktail-research.component';
 import { CreateUserComponent } from '../create-user/create-user.component';
@@ -16,8 +14,6 @@ import { FavoritesService } from '../services/favorites.service';
 import { FavoritesComponent } from '../favorites/favorites.component';
 import { SignalrService } from '../services/signalr.service';
 import { DailyCocktailComponent } from '../daily-cocktail/daily-cocktail.component';
-import { ChatComponent } from '../chat/chat.component';
-import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
 
 
 
@@ -31,7 +27,7 @@ import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
   imports: [CommonModule, CocktailResearchComponent,
     CreateUserComponent, LoginComponent, RouterModule,
     FormsModule, FavoritesComponent, DailyCocktailComponent], // Aggiungi ErrorComponent nelle imports
-  providers: [ErrorService],
+  providers: [],
   templateUrl: './home.component.html',
   //styleUrls: ['./home.component.css']
 })
@@ -56,7 +52,6 @@ export class HomeComponent implements OnInit{
   constructor(
     private favoritesService: FavoritesService,
     private router: Router,
-    private errorService: ErrorService,
     private http: HttpClient,
     private cs: CocktailService,
     private authService: AuthService,
@@ -141,11 +136,6 @@ export class HomeComponent implements OnInit{
   removeFromFavorites(id: string): void {
     this.favoritesService.removeFavorite(id); // Rimuove il cocktail dai preferiti
     this.loadFavorites(); // Ricarica i preferiti dopo la rimozione
-  }
-
-
-  sendError(): void {
-    this.errorService.setError('Something went wrong on the Home page!');
   }
 
   testdb(): void {

@@ -7,7 +7,6 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthService } from '../services/auth.service';
 import { TermsService } from '../services/terms.service';
 import { catchError, map, of } from 'rxjs';
-import { ADMINPAGEComponent } from '../admin-page/admin-page.component';
 
 interface UserData {
   username: string;

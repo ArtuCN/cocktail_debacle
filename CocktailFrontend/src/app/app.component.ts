@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CreateUserComponent } from './create-user/create-user.component';
-import { ErrorComponent } from './error/error.component'; // Importa il componente di errore
 import * as signalR from '@microsoft/signalr';
 
 @Component({

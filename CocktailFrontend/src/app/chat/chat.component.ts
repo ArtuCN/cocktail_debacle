@@ -3,7 +3,6 @@ import { Message, Share } from '../models/models';
 import { SignalrService } from '../services/signalr.service';
 import { FormsModule } from '@angular/forms';
 import { NgClass, CommonModule, Location } from '@angular/common';
-import { AuthService } from '../services/auth.service';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 

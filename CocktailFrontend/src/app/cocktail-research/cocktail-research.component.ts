@@ -1,12 +1,9 @@
-import { Component, Injectable, OnInit  } from '@angular/core';
-import { SignalrService } from '../services/signalr.service';
+import { Component, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../services/search.service';
-import { HttpClient } from '@angular/common/http';
 import { CocktailInterface } from '../models/models';
 import { FavoritesService } from '../services/favorites.service';
-import { brotliDecompress } from 'node:zlib';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -27,7 +24,6 @@ export class CocktailResearchComponent {
     private favoritesService: FavoritesService,
     private router: Router
   ) { }
-  //constructor(private rs: SignalrService) { }
   name: string = '';
   cocktails: CocktailInterface[] = [];
   errorMessage: string = '';
@@ -55,7 +51,6 @@ export class CocktailResearchComponent {
     strMeasure1: '60 ml',
     strMeasure2: '10 ml',
     strMeasure3: null,
-    // …chiudi gli altri campi strIngredient4…strIngredient15 e strMeasure4…15 a null
     strInstructions: null, strTags: null, /* …*/
   } as CocktailInterface
   ];
@@ -89,6 +84,15 @@ prevSlide() {
       if (ing) list.push(meas ? `${ing} – ${meas}` : ing);
     }
     return list;
+  }
+
+  isLoggedIn(): boolean {
+    const mail = localStorage.getItem('mail') ?? '';
+    if (mail === '') {
+      return false;
+    }
+    else
+      return true;
   }
 
 
@@ -150,7 +154,7 @@ prevSlide() {
     this.underageMessage = '';
     const isAlcoholic = cocktail.strAlcoholic === 'Alcoholic';
     if (this.isUnderage() && isAlcoholic) {
-      this.underageMessage = 'Non puoi aggiungere cocktail alcolici ai preferiti finché non hai compiuto 18 anni.';
+      this.underageMessage = 'You cannot add alcoholic cocktails to your favorites until you are 18 years old.';
       return;
     }
     const id = cocktail.idDrink;

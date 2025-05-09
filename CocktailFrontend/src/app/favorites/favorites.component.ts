@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FavoritesService } from '../services/favorites.service';
 import { CocktailInterface } from '../models/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favorites',

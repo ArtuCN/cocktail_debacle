@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { adminUserInfo } from '../models/models';
 import { NgFor } from '@angular/common';

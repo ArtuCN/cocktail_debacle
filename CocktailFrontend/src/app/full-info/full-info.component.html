@@ -41,12 +41,12 @@
         <div *ngIf="selectedCocktail">
           <h2>Ingredients:</h2>
           <ul>
-            <li *ngFor="let ingredient of ingredients">
-              <img [src]="getIngredientImageUrl(ingredient)"
-                   [alt]="ingredient" />
-              {{ ingredient }}
-            </li>
-          </ul>
+              <li *ngFor="let item of ingredientDetails">
+                <img [src]="getIngredientImageUrl(item.ingredient)"
+                [alt]="item.ingredient" />
+              {{ item.ingredient }} {{ item.measure }}
+              </li>
+            </ul>
           
           <div *ngIf=true class="video">
             <h3>How to make it:</h3>
@@ -60,9 +60,9 @@
           {{ cocktail[selectedLang] }}
         </p>
         <ng-template #noTranslation>
-          <p><i>No translation available</i></p>
+          <p>No translation available</p>
         </ng-template>
-        <div class="share">
+        <div *ngIf="missMail()" class="share">
           <input [(ngModel)]="message" class="share-box" placeholder="Write here your message..." />
           <button (click)="shareCocktail()">Share Cocktail</button>
         </div>

@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ErrorComponent } from './error/error.component';
 import { CocktailResearchComponent } from './cocktail-research/cocktail-research.component'; // Aggiungi il componente di ricerca
 import { CreateUserComponent } from './create-user/create-user.component';
 import { AuthService } from './services/auth.service';
@@ -21,7 +20,6 @@ export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'favorites', component: FavoritesComponent},
     {path: 'chat', component: ChatComponent, canActivate: [ChatGuard]},
-    {path: 'error', component: ErrorComponent},
     {path: 'admin', component: ADMINPAGEComponent},
     {path: 'fullinfo', component: FullInfoComponent},
     {path: '**', redirectTo: 'home'},

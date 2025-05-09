@@ -1,10 +1,8 @@
-import { Component, Inject, Injectable } from '@angular/core';
-import { SignalrService } from '../services/signalr.service';
+import { Component, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { User } from '../models/models';
 import { CreateUser } from '../services/createuser.service';
-import { userInfo } from 'node:os';
 
 
 @Injectable({

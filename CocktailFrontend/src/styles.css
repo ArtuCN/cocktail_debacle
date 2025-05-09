@@ -1,7 +1,7 @@
 body {
   padding-top: 50px;
   background: radial-gradient(circle, #130000, #560045 0px, #020021);
-    color: rgb(203, 161, 161); /* Per il testo che si distingua bene */
+    color: rgb(203, 161, 161);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 h1, h2, h3, h4, h5, h6{
@@ -16,8 +16,8 @@ select {
 }
 
 select option {
-  color: black; /* testo nero nel menu aperto */
-  background-color: white; /* sfondo bianco per contrasto */
+  color: black;
+  background-color: white;
 }
 
 input {
@@ -404,7 +404,7 @@ html {
   }
   
   .carousel-item {
-    justify-content: center; /* Allinea gli item al centro */
+    justify-content: center;
     align-items: center;
   }
   
@@ -442,16 +442,13 @@ html {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 300px;       /* o meno, come preferisci */
+    width: 300px;
     padding: 10px;
-    background-color: white; /* opzionale */
-    border-radius: 10px;     /* opzionale */
-    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* opzionale */
-    z-index: 1000;           /* assicura che sia sopra */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
   }
-  
-  
-  
   
   .container {
     padding-left: 140px;
@@ -637,14 +634,6 @@ html {
 
 
 
-
-
-
-
-
-
-
-
 .carousel-wrapper {
   background-color: transparent;
   height: 500px;
@@ -653,8 +642,6 @@ html {
   align-items: center;
   margin-top: 50px;
 }
-
-
 
 
 .titolo-daily {
@@ -684,7 +671,7 @@ html {
   background-color: transparent;
   height: 90%;
   will-change: transform;
-  width: calc( (300px + 120px) * 7 ); /* 300 card + 2*60 margini * numero card */
+  width: calc( (300px + 120px) * 7 );
 }
 
 .daily-card {
@@ -756,9 +743,9 @@ html {
   border: #020202 solid 2px;
   background-color: #d9cb00;
   color: rgb(0, 0, 0);
-  border-radius: 5px;  /* Rende il pulsante più ovale */
-  width: 135px;  /* Aumenta la larghezza per adattarsi al testo */
-  height: 50px;  /* Aggiusta l'altezza per l'ovalità */
+  border-radius: 5px;
+  width: 135px;
+  height: 50px;
   font-size: 18px;
   display: flex;
   justify-content: center;
@@ -777,11 +764,11 @@ html {
 
 .chat-button i {
   font-size: 20px;
-  margin-right: 10px; /* Spazio tra l'icona e il testo */
+  margin-right: 10px;
 }
 
 .chat-button span {
-  font-size: 18px;  /* Aggiusta la dimensione del testo */
+  font-size: 18px;
   font-weight: bold;
   display: block;
   animation: fadeIn 1s ease-in-out;
@@ -799,4 +786,3 @@ html {
     transform: scale(1);
   }
 }
-
